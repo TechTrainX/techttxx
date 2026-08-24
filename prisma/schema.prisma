@@ -1,0 +1,123 @@
+// Prisma Schema for TechTrainX Platform
+// Database Provider: MongoDB
+
+datasource db {
+  provider = "mongodb"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+enum TrainingMode {
+  OFFLINE_CENTER
+  ONLINE_LIVE
+  HYBRID
+}
+
+enum VerificationStatus {
+  VERIFIED
+  PENDING
+  REVOKED
+}
+
+model User {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  fullName      String
+  email         String       @unique
+  phone         String
+  role          Role         @default(STUDENT)
+  collegeName   String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  enrollments   Enrollment[]
+  certificates  Certificate[]
+}
+
+model Course {
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  slug             String       @unique
+  title            String
+  category         String
+  shortDescription String
+  fullDescription  String
+  duration         String
+  price            Float
+  originalPrice    Float
+  rating           Float        @default(4.9)
+  studentsEnrolled Int          @default(0)
+  bannerImage      String
+  technologies     String[]
+  isFeatured       Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+
+  enrollments      Enrollment[]
+  certificates     Certificate[]
+}
+
+model Enrollment {
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String?      @db.ObjectId
+  fullName        String
+  email           String
+  phone           String
+  collegeName     String?
+  courseTitle     String
+  trainingMode    TrainingMode @default(OFFLINE_CENTER)
+  preferredTiming String?
+  paymentStatus   String       @default("PENDING")
+  createdAt       DateTime     @default(now())
+
+  user            User?        @relation(fields: [userId], references: [id])
+  course          Course?      @relation(fields: [courseId], references: [id])
+  courseId        String?      @db.ObjectId
+}
+
+model Certificate {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  certificateId    String             @unique
+  studentName      String
+  courseName       String
+  programType      String
+  issueDate        DateTime           @default(now())
+  grade            String             @default("A+")
+  status           VerificationStatus @default(VERIFIED)
+  skillsCertified  String[]
+  createdAt        DateTime           @default(now())
+
+  userId           String?            @db.ObjectId
+  user             User?              @relation(fields: [userId], references: [id])
+  courseId         String?            @db.ObjectId
+  course           Course?            @relation(fields: [courseId], references: [id])
+}
+
+model Inquiry {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullName     String
+  email        String
+  phone        String
+  subject      String
+  message      String
+  purpose      String
+  status       String   @default("NEW")
+  createdAt    DateTime @default(now())
+}
+
+model ServiceQuote {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  clientName     String
+  companyName    String?
+  email          String
+  phone          String
+  projectType    String
+  budgetRange    String
+  projectDetails String
+  createdAt      DateTime @default(now())
+}
