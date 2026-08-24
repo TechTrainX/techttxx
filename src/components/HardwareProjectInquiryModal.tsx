@@ -3,9 +3,13 @@ import { HARDWARE_PROJECTS_DATA } from '../data/hardwareProjectsData';
 import { submitHardwareProjectInquiry } from '../services/apiService';
 import { createWhatsAppHardwareProjectLink } from '../services/whatsappService';
 import { 
-  X, CheckCircle2, MessageSquare, Cpu, Sparkles, Send, PhoneCall, 
-  MapPin, GraduationCap, User, Mail, HelpCircle, ArrowRight
+  X, CheckCircle2, MessageSquare, ArrowRight, User, Mail, Cpu, MapPin, GraduationCap
 } from 'lucide-react';
+import { ValidatedInput } from './ui/ValidatedInput';
+import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
+import { ValidatedSelect } from './ui/ValidatedSelect';
+import { ValidatedTextarea } from './ui/ValidatedTextarea';
+import { validateFullName, validateEmail, validatePhoneNumber, validateCollegeOrOrg, validateCity } from '../utils/validators';
 
 interface HardwareProjectInquiryModalProps {
   isOpen: boolean;
@@ -22,7 +26,6 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [collegeName, setCollegeName] = useState('');
-  const [branchYear, setBranchYear] = useState('');
   const [selectedProjectTitle, setSelectedProjectTitle] = useState(
     preselectedProject || HARDWARE_PROJECTS_DATA[0]?.title || 'Smart 4WD RC Car with Bluetooth & Obstacle Radar'
   );
@@ -35,8 +38,8 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
   const [submitting, setSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [submissionRefId, setSubmissionRefId] = useState('');
 
-  // Update selected project if preselectedProject changes
   React.useEffect(() => {
     if (preselectedProject) {
       setSelectedProjectTitle(preselectedProject);
@@ -45,12 +48,29 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
 
   if (!isOpen) return null;
 
+  // Real-time Validations
+  const nameValidation = validateFullName(fullName);
+  const emailValidation = validateEmail(email);
+  const phoneValidation = validatePhoneNumber(phone);
+  const collegeValidation = validateCollegeOrOrg(collegeName, false);
+  const cityValidation = validateCity(deliveryCity, false);
+
+  const isFormValid = nameValidation.isValid && emailValidation.isValid && phoneValidation.isValid;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
 
-    if (!fullName.trim() || !email.trim() || !phone.trim()) {
-      setErrorMessage('Please fill in your Name, Email, and WhatsApp Mobile Number.');
+    if (!nameValidation.isValid) {
+      setErrorMessage(nameValidation.error || 'Please enter a valid full name.');
+      return;
+    }
+    if (!phoneValidation.isValid) {
+      setErrorMessage(phoneValidation.error || 'Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    if (!emailValidation.isValid) {
+      setErrorMessage(emailValidation.error || 'Please enter a valid email address.');
       return;
     }
 
@@ -58,13 +78,12 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
 
     try {
       const payload = {
-        fullName,
-        email,
-        phone,
-        collegeName,
-        branchYear,
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: phoneValidation.formatted,
+        collegeName: collegeValidation.sanitized,
         selectedProjectTitle,
-        deliveryCity,
+        deliveryCity: cityValidation.sanitized,
         preferredAssistanceMode,
         kitCustomizationNeeds
       };
@@ -72,12 +91,13 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
       const result = await submitHardwareProjectInquiry(payload);
 
       if (result.success) {
+        setSubmissionRefId((result as any).refId || `HW-${Date.now().toString(36).toUpperCase()}`);
         setIsSuccess(true);
       } else {
-        setErrorMessage(result.message || 'Submission failed. Please try WhatsApp directly.');
+        setErrorMessage(result.message || 'Submission failed. Please try again.');
       }
-    } catch (err) {
-      setIsSuccess(true); // Graceful fallback
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Network error processing hardware request.');
     } finally {
       setSubmitting(false);
     }
@@ -89,249 +109,190 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-slate-900 max-w-xl w-full p-6 sm:p-8 rounded-3xl border border-cyan-500/30 relative max-h-[92vh] overflow-y-auto shadow-2xl space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-white max-w-xl w-full p-6 sm:p-7 rounded-[20px] border border-gray-200 relative max-h-[92vh] overflow-y-auto shadow-elevation-3 space-y-5">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white cursor-pointer border border-slate-700"
+          className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-gray-400 hover:text-gray-700 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Modal Header */}
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-bold">
-            <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Hardware Project Kit Inquiry</span>
-          </div>
-
-          <h3 className="text-xl sm:text-2xl font-black text-white">
-            Order Kit & Get 1-on-1 Build Assistance
-          </h3>
-
-          <p className="text-xs text-slate-300">
-            Submit your details to get exact kit pricing, fast courier delivery timeline, and schedule your live video mentoring build session.
-          </p>
-        </div>
-
-        {/* Success View */}
         {isSuccess ? (
-          <div className="py-8 text-center space-y-5 bg-slate-950/80 p-6 rounded-2xl border border-emerald-500/30">
-            <div className="w-16 h-16 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto shadow-lg">
+          <div className="text-center py-6 space-y-4 animate-in zoom-in-95 duration-200">
+            <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-elevation-1">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
-            <div className="space-y-2">
-              <h4 className="text-lg font-black text-white">Inquiry Registered Successfully!</h4>
-              <p className="text-xs text-slate-300 max-w-md mx-auto">
-                Thank you <strong className="text-cyan-400">{fullName}</strong>! Our hardware mentor has received your inquiry for <strong className="text-white">{selectedProjectTitle}</strong> and will contact you via WhatsApp/Email shortly.
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-[#00061a]">Hardware Kit Inquiry Received</h3>
+              <p className="text-xs text-[#555] max-w-md mx-auto">
+                Thank you <strong className="text-[#0066cc]">{fullName}</strong>. Our hardware engineers & director have received your order details for <strong className="text-[#00061a]">{selectedProjectTitle}</strong>.
               </p>
+              {submissionRefId && (
+                <div className="mt-2 inline-block bg-blue-50 text-[#0066cc] px-3 py-1 rounded-md text-[11px] font-mono font-bold">
+                  Tracking Ref: {submissionRefId}
+                </div>
+              )}
             </div>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="p-4 rounded-xl bg-[#f0f8ff] border border-blue-100 text-xs text-[#444] space-y-1.5 text-left">
+              <p className="font-bold text-[#00061a]">Deliverables Included with Kit:</p>
+              <ul className="space-y-1 list-disc list-inside text-[#555]">
+                <li>Tested electronic sensors, microcontrollers & cables</li>
+                <li>Complete Arduino / ESP32 source code & PDF schematics</li>
+                <li>Project documentation for viva / college presentations</li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
               <button
                 onClick={handleWhatsAppDirect}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all"
+                className="custom-btn w-full sm:w-auto bg-[#25d366] hover:bg-[#20bd5a] text-xs py-2.5 px-6 shadow-elevation-1 cursor-pointer"
               >
-                <MessageSquare className="w-4 h-4 fill-white" />
-                <span>Chat on WhatsApp Now</span>
+                <MessageSquare className="w-4 h-4" />
+                <span>Chat with Hardware Lab</span>
               </button>
-
               <button
                 onClick={onClose}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700"
+                className="custom-btn-outline w-full sm:w-auto text-xs py-2.5 px-6 cursor-pointer"
               >
-                Close Window
+                Close
               </button>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            
+            <div>
+              <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full">
+                Hardware Engineering Lab
+              </span>
+              <h3 className="text-xl font-bold text-[#00061a] mt-1">
+                Inquire Project Kit & Schematics
+              </h3>
+              <p className="text-xs text-[#666]">
+                Order verified hardware kits with working code and 1:1 project assistance.
+              </p>
+            </div>
+
             {errorMessage && (
-              <div className="p-3 rounded-xl bg-red-950/60 border border-red-500/30 text-red-300 text-xs font-semibold">
+              <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl border border-red-200 font-semibold">
                 {errorMessage}
               </div>
             )}
 
-            {/* Project Selection Dropdown */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Selected Hardware Project / Kit:</span>
-              </label>
-              <select
-                value={selectedProjectTitle}
-                onChange={(e) => setSelectedProjectTitle(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500"
-              >
-                {HARDWARE_PROJECTS_DATA.map((p) => (
-                  <option key={p.id} value={p.title}>
-                    {p.title} ({p.microcontroller})
-                  </option>
-                ))}
-                <option value="Custom Arduino / IoT Project Specification">
-                  ✨ Custom Arduino / IoT / Robotics Project (Describe below)
+            <ValidatedSelect
+              label="Selected Project Kit"
+              icon={Cpu}
+              value={selectedProjectTitle}
+              onChange={(e) => setSelectedProjectTitle(e.target.value)}
+            >
+              {HARDWARE_PROJECTS_DATA.map((proj) => (
+                <option key={proj.id} value={proj.title}>
+                  {proj.title} ({proj.microcontroller})
                 </option>
-              </select>
-            </div>
+              ))}
+            </ValidatedSelect>
 
-            {/* Personal Details Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-300">Your Full Name *</label>
-                <div className="relative">
-                  <User className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    required
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="e.g. Aman Sharma"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                  />
-                </div>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <ValidatedInput
+                label="Your Full Name"
+                required
+                icon={User}
+                placeholder="e.g. Anand Verma"
+                value={fullName}
+                onChange={setFullName}
+                error={nameValidation.error}
+                isValid={nameValidation.isValid}
+                maxLength={60}
+              />
 
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-300">WhatsApp Mobile No *</label>
-                <div className="relative">
-                  <PhoneCall className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="e.g. +91 8545092070"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Email & Delivery City */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-300">Email Address *</label>
-                <div className="relative">
-                  <Mail className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. student@gmail.com"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-300">Delivery City / State</label>
-                <div className="relative">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    value={deliveryCity}
-                    onChange={(e) => setDeliveryCity(e.target.value)}
-                    placeholder="e.g. Delhi NCR, Bangalore, Pune, Noida"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* College & Branch */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-300">College / Institute Name</label>
-                <input
-                  type="text"
-                  value={collegeName}
-                  onChange={(e) => setCollegeName(e.target.value)}
-                  placeholder="e.g. NIT / IIT / State Engineering University"
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-slate-300">Branch & Semester</label>
-                <input
-                  type="text"
-                  value={branchYear}
-                  onChange={(e) => setBranchYear(e.target.value)}
-                  placeholder="e.g. B.Tech ECE 6th Sem / CS Final Year"
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-            </div>
-
-            {/* Assistance Mode Radio Selection */}
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-semibold text-slate-300">Preferred Guidance Mode:</label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {[
-                  { id: 'Online 1-on-1 Mentorship', label: 'Online 1-on-1 Live Mentoring' },
-                  { id: 'Offline Center Lab Assistance', label: 'Offline Foundry Lab Build' },
-                  { id: 'Complete Tested & Pre-Assembled Model', label: 'Pre-Assembled & Tested' }
-                ].map((item) => (
-                  <button
-                    type="button"
-                    key={item.id}
-                    onClick={() => setPreferredAssistanceMode(item.id as any)}
-                    className={`p-2.5 rounded-xl text-[11px] font-bold text-left border cursor-pointer transition-all ${
-                      preferredAssistanceMode === item.id
-                        ? 'bg-cyan-950/80 border-cyan-500 text-cyan-300 shadow-md'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Notes / Custom Requirements */}
-            <div className="space-y-1">
-              <label className="text-[11px] font-semibold text-slate-300">Custom Features / Deadlines / Notes (Optional)</label>
-              <textarea
-                rows={2}
-                value={kitCustomizationNeeds}
-                onChange={(e) => setKitCustomizationNeeds(e.target.value)}
-                placeholder="Mention any custom sensors, college submission deadline, or specific blackbook report format..."
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 resize-none"
+              <ValidatedPhoneInput
+                label="WhatsApp Phone"
+                required
+                value={phone}
+                onChange={setPhone}
               />
             </div>
 
-            {/* Action Buttons */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full sm:flex-1 py-3 rounded-xl bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                {submitting ? (
-                  <span>Sending Inquiry...</span>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Submit Kit Inquiry</span>
-                  </>
-                )}
-              </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <ValidatedInput
+                label="Email Address"
+                required
+                type="email"
+                icon={Mail}
+                placeholder="e.g. anand@gmail.com"
+                value={email}
+                onChange={setEmail}
+                error={emailValidation.error}
+                isValid={emailValidation.isValid}
+                maxLength={100}
+              />
 
-              <button
-                type="button"
-                onClick={handleWhatsAppDirect}
-                className="w-full sm:w-auto px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <MessageSquare className="w-4 h-4 fill-white" />
-                <span>Instant WhatsApp</span>
-              </button>
+              <ValidatedInput
+                label="College & Branch"
+                icon={GraduationCap}
+                placeholder="e.g. CBIT - ECE 4th Year"
+                value={collegeName}
+                onChange={setCollegeName}
+                error={collegeValidation.error}
+                isValid={collegeValidation.isValid}
+                maxLength={100}
+              />
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <ValidatedSelect
+                label="Assistance Mode"
+                value={preferredAssistanceMode}
+                onChange={(e: any) => setPreferredAssistanceMode(e.target.value)}
+              >
+                <option value="Online 1-on-1 Mentorship">Online 1-on-1 Mentorship</option>
+                <option value="Offline Center Lab Assistance">Offline Center Lab Assistance</option>
+                <option value="Complete Tested & Pre-Assembled Model">Complete Tested & Pre-Assembled Model</option>
+              </ValidatedSelect>
+
+              <ValidatedInput
+                label="Delivery City / Town"
+                icon={MapPin}
+                placeholder="e.g. Hyderabad / Bangalore"
+                value={deliveryCity}
+                onChange={setDeliveryCity}
+                error={cityValidation.error}
+                isValid={cityValidation.isValid}
+                maxLength={50}
+              />
+            </div>
+
+            <ValidatedTextarea
+              label="Customization or Sensor Add-on Needs (Optional)"
+              placeholder="e.g. Need extra ultrasonic sensors, GSM module, or custom PCB layout..."
+              rows={2}
+              minLen={0}
+              maxLen={400}
+              value={kitCustomizationNeeds}
+              onChange={setKitCustomizationNeeds}
+            />
+
+            <div className="pt-2 flex items-center justify-end gap-3 border-t border-gray-100">
+              <button
+                type="button"
+                onClick={onClose}
+                className="custom-btn-outline py-2.5 px-5 text-xs cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submitting || !isFormValid}
+                className="custom-btn py-2.5 px-7 text-xs font-bold shadow-elevation-2"
+              >
+                <span>{submitting ? 'Submitting...' : 'Inquire Hardware Kit'}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </form>
         )}
 

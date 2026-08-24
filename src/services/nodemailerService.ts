@@ -1,8 +1,12 @@
 import nodemailer from 'nodemailer';
 
 /**
- * TechTrainX Nodemailer Service
- * Primary Mailbox: ttx@xnava.in | admission@xnava.in | info@xnava.in
+ * TechTrainX Enterprise Notification & Email Routing Engine
+ * Primary Mailboxes:
+ * - Main Owner: jayshukla80050@gmail.com
+ * - Platform Inbox: ttx@xnava.in
+ * - Admissions Office: admission@xnava.in
+ * - General Desk: info@xnava.in
  */
 
 export interface EmailAlertPayload {
@@ -11,13 +15,117 @@ export interface EmailAlertPayload {
   phone: string;
   subject: string;
   details: string;
+  leadType?: 'enrollment' | 'hardware_inquiry' | 'contact' | 'software_quote' | 'general';
+  metadata?: Record<string, string | number | undefined>;
 }
+
+// Master Admin & Owner Recipients
+const DEFAULT_RECIPIENTS = [
+  'jayshukla80050@gmail.com', // Main Owner
+  'ttx@xnava.in',             // Platform Desk
+  'admission@xnava.in'        // Admissions Department
+];
 
 export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promise<boolean> {
   const smtpUser = process.env.SMTP_USER || 'ttx@xnava.in';
   const smtpPass = process.env.SMTP_PASS;
   const smtpHost = process.env.SMTP_HOST || 'smtp.hostinger.com';
   const smtpPort = parseInt(process.env.SMTP_PORT || '465', 10);
+
+  // Configured recipients
+  const ownerEnvList = process.env.OWNER_ALERT_EMAILS 
+    ? process.env.OWNER_ALERT_EMAILS.split(',').map(s => s.trim())
+    : DEFAULT_RECIPIENTS;
+
+  const recipients = Array.from(new Set([...ownerEnvList, smtpUser])).filter(Boolean);
+
+  const cleanPhoneDigits = payload.phone.replace(/[^0-9]/g, '');
+  const whatsAppPhone = cleanPhoneDigits.startsWith('91') && cleanPhoneDigits.length === 12
+    ? cleanPhoneDigits
+    : cleanPhoneDigits.length === 10
+    ? `91${cleanPhoneDigits}`
+    : cleanPhoneDigits;
+
+  const leadRefId = `TTX-${Date.now().toString(36).toUpperCase()}`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>TechTrainX Action Alert</title>
+      <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #040915; color: #f1f5f9; margin: 0; padding: 24px; }
+        .card { max-width: 600px; margin: 0 auto; background: #0c1427; border: 1px solid #1e293b; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .header { background: linear-gradient(135deg, #004080, #0066cc); padding: 24px; text-align: left; }
+        .badge { display: inline-block; background: #00061a; color: #38bdf8; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .body { padding: 28px; }
+        .field-group { margin-bottom: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 12px; }
+        .label { font-size: 11px; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .value { font-size: 15px; color: #ffffff; font-weight: 600; }
+        .highlight-box { background: #131d36; border: 1px solid #233558; border-radius: 10px; padding: 16px; margin-top: 16px; }
+        .btn-group { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none; text-align: center; }
+        .btn-primary { background: #25d366; color: #ffffff; }
+        .btn-blue { background: #0066cc; color: #ffffff; }
+        .footer { background: #080d1a; padding: 16px 28px; font-size: 11px; color: #64748b; border-top: 1px solid #1e293b; text-align: center; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <div class="header">
+          <span class="badge">Reference ID: ${leadRefId}</span>
+          <h1 style="color: #ffffff; margin: 8px 0 0 0; font-size: 20px;">⚡ TechTrainX Action Required</h1>
+          <p style="color: #cbd5e1; margin: 4px 0 0 0; font-size: 13px;">New Candidate / Client Submission Dispatched to Owner</p>
+        </div>
+
+        <div class="body">
+          <div class="field-group">
+            <div class="label">Candidate / Contact Name</div>
+            <div class="value" style="color: #38bdf8; font-size: 18px;">${payload.fullName}</div>
+          </div>
+
+          <div class="field-group">
+            <div class="label">Verified Contact Phone</div>
+            <div class="value">${payload.phone}</div>
+          </div>
+
+          <div class="field-group">
+            <div class="label">Email Address</div>
+            <div class="value"><a href="mailto:${payload.email}" style="color: #38bdf8; text-decoration: none;">${payload.email}</a></div>
+          </div>
+
+          <div class="field-group">
+            <div class="label">Inquiry Focus / Subject</div>
+            <div class="value">${payload.subject}</div>
+          </div>
+
+          <div class="highlight-box">
+            <div class="label" style="color: #38bdf8; margin-bottom: 8px;">Detailed Information & Notes:</div>
+            <div style="font-size: 13px; line-height: 1.6; color: #e2e8f0; white-space: pre-wrap;">${payload.details}</div>
+          </div>
+
+          <div style="margin-top: 24px; text-align: center;">
+            <a href="https://wa.me/${whatsAppPhone}?text=${encodeURIComponent(`Hello ${payload.fullName}, this is TechTrainX (A Unit of xnava enterprises). We received your inquiry regarding ${payload.subject}.`)}" 
+               style="background-color: #22c55e; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-block; margin: 4px;">
+              💬 Open WhatsApp Chat
+            </a>
+            <a href="tel:${cleanPhoneDigits}" 
+               style="background-color: #0066cc; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-block; margin: 4px;">
+              📞 Call Candidate Now
+            </a>
+          </div>
+        </div>
+
+        <div class="footer">
+          Dispatched securely to Owner (${recipients.join(', ')}) via TechTrainX Platform Engine.<br/>
+          TechTrainX — A Unit of xnava enterprises (www.xnava.in)
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
 
   // If live credentials are available
   if (smtpPass && smtpPass !== 'your-hostinger-mailbox-password') {
@@ -33,44 +141,28 @@ export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promi
       });
 
       const mailOptions = {
-        from: `"TechTrainX Platform" <${smtpUser}>`,
-        to: smtpUser,
+        from: `"TechTrainX Enterprise Alert" <${smtpUser}>`,
+        to: recipients.join(', '),
         replyTo: payload.email,
-        subject: `[TechTrainX Alert] ${payload.subject} - ${payload.fullName}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; background-color: #0b1222; color: #ffffff; padding: 24px; border-radius: 12px;">
-            <h2 style="color: #06b6d4; border-bottom: 2px solid #334155; padding-bottom: 8px;">
-              TechTrainX Inquiry Alert
-            </h2>
-            <p><strong>Candidate Name:</strong> ${payload.fullName}</p>
-            <p><strong>Email:</strong> ${payload.email}</p>
-            <p><strong>Phone:</strong> ${payload.phone}</p>
-            <p><strong>Subject:</strong> ${payload.subject}</p>
-            <div style="background: #1e293b; padding: 16px; border-radius: 8px; margin-top: 12px; color: #e2e8f0;">
-              <strong>Message Details:</strong><br/>
-              ${payload.details}
-            </div>
-            <p style="font-size: 11px; color: #94a3b8; margin-top: 20px;">
-              Sent automatically from TechTrainX Platform engine.
-            </p>
-          </div>
-        `
+        subject: `[TTX Action Alert] ${payload.subject} — ${payload.fullName} (${payload.phone})`,
+        html: htmlContent
       };
 
       await transporter.sendMail(mailOptions);
-      console.log(`[Nodemailer] Email dispatched to ${smtpUser} for ${payload.fullName}`);
+      console.log(`[Nodemailer Dispatch Success] Alert routed to owners: ${recipients.join(', ')} for candidate ${payload.fullName}`);
       return true;
     } catch (err) {
-      console.error('[Nodemailer Error]', err);
+      console.error('[Nodemailer Error sending email]:', err);
       return false;
     }
   }
 
-  // Fallback logger for dev mode when SMTP credentials are placeholders
-  console.log(`[Nodemailer Dispatch] Email logged for ${smtpUser}:
-    Candidate: ${payload.fullName}
-    Email: ${payload.email}
-    Subject: ${payload.subject}
-  `);
+  // Fallback logger for dev/demo mode
+  console.log(`[Nodemailer Dispatch Simulation]
+  To: ${recipients.join(', ')}
+  Candidate: ${payload.fullName} (${payload.phone} | ${payload.email})
+  Subject: ${payload.subject}
+  Details: ${payload.details}
+  Ref: ${leadRefId}`);
   return true;
 }

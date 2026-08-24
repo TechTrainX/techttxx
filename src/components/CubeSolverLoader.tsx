@@ -12,7 +12,7 @@ const LOADING_STAGES = [
   { text: 'Booting TechTrainX Neural Core...', icon: Cpu, progress: 24 },
   { text: 'Aligning 3D Rubik Placement Matrix...', icon: Zap, progress: 52 },
   { text: 'Synthesizing 5-Hour Live Coding Modules...', icon: Code2, progress: 78 },
-  { text: 'Mounting ISO Certified Digital Registrar...', icon: ShieldCheck, progress: 95 },
+  { text: 'Mounting of a  Certified Digital Registrar...', icon: ShieldCheck, progress: 95 },
   { text: 'Foundry Ready. Launching Experience...', icon: Sparkles, progress: 100 }
 ];
 

@@ -515,21 +515,17 @@ export async function deleteCertificateFromDb(certId: string) {
 // MongoDB Enrollment & Inquiries Handlers
 // -----------------------------------------------------------------------------
 
-export async function saveEnrollmentToDb(data: any) {
-  IN_MEMORY_ENROLLMENTS.unshift({ ...data, createdAt: new Date() });
+export async function saveEnrollmentToDb(data: any): Promise<{ success: boolean; id: string }> {
+  const generatedId = data.id || `ENR-${Date.now().toString(36).toUpperCase()}`;
+  const record = { ...data, id: generatedId, createdAt: new Date() };
+  IN_MEMORY_ENROLLMENTS.unshift(record);
 
   // Native MongoDB
   try {
     const nativeDb = await getMongoNativeDb();
     if (nativeDb) {
       await nativeDb.collection('enrollments').insertOne({
-        fullName: data.fullName,
-        email: data.email,
-        phone: data.phone,
-        collegeName: data.collegeName || null,
-        courseTitle: data.selectedCourseOrProgram || 'Full Stack Engineering',
-        preferredTiming: data.preferredTiming || 'Flexible',
-        createdAt: new Date()
+        ...record
       });
       console.log('[MongoDB Native] Enrollment saved to MongoDB collection "enrollments".');
     }
@@ -555,23 +551,21 @@ export async function saveEnrollmentToDb(data: any) {
       console.warn('[Prisma ORM] Failed saving enrollment:', err.message);
     }
   }
+
+  return { success: true, id: generatedId };
 }
 
-export async function saveInquiryToDb(data: any) {
-  IN_MEMORY_INQUIRIES.unshift({ ...data, createdAt: new Date() });
+export async function saveInquiryToDb(data: any): Promise<{ success: boolean; id: string }> {
+  const generatedId = data.id || `INQ-${Date.now().toString(36).toUpperCase()}`;
+  const record = { ...data, id: generatedId, createdAt: new Date() };
+  IN_MEMORY_INQUIRIES.unshift(record);
 
   // Native MongoDB
   try {
     const nativeDb = await getMongoNativeDb();
     if (nativeDb) {
       await nativeDb.collection('inquiries').insertOne({
-        fullName: data.fullName,
-        email: data.email,
-        phone: data.phone || 'N/A',
-        subject: data.subject || 'General Inquiry',
-        message: data.message,
-        purpose: data.purpose || 'Contact',
-        createdAt: new Date()
+        ...record
       });
       console.log('[MongoDB Native] Inquiry saved to MongoDB collection "inquiries".');
     }
@@ -597,24 +591,21 @@ export async function saveInquiryToDb(data: any) {
       console.warn('[Prisma ORM] Failed saving inquiry:', err.message);
     }
   }
+
+  return { success: true, id: generatedId };
 }
 
-export async function saveServiceQuoteToDb(data: any) {
-  IN_MEMORY_SERVICE_QUOTES.unshift({ ...data, createdAt: new Date() });
+export async function saveServiceQuoteToDb(data: any): Promise<{ success: boolean; id: string }> {
+  const generatedId = data.id || `QT-${Date.now().toString(36).toUpperCase()}`;
+  const record = { ...data, id: generatedId, createdAt: new Date() };
+  IN_MEMORY_SERVICE_QUOTES.unshift(record);
 
   // Native MongoDB
   try {
     const nativeDb = await getMongoNativeDb();
     if (nativeDb) {
       await nativeDb.collection('service_quotes').insertOne({
-        clientName: data.clientName,
-        companyName: data.companyName || null,
-        email: data.email,
-        phone: data.phone || 'N/A',
-        projectType: data.projectType,
-        budgetRange: data.budgetRange,
-        projectDetails: data.projectDetails,
-        createdAt: new Date()
+        ...record
       });
       console.log('[MongoDB Native] Service quote saved to MongoDB collection "service_quotes".');
     }
@@ -641,6 +632,8 @@ export async function saveServiceQuoteToDb(data: any) {
       console.warn('[Prisma ORM] Failed saving quote:', err.message);
     }
   }
+
+  return { success: true, id: generatedId };
 }
 
 // -----------------------------------------------------------------------------

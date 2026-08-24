@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, X, Send, Sparkles } from 'lucide-react';
+import { MessageSquare, X, Send } from 'lucide-react';
 import { createWhatsAppDirectQueryLink } from '../services/whatsappService';
 
 export const WhatsAppFloatingButton: React.FC = () => {
@@ -15,31 +15,31 @@ export const WhatsAppFloatingButton: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       
       {/* Popover Chat Widget */}
       {popoverOpen && (
-        <div className="glass-card w-80 p-5 rounded-3xl border border-emerald-500/30 shadow-2xl space-y-4 animate-in slide-in-from-bottom-4 duration-200">
+        <div className="bg-white w-72 p-4 rounded-[16px] border border-emerald-200 shadow-xl space-y-3">
           
-          <div className="flex items-center justify-between pb-2 border-b border-white/10">
+          <div className="flex items-center justify-between pb-2 border-b border-gray-100">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#25d366] animate-pulse" />
               <div>
-                <h4 className="text-sm font-bold text-white">TechTrainX WhatsApp Live</h4>
-                <p className="text-[10px] text-slate-400">Usually replies in &lt;5 mins</p>
+                <h4 className="text-xs font-bold text-[#00061a]">Admissions WhatsApp Desk</h4>
+                <p className="text-[10px] text-[#666]">Replies usually in &lt;5 mins</p>
               </div>
             </div>
             <button
               onClick={() => setPopoverOpen(false)}
-              className="p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white"
+              className="p-1 rounded-md hover:bg-gray-100 text-gray-400 hover:text-gray-700"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="bg-white/5 p-3 rounded-2xl border border-white/5 text-xs text-slate-300 space-y-1">
-            <p className="font-bold text-white">👋 Hi there!</p>
-            <p>Looking for Summer Training, Fee Details, or Course Syllabi? Chat directly with our admission leads on WhatsApp.</p>
+          <div className="bg-emerald-50 p-2.5 rounded-[10px] text-xs text-emerald-900 leading-snug">
+            <p className="font-bold text-[11px] mb-0.5">👋 Hi there!</p>
+            <p className="text-[11px]">Have questions regarding upcoming batches, course fees, or syllabus? Chat with our counselors.</p>
           </div>
 
           <form onSubmit={handleSendQuickMsg} className="space-y-2">
@@ -47,12 +47,12 @@ export const WhatsAppFloatingButton: React.FC = () => {
               type="text"
               value={quickMessage}
               onChange={(e) => setQuickMessage(e.target.value)}
-              placeholder="Type your question or course name..."
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+              placeholder="Ask a question..."
+              className="w-full bg-slate-50 border border-gray-300 rounded-[10px] px-3 py-1.5 text-xs text-[#333] placeholder-gray-400 focus:outline-none focus:border-[#25d366]"
             />
             <button
               type="submit"
-              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              className="w-full py-2 rounded-full bg-[#25d366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             >
               <Send className="w-3.5 h-3.5" />
               <span>Start WhatsApp Chat</span>
@@ -65,11 +65,11 @@ export const WhatsAppFloatingButton: React.FC = () => {
       {/* Main Floating Trigger Button */}
       <button
         onClick={() => setPopoverOpen(!popoverOpen)}
-        className="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-600 to-emerald-400 text-white flex items-center justify-center shadow-2xl shadow-emerald-500/50 hover:scale-110 active:scale-95 transition-all cursor-pointer relative group"
-        title="Direct WhatsApp Support"
+        className="w-13 h-13 rounded-full bg-[#25d366] hover:bg-[#20bd5a] text-white flex items-center justify-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer"
+        title="Chat on WhatsApp"
+        aria-label="WhatsApp Support"
       >
-        <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-30 pointer-events-none" />
-        <MessageSquare className="w-7 h-7 text-white" />
+        <MessageSquare className="w-6 h-6 text-white" />
       </button>
 
     </div>

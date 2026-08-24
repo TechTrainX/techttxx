@@ -127,7 +127,7 @@ export interface ServiceQuoteRequest {
   companyName?: string;
   email: string;
   phone: string;
-  projectType: 'Web Application' | 'Mobile App (iOS/Android)' | 'Enterprise ERP/CRM' | 'AI Integration' | 'Cloud Infrastructure';
+  projectType: string;
   budgetRange: string;
   projectDetails: string;
 }

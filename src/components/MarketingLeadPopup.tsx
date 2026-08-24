@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  X, Sparkles, Gift, ShieldCheck, CheckCircle2, 
-  ArrowRight, Phone, MessageSquare, Clock, Download,
-  Send, User, Mail, GraduationCap, Flame
+  X, Sparkles, Gift, CheckCircle2, 
+  ArrowRight, MessageSquare, User, BookOpen
 } from 'lucide-react';
 import { submitEnrollment } from '../services/apiService';
-import { createWhatsAppEnrollLink } from '../services/whatsappService';
+import { ValidatedInput } from './ui/ValidatedInput';
+import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
+import { ValidatedSelect } from './ui/ValidatedSelect';
+import { validateFullName, validatePhoneNumber } from '../utils/validators';
 
 interface MarketingLeadPopupProps {
   isOpen?: boolean;
@@ -22,27 +24,30 @@ export const MarketingLeadPopup: React.FC<MarketingLeadPopupProps> = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [minimizedBadge, setMinimizedBadge] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
     email: '',
-    collegeName: '',
-    course: 'Full Stack MERN Stack Development',
-    program: 'Summer Training Program (45 Days)'
+    course: 'Full Stack Web Development'
   });
 
   const isModalOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalOpen;
 
+  // Real-time Validation
+  const nameValidation = validateFullName(formData.fullName);
+  const phoneValidation = validatePhoneNumber(formData.phone);
+  const isFormValid = nameValidation.isValid && phoneValidation.isValid;
+
   useEffect(() => {
-    // Check if user already dismissed popup recently
     const dismissedAt = localStorage.getItem('ttx_lead_popup_dismissed');
-    const isDismissedRecently = dismissedAt && (Date.now() - parseInt(dismissedAt, 10)) < 1000 * 60 * 60 * 12; // 12 hours
+    const isDismissedRecently = dismissedAt && (Date.now() - parseInt(dismissedAt, 10)) < 1000 * 60 * 60 * 12;
 
     if (!isDismissedRecently && controlledIsOpen === undefined) {
       const timer = setTimeout(() => {
         setInternalOpen(true);
-      }, 7000); // Trigger after 7s of engaged browsing (within 5-10s window)
+      }, 9000);
       return () => clearTimeout(timer);
     } else if (isDismissedRecently) {
       setMinimizedBadge(true);
@@ -61,247 +66,149 @@ export const MarketingLeadPopup: React.FC<MarketingLeadPopupProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.phone) return;
+    setErrorMessage('');
+
+    if (!nameValidation.isValid) {
+      setErrorMessage(nameValidation.error || 'Please enter a valid full name.');
+      return;
+    }
+    if (!phoneValidation.isValid) {
+      setErrorMessage(phoneValidation.error || 'Please enter a valid 10-digit mobile number.');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
       await submitEnrollment({
-        fullName: formData.fullName,
-        email: formData.email || `${formData.phone}@lead.techtrainx.online`,
-        phone: formData.phone,
-        whatsappPhone: formData.phone,
-        collegeName: formData.collegeName || 'N/A (Web Lead)',
-        branchYear: 'Pre-final / Final Year',
-        selectedCourseOrProgram: `${formData.course} - ${formData.program}`,
+        fullName: nameValidation.sanitized,
+        email: formData.email ? formData.email.trim().toLowerCase() : `${phoneValidation.rawDigits}@lead.techtrainx.online`,
+        phone: phoneValidation.formatted,
+        whatsappPhone: phoneValidation.formatted,
+        collegeName: 'Web Early Bird Inquiry',
+        branchYear: 'Final Year / Fresher',
+        selectedCourseOrProgram: formData.course,
         trainingMode: 'Offline (Tech Foundry Campus)',
         preferredTiming: 'Morning (9 AM - 2 PM)',
-        queryOrNotes: 'Claimed ₹1,000 Early Bird Admission Grant & Syllabus Download via Marketing Popup.'
+        queryOrNotes: 'Special Early Bird Batch Discount Claimed'
       });
 
       setIsSubmitted(true);
-    } catch (err) {
-      console.warn('Submission error:', err);
-      setIsSubmitted(true);
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Error processing request.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleWhatsAppInstant = () => {
-    const message = `Hi TechTrainX Team, I want to claim the ₹1,000 Early Bird Grant (Code: TECHTRAINX2026) for ${formData.course} (${formData.program}). Name: ${formData.fullName || 'Student'}, Phone: ${formData.phone || ''}. Please share the syllabus & batch slot!`;
-    const url = `https://wa.me/918545092070?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-  };
-
   return (
     <>
-      {/* Floating Re-Open Badge on Bottom Left */}
+      {/* Minimized bottom-left trigger button */}
       {minimizedBadge && !isModalOpen && (
         <button
           onClick={() => {
-            setInternalOpen(true);
             setMinimizedBadge(false);
+            setInternalOpen(true);
           }}
-          className="fixed bottom-6 left-6 z-40 group flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 text-white font-bold text-xs shadow-xl shadow-cyan-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-white/20 animate-bounce"
-          title="Claim ₹1,000 Early Bird Grant"
+          className="fixed bottom-5 left-5 z-40 bg-[#0066cc] text-white px-3.5 py-2 rounded-full shadow-elevation-2 text-xs font-bold flex items-center gap-1.5 hover:bg-[#00061a] transition-all cursor-pointer"
         >
-          <Gift className="w-4 h-4 text-white animate-spin-slow" />
-          <span>Claim ₹1,000 Voucher</span>
-          <span className="bg-black/30 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider font-extrabold text-white">
-            Offer
-          </span>
+          <Gift className="w-3.5 h-3.5 text-[#7fffd4]" />
+          <span>Special Offer</span>
         </button>
       )}
 
-      {/* Main Popup Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl shadow-black/80 overflow-hidden max-h-[92vh] flex flex-col md:flex-row animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white max-w-md w-full p-6 rounded-[20px] border border-blue-200 relative shadow-elevation-3 space-y-4">
             
-            {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-3 right-3 z-30 p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer border border-slate-700"
-              aria-label="Close modal"
+              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-gray-400 hover:text-gray-700 cursor-pointer"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
 
-            {/* Left Column: Visual Promo Banner */}
-            <div className="md:w-5/12 bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950/60 p-6 flex flex-col justify-between relative border-b md:border-b-0 md:border-r border-slate-800">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-300 text-[11px] font-bold">
-                  <Flame className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-                  <span>Summer 2026 Grant</span>
+            {isSubmitted ? (
+              <div className="text-center py-4 space-y-3 animate-in zoom-in-95 duration-200">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-elevation-1">
+                  <CheckCircle2 className="w-6 h-6" />
                 </div>
-
-                <div className="space-y-1">
-                  <h3 className="text-2xl font-black text-white leading-tight">
-                    Instant <span className="gradient-text-cyan">₹1,000</span> Discount Voucher
+                <h3 className="text-lg font-bold text-[#00061a]">Coupon Claimed!</h3>
+                <p className="text-xs text-[#555]">
+                  Our counseling team and director have received your application for <strong>{formData.course}</strong>. We will WhatsApp you the fee scholarship details.
+                </p>
+                <button
+                  onClick={handleClose}
+                  className="custom-btn py-2 px-6 text-xs mt-2 cursor-pointer shadow-elevation-1"
+                >
+                  Got It
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-3.5">
+                <div>
+                  <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full">
+                    Limited Period Offer
+                  </span>
+                  <h3 className="text-lg font-bold text-[#00061a] mt-1">
+                    Claim Early Bird Batch Discount
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    Download full curriculum PDFs and unlock early-bird discount codes on all 45/60 days industrial summer training tracks.
+                  <p className="text-xs text-[#666]">
+                    Get instant fee waiver on upcoming software & hardware training batches.
                   </p>
                 </div>
 
-                <div className="space-y-2 pt-2">
-                  <div className="flex items-center gap-2 text-xs text-slate-200">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                    <span>5 Hours Daily Hands-On Coding</span>
+                {errorMessage && (
+                  <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-semibold">
+                    {errorMessage}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-200">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                    <span>Full Source Code & Synopses</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-200">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                    <span>Free WhatsApp Tech Consultation</span>
-                  </div>
+                )}
+
+                <div className="space-y-3">
+                  <ValidatedInput
+                    label="Your Full Name"
+                    required
+                    icon={User}
+                    placeholder="e.g. Rahul Verma"
+                    value={formData.fullName}
+                    onChange={(val) => setFormData({ ...formData, fullName: val })}
+                    error={nameValidation.error}
+                    isValid={nameValidation.isValid}
+                    maxLength={60}
+                  />
+
+                  <ValidatedPhoneInput
+                    label="WhatsApp Mobile Number"
+                    required
+                    value={formData.phone}
+                    onChange={(val) => setFormData({ ...formData, phone: val })}
+                  />
+
+                  <ValidatedSelect
+                    label="Target Course Track"
+                    icon={BookOpen}
+                    value={formData.course}
+                    onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+                  >
+                    <option value="Full Stack Web Development">Full Stack Web Development</option>
+                    <option value="Artificial Intelligence & ML">Artificial Intelligence & ML</option>
+                    <option value="Embedded Systems & IoT">Embedded Systems & IoT</option>
+                    <option value="Java Full Stack Microservices">Java Full Stack Microservices</option>
+                    <option value="Cloud & DevOps">Cloud & DevOps</option>
+                  </ValidatedSelect>
                 </div>
-              </div>
 
-              <div className="pt-4 mt-4 border-t border-slate-800">
-                <div className="flex items-center gap-2 text-[11px] text-slate-400">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span>Government & University Approved</span>
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !isFormValid}
+                    className="custom-btn w-full justify-center py-2.5 text-xs font-bold shadow-elevation-2"
+                  >
+                    <span>{isSubmitting ? 'Processing...' : 'Claim Discount & Syllabus'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
                 </div>
-              </div>
-            </div>
-
-            {/* Right Column: Interactive Lead Capture Form */}
-            <div className="md:w-7/12 p-6 sm:p-8 bg-slate-900 flex flex-col justify-center">
-              {isSubmitted ? (
-                <div className="text-center py-6 space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-950 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto shadow-lg">
-                    <CheckCircle2 className="w-7 h-7" />
-                  </div>
-
-                  <div className="space-y-1">
-                    <h4 className="text-lg font-black text-white">Voucher Reserved!</h4>
-                    <p className="text-xs text-slate-300">
-                      We have sent your ₹1,000 Early Bird Voucher code to <span className="text-cyan-400 font-bold">{formData.phone}</span>.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300">
-                    <span className="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">Your Discount Promo Code</span>
-                    <span className="text-lg font-mono font-black text-cyan-400 tracking-widest">TECHTRAINX2026</span>
-                  </div>
-
-                  <div className="flex flex-col gap-2 pt-2">
-                    <button
-                      onClick={handleWhatsAppInstant}
-                      className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer"
-                    >
-                      <MessageSquare className="w-4 h-4 fill-white" />
-                      <span>Chat on WhatsApp & Claim Seat</span>
-                    </button>
-
-                    <button
-                      onClick={handleClose}
-                      className="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 transition-colors"
-                    >
-                      Explore Courses
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-3.5">
-                  <div className="space-y-1">
-                    <h4 className="text-base font-black text-white">Claim Voucher & Download Syllabus</h4>
-                    <p className="text-[11px] text-slate-400">Offer valid for upcoming summer batches & practical tracks.</p>
-                  </div>
-
-                  {/* Name */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-slate-300">Full Name *</label>
-                    <div className="relative">
-                      <User className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="text"
-                        required
-                        value={formData.fullName}
-                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        placeholder="e.g. Rahul Sharma"
-                        className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Phone & Email */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-semibold text-slate-300">WhatsApp Phone *</label>
-                      <div className="relative">
-                        <Phone className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                        <input
-                          type="tel"
-                          required
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+91 8545092070"
-                          className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-semibold text-slate-300">Email</label>
-                      <div className="relative">
-                        <Mail className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                        <input
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="rahul@gmail.com"
-                          className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Course Dropdown */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-slate-300">Interested Course / Stack</label>
-                    <select
-                      value={formData.course}
-                      onChange={(e) => setFormData({ ...formData, course: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    >
-                      <option value="Full Stack MERN Stack Development">Full Stack MERN Stack Development</option>
-                      <option value="Python Full Stack & Django Web Framework">Python Full Stack & Django Web Framework</option>
-                      <option value="Enterprise Java Full Stack with Spring Boot 3">Enterprise Java Full Stack with Spring Boot 3</option>
-                      <option value="Applied Artificial Intelligence & Machine Learning">Applied Artificial Intelligence & Machine Learning</option>
-                      <option value="Cross Platform Mobile App Development (Flutter)">Cross Platform Mobile App Development (Flutter)</option>
-                      <option value="Arduino Uno, IoT & Embedded Hardware Projects">Arduino Uno, IoT & Embedded Hardware Projects</option>
-                    </select>
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 hover:brightness-110 text-white font-black text-xs shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                    >
-                      {isSubmitting ? (
-                        <span>Processing Voucher...</span>
-                      ) : (
-                        <>
-                          <Gift className="w-4 h-4" />
-                          <span>Unlock ₹1,000 Voucher & Syllabus</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  <p className="text-[10px] text-center text-slate-500">
-                    🔒 No spam. Instant WhatsApp syllabus & voucher delivery.
-                  </p>
-                </form>
-              )}
-            </div>
+              </form>
+            )}
 
           </div>
         </div>

@@ -8,6 +8,16 @@ import { sendHostingerEmailAlert } from './src/services/nodemailerService';
 import { COURSES_DATA, TRAINING_PROGRAMS_DATA, BATCH_SCHEDULES_DATA, SITE_CONFIG, PLACEMENTS_DATA, GALLERY_DATA } from './src/data';
 import { HARDWARE_PROJECTS_DATA } from './src/data/hardwareProjectsData';
 import {
+  validateFullName,
+  validateEmail,
+  validatePhoneNumber,
+  validateTextMessage,
+  validateCollegeOrOrg,
+  validateCity,
+  validateCertificateId,
+  sanitizeText
+} from './src/utils/validators';
+import {
   fetchAllCertificatesFromDb,
   findCertificateByIdFromDb,
   upsertCertificateToDb,
@@ -196,34 +206,57 @@ async function startServer() {
     try {
       const { fullName, email, phone, collegeName, selectedProjectTitle, deliveryCity, preferredAssistanceMode, kitCustomizationNeeds } = req.body;
 
-      if (!fullName || !email || !phone) {
-        return res.status(400).json({ success: false, message: 'Name, Email, and Phone number are required.' });
+      // Senior Developer Multi-Point Validation
+      const nameValidation = validateFullName(fullName);
+      if (!nameValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'fullName', message: nameValidation.error });
       }
 
-      await saveInquiryToDb({
-        fullName,
-        email,
-        phone,
-        subject: `[Hardware Project Kit Order] ${selectedProjectTitle}`,
-        message: `College: ${collegeName || 'N/A'}\nCity: ${deliveryCity || 'N/A'}\nMode: ${preferredAssistanceMode}\nCustomization: ${kitCustomizationNeeds || 'Standard Kit'}`,
+      const emailValidation = validateEmail(email);
+      if (!emailValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'email', message: emailValidation.error });
+      }
+
+      const phoneValidation = validatePhoneNumber(phone);
+      if (!phoneValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'phone', message: phoneValidation.error });
+      }
+
+      const cleanCollege = sanitizeText(collegeName) || 'Independent Candidate';
+      const cleanProject = sanitizeText(selectedProjectTitle) || 'Custom IoT/Robotics Kit';
+      const cleanCity = sanitizeText(deliveryCity) || 'Standard Dispatch';
+      const cleanMode = sanitizeText(preferredAssistanceMode) || 'Online Video Guidance';
+      const cleanCustomization = sanitizeText(kitCustomizationNeeds) || 'Standard Component Kit';
+
+      const leadRecord = await saveInquiryToDb({
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: phoneValidation.formatted,
+        subject: `[Hardware Project Kit Order] ${cleanProject}`,
+        message: `College: ${cleanCollege}\nCity: ${cleanCity}\nMode: ${cleanMode}\nCustomization: ${cleanCustomization}`,
         purpose: 'Hardware Project Kit Purchase'
       });
 
+      // Dispatch alert to Owner and Platform Admin
       await sendHostingerEmailAlert({
-        fullName,
-        email,
-        phone,
-        subject: `[Hardware Kit Inquired] ${selectedProjectTitle} - ${fullName}`,
-        details: `Project: ${selectedProjectTitle}\nCollege: ${collegeName || 'N/A'}\nCity: ${deliveryCity || 'N/A'}\nAssistance Mode: ${preferredAssistanceMode}\nNotes: ${kitCustomizationNeeds || 'None'}`
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: phoneValidation.formatted,
+        subject: `[Hardware Kit Order] ${cleanProject}`,
+        details: `Project: ${cleanProject}\nCollege: ${cleanCollege}\nDelivery City: ${cleanCity}\nAssistance Mode: ${cleanMode}\nCustomization Notes: ${cleanCustomization}`,
+        leadType: 'hardware_inquiry'
       });
 
       res.json({
         success: true,
         message: 'Your Hardware Project Kit inquiry has been received! Our engineering mentor will contact you directly.',
-        project: selectedProjectTitle
+        refId: leadRecord?.id || `HW-${Date.now().toString(36).toUpperCase()}`,
+        project: cleanProject,
+        candidateName: nameValidation.sanitized
       });
-    } catch (error) {
-      res.status(500).json({ success: false, message: 'Error routing hardware inquiry.' });
+    } catch (error: any) {
+      console.error('[Hardware Inquiry API Error]:', error);
+      res.status(500).json({ success: false, message: 'Internal server error processing hardware inquiry.' });
     }
   });
 
@@ -232,30 +265,56 @@ async function startServer() {
     try {
       const { fullName, email, phone, selectedCourseOrProgram, collegeName, trainingMode, preferredTiming } = req.body;
 
-      if (!fullName || !email || !phone) {
-        return res.status(400).json({ success: false, message: 'Full Name, Email and Phone are required.' });
+      // Strict Validation
+      const nameValidation = validateFullName(fullName);
+      if (!nameValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'fullName', message: nameValidation.error });
       }
 
-      // Persist to MongoDB
-      await saveEnrollmentToDb({ fullName, email, phone, selectedCourseOrProgram, collegeName, preferredTiming });
+      const emailValidation = validateEmail(email);
+      if (!emailValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'email', message: emailValidation.error });
+      }
 
-      // Dispatch email alert via Hostinger Nodemailer to ttx@xnava.in
+      const phoneValidation = validatePhoneNumber(phone);
+      if (!phoneValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'phone', message: phoneValidation.error });
+      }
+
+      const cleanCourse = sanitizeText(selectedCourseOrProgram) || 'Industrial Training Program';
+      const cleanCollege = sanitizeText(collegeName) || 'N/A';
+      const cleanMode = sanitizeText(trainingMode) || 'Classroom (In-Person)';
+      const cleanTiming = sanitizeText(preferredTiming) || 'Flexible Slot';
+
+      // Persist to Database Layer
+      const enrollmentRecord = await saveEnrollmentToDb({
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: phoneValidation.formatted,
+        selectedCourseOrProgram: cleanCourse,
+        collegeName: cleanCollege,
+        preferredTiming: `${cleanMode} • ${cleanTiming}`
+      });
+
+      // Dispatch real email alert to Owner & Admissions mailboxes
       await sendHostingerEmailAlert({
-        fullName,
-        email,
-        phone,
-        subject: `New Candidate Enrollment: ${selectedCourseOrProgram}`,
-        details: `Course/Program: ${selectedCourseOrProgram}\nCollege: ${collegeName || 'N/A'}\nMode: ${trainingMode}\nSlot: ${preferredTiming}`
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: phoneValidation.formatted,
+        subject: `New Candidate Enrollment: ${cleanCourse}`,
+        details: `Selected Course/Program: ${cleanCourse}\nInstitution: ${cleanCollege}\nTraining Mode: ${cleanMode}\nPreferred Slot: ${cleanTiming}`,
+        leadType: 'enrollment'
       });
 
       res.json({
         success: true,
-        message: 'Enrollment registered successfully! Dispatching notification to ttx@xnava.in.',
-        candidateName: fullName,
-        selectedCourseOrProgram
+        message: 'Enrollment registered successfully! Dispatching notification to Admissions & Owner.',
+        refId: enrollmentRecord?.id || `ENR-${Date.now().toString(36).toUpperCase()}`,
+        candidateName: nameValidation.sanitized,
+        selectedCourseOrProgram: cleanCourse
       });
     } catch (error: any) {
-      console.error('Enrollment API error:', error);
+      console.error('[Enrollment API Error]:', error);
       res.status(500).json({ success: false, message: 'Server error processing enrollment.' });
     }
   });
@@ -265,26 +324,60 @@ async function startServer() {
     try {
       const { fullName, email, phone, subject, message, purpose } = req.body;
 
-      if (!fullName || !email || !message) {
-        return res.status(400).json({ success: false, message: 'Name, Email and Message are required.' });
+      const nameValidation = validateFullName(fullName);
+      if (!nameValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'fullName', message: nameValidation.error });
       }
 
-      // Persist inquiry to MongoDB
-      await saveInquiryToDb({ fullName, email, phone, subject, message, purpose });
+      const emailValidation = validateEmail(email);
+      if (!emailValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'email', message: emailValidation.error });
+      }
 
+      let formattedPhone = 'N/A';
+      if (phone && phone.trim()) {
+        const phoneValidation = validatePhoneNumber(phone);
+        if (!phoneValidation.isValid) {
+          return res.status(400).json({ success: false, field: 'phone', message: phoneValidation.error });
+        }
+        formattedPhone = phoneValidation.formatted;
+      }
+
+      const messageValidation = validateTextMessage(message, 10, 2000);
+      if (!messageValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'message', message: messageValidation.error });
+      }
+
+      const cleanSubject = sanitizeText(subject) || 'General Inquiry';
+      const cleanPurpose = sanitizeText(purpose) || 'Course Inquiry';
+
+      // Persist inquiry to MongoDB / Fallback
+      const inquiryRecord = await saveInquiryToDb({
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: formattedPhone,
+        subject: cleanSubject,
+        message: messageValidation.sanitized,
+        purpose: cleanPurpose
+      });
+
+      // Dispatch alert to Owner & Office
       await sendHostingerEmailAlert({
-        fullName,
-        email,
-        phone: phone || 'N/A',
-        subject: `[${purpose || 'Contact'}] ${subject || 'Inquiry'}`,
-        details: message
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: formattedPhone,
+        subject: `[${cleanPurpose}] ${cleanSubject}`,
+        details: messageValidation.sanitized,
+        leadType: 'contact'
       });
 
       res.json({
         success: true,
-        message: 'Thank you! Your message has been routed to ttx@xnava.in. Our team will get back to you shortly.'
+        message: 'Thank you! Your message has been routed to TechTrainX Owner & Operations desk. Our team will contact you promptly.',
+        refId: inquiryRecord?.id || `INQ-${Date.now().toString(36).toUpperCase()}`
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('[Contact API Error]:', error);
       res.status(500).json({ success: false, message: 'Error routing message.' });
     }
   });
@@ -295,12 +388,14 @@ async function startServer() {
 
   // Verify Certificate Endpoint
   app.get('/api/verify-certificate', async (req, res) => {
-    const certId = (req.query.id as string || '').trim().toUpperCase();
+    const rawId = (req.query.id as string || '').trim().toUpperCase();
+    const certValidation = validateCertificateId(rawId);
     
-    if (!certId) {
-      return res.status(400).json({ success: false, message: 'Certificate ID parameter is required.' });
+    if (!certValidation.isValid) {
+      return res.status(400).json({ success: false, message: certValidation.error || 'Valid Certificate ID required.' });
     }
 
+    const certId = certValidation.sanitized;
     const found = await findCertificateByIdFromDb(certId);
 
     if (found) {
@@ -673,22 +768,53 @@ async function startServer() {
     try {
       const { clientName, companyName, email, phone, projectType, budgetRange, projectDetails } = req.body;
 
-      await saveServiceQuoteToDb({ clientName, companyName, email, phone, projectType, budgetRange, projectDetails });
+      const nameValidation = validateFullName(clientName);
+      if (!nameValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'clientName', message: nameValidation.error });
+      }
+
+      const emailValidation = validateEmail(email);
+      if (!emailValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'email', message: emailValidation.error });
+      }
+
+      const phoneValidation = validatePhoneNumber(phone);
+      if (!phoneValidation.isValid) {
+        return res.status(400).json({ success: false, field: 'phone', message: phoneValidation.error });
+      }
+
+      const cleanCompany = sanitizeText(companyName) || 'Corporate Client';
+      const cleanProject = sanitizeText(projectType) || 'Full Stack Web & AI Application';
+      const cleanBudget = sanitizeText(budgetRange) || 'Flexible Tier';
+      const cleanDetails = sanitizeText(projectDetails) || 'Custom development requirement';
+
+      const quoteRecord = await saveServiceQuoteToDb({
+        clientName: nameValidation.sanitized,
+        companyName: cleanCompany,
+        email: emailValidation.sanitized,
+        phone: phoneValidation.formatted,
+        projectType: cleanProject,
+        budgetRange: cleanBudget,
+        projectDetails: cleanDetails
+      });
 
       await sendHostingerEmailAlert({
-        fullName: clientName,
-        email,
-        phone,
-        subject: `[Software Service Quote] ${projectType} - ${budgetRange}`,
-        details: `Company: ${companyName || 'N/A'}\nProject Type: ${projectType}\nBudget: ${budgetRange}\nRequirements: ${projectDetails}`
+        fullName: nameValidation.sanitized,
+        email: emailValidation.sanitized,
+        phone: phoneValidation.formatted,
+        subject: `[Software Service Quote] ${cleanProject} - ${cleanBudget}`,
+        details: `Company: ${cleanCompany}\nProject Type: ${cleanProject}\nBudget Range: ${cleanBudget}\nRequirements:\n${cleanDetails}`,
+        leadType: 'software_quote'
       });
 
       res.json({
         success: true,
-        message: 'Software service quote request received! Solutions architect will email you from ttx@xnava.in.'
+        message: 'Software service quote request received! Technical Solutions Lead will email you from ttx@xnava.in and notify the owner.',
+        refId: quoteRecord?.id || `QT-${Date.now().toString(36).toUpperCase()}`
       });
-    } catch (error) {
-      res.status(500).json({ success: false, message: 'Error processing quote request.' });
+    } catch (error: any) {
+      console.error('[Software Quote API Error]:', error);
+      res.status(500).json({ success: false, message: 'Error processing software quote request.' });
     }
   });
 

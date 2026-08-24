@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { TRAINING_PROGRAMS_DATA } from '../data/programsData';
 import { 
-  Sun, Briefcase, Building2, BookOpen, Building, Check, 
-  ArrowRight, Sparkles, Clock, Calendar, MessageSquare, Shield,
-  Layers, Terminal, Award
+  Sun, Briefcase, Building2, BookOpen, Clock, 
+  CheckCircle2, ArrowRight, Sparkles, Layers
 } from 'lucide-react';
-import { createWhatsAppProgramLink } from '../services/whatsappService';
 
 interface ProgramsGridProps {
   onOpenEnrollment: (programName: string) => void;
@@ -14,162 +12,93 @@ interface ProgramsGridProps {
 export const ProgramsGrid: React.FC<ProgramsGridProps> = ({ onOpenEnrollment }) => {
   const [selectedProgramId, setSelectedProgramId] = useState(TRAINING_PROGRAMS_DATA[0].id);
 
-  const activeProgram = TRAINING_PROGRAMS_DATA.find(p => p.id === selectedProgramId) || TRAINING_PROGRAMS_DATA[0];
-
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case 'Sun': return <Sun className="w-4 h-4 text-amber-400" />;
-      case 'Briefcase': return <Briefcase className="w-4 h-4 text-cyan-400" />;
-      case 'Building2': return <Building2 className="w-4 h-4 text-indigo-400" />;
-      case 'BookOpen': return <BookOpen className="w-4 h-4 text-emerald-400" />;
-      default: return <Building className="w-4 h-4 text-cyan-400" />;
+      case 'Sun': return <Sun className="w-4 h-4 text-amber-500" />;
+      case 'Briefcase': return <Briefcase className="w-4 h-4 text-[#0066cc]" />;
+      case 'Building2': return <Building2 className="w-4 h-4 text-indigo-600" />;
+      case 'BookOpen': return <BookOpen className="w-4 h-4 text-emerald-600" />;
+      default: return <Layers className="w-4 h-4 text-[#0066cc]" />;
     }
   };
 
   return (
-    <section id="programs" className="py-20 px-4 relative bg-[#030712] border-t border-b border-slate-850 cyber-dots-bg">
-      <div className="max-w-7xl mx-auto space-y-10">
+    <section id="programs" className="py-16 px-4 bg-[#f0f8ff] border-b border-blue-100">
+      <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-bold uppercase tracking-wider">
-            <Layers className="w-3.5 h-3.5 text-cyan-400" /> Industrial Training Verticals
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-            Comprehensive <span className="gradient-text-cyan">Training Programs</span>
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="inline-block px-3 py-1 rounded-full bg-white text-[#0066cc] text-xs font-bold uppercase tracking-wider border border-blue-200">
+            Internships & Tracks
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#00061a]">
+            Structured <span className="text-[#0066cc]">Training Formats</span>
           </h2>
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            Choose the ideal training format aligned with your academic semester, university project submission requirements, or career transition timeline.
+          <p className="text-sm text-[#555555]">
+            Select the right program for your semester goals, final year project, or fast-track job placement.
           </p>
         </div>
 
-        {/* Program Selection Tabs */}
-        <div className="flex items-center justify-start md:justify-center gap-2.5 overflow-x-auto pb-2 scrollbar-none">
-          {TRAINING_PROGRAMS_DATA.map((prog) => {
-            const isSelected = prog.id === selectedProgramId;
-            return (
-              <button
-                key={prog.id}
-                onClick={() => setSelectedProgramId(prog.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all cursor-pointer ${
-                  isSelected
-                    ? 'bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-600 text-slate-950 shadow-lg shadow-cyan-500/25 border border-cyan-400/50 font-black'
-                    : 'bg-slate-900/90 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800'
-                }`}
-              >
-                {getIcon(prog.iconName)}
-                <span>{prog.title}</span>
-              </button>
-            );
-          })}
-        </div>
+        {/* Program Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {TRAINING_PROGRAMS_DATA.map((prog) => (
+            <div
+              key={prog.id}
+              className="bg-white p-6 rounded-[20px] border border-blue-100/80 shadow-xs hover:shadow-md hover:border-[#0066cc] transition-all flex flex-col justify-between group"
+            >
+              <div className="space-y-4">
+                
+                {/* Header Icon + Duration */}
+                <div className="flex items-center justify-between">
+                  <div className="p-2.5 rounded-xl bg-blue-50 group-hover:bg-[#0066cc] group-hover:text-white text-[#0066cc] transition-colors">
+                    {getIcon(prog.iconName)}
+                  </div>
+                  <span className="flex items-center gap-1 text-xs font-semibold text-[#666] bg-slate-50 px-2 py-1 rounded-md border border-gray-100">
+                    <Clock className="w-3 h-3 text-[#0066cc]" />
+                    <span>{prog.duration}</span>
+                  </span>
+                </div>
 
-        {/* Selected Program Detailed Highlight Card */}
-        <div className="glass-card p-6 sm:p-10 rounded-3xl border border-cyan-500/30 relative overflow-hidden bg-slate-900/90 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* Left Content */}
-            <div className="lg:col-span-7 space-y-5">
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <span className="px-3 py-1 rounded-lg bg-cyan-950/90 text-cyan-300 text-xs font-black border border-cyan-500/40">
-                  {activeProgram.badgeText}
-                </span>
-                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-300">
-                  <Clock className="w-3.5 h-3.5 text-cyan-400" /> {activeProgram.duration}
-                </span>
-              </div>
+                <div>
+                  <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-wider block mb-1">
+                    {prog.badgeText}
+                  </span>
+                  <h3 className="text-base font-bold text-[#00061a] group-hover:text-[#0066cc] transition-colors line-clamp-1">
+                    {prog.title}
+                  </h3>
+                  <p className="text-xs text-[#666] mt-1 line-clamp-2">
+                    {prog.subtitle}
+                  </p>
+                </div>
 
-              <div>
-                <h3 className="text-2xl sm:text-3xl font-black text-white mb-1.5">
-                  {activeProgram.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-cyan-400 font-semibold">
-                  {activeProgram.subtitle}
-                </p>
-              </div>
-
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                {activeProgram.description}
-              </p>
-
-              {/* Target Audience */}
-              <div>
-                <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-wider mb-2">Target Students / Eligibility</h4>
-                <div className="flex flex-wrap gap-2">
-                  {activeProgram.targetAudience.map((target, idx) => (
-                    <span key={idx} className="bg-slate-950 border border-slate-800 text-slate-300 text-xs px-3 py-1 rounded-lg">
-                      🎓 {target}
-                    </span>
+                {/* Key Benefits (Shortened) */}
+                <ul className="space-y-1.5 pt-2 border-t border-gray-100">
+                  {prog.keyBenefits?.slice(0, 3).map((item, idx) => (
+                    <li key={idx} className="text-xs text-[#444] flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#0066cc] shrink-0" />
+                      <span className="line-clamp-1">{item}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
+
               </div>
 
-              {/* Daily Structure */}
-              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-1.5">
-                <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-cyan-400" /> Daily 5-Hour Practical Hands-on Cadence
-                </h4>
-                <p className="text-xs text-slate-300">
-                  Live instructor code-along sessions, daily lab tasks, pull-request code reviews, and weekly production milestone evaluations.
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              {/* Action Button */}
+              <div className="pt-5 mt-4 border-t border-gray-100">
                 <button
-                  onClick={() => onOpenEnrollment(activeProgram.title)}
-                  className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-600 text-slate-950 font-black text-xs shadow-lg shadow-cyan-500/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={() => onOpenEnrollment(prog.title)}
+                  className="custom-btn w-full py-2 text-xs"
                 >
-                  <span>Apply for {activeProgram.title}</span>
-                  <ArrowRight className="w-4 h-4 text-slate-950" />
+                  <span>Apply Now</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
-
-                <a
-                  href={createWhatsAppProgramLink(activeProgram.title, activeProgram.duration)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-emerald-400 font-bold text-xs border border-emerald-500/30 transition-all flex items-center justify-center gap-2"
-                >
-                  <MessageSquare className="w-4 h-4 text-emerald-400" />
-                  <span>WhatsApp Inquiry</span>
-                </a>
               </div>
+
             </div>
-
-            {/* Right Features Box */}
-            <div className="lg:col-span-5 bg-slate-950/90 p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-5">
-              <h4 className="text-sm font-black text-white flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Program Deliverables & Value</span>
-              </h4>
-
-              <ul className="space-y-3 text-xs text-slate-300">
-                {activeProgram.keyBenefits.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5">
-                    <div className="w-5 h-5 rounded-full bg-emerald-950 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3" />
-                    </div>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="pt-4 border-t border-slate-800/80">
-                <div className="flex items-center gap-2 text-cyan-300 text-xs font-bold mb-1">
-                  <Award className="w-4 h-4 text-cyan-400" />
-                  <span>University-Approved Certification</span>
-                </div>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
-                  All programs include verifiable digital credential IDs, synopsis documents, and GitHub repo portfolios.
-                </p>
-              </div>
-            </div>
-
-          </div>
+          ))}
         </div>
 
       </div>
     </section>
   );
 };
-

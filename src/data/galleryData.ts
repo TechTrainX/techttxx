@@ -42,7 +42,7 @@ export const GALLERY_DATA: GalleryItem[] = [
   },
   {
     id: 'g5',
-    title: 'Official ISO Certificate Convocation & Honors',
+    title: 'Official Certificate Convocation & Honors',
     category: 'Certifications',
     imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85',
     date: 'Convocation Batch',
