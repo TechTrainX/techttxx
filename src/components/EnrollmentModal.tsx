@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { EnrollmentFormData } from '../types';
-import { submitEnrollment } from '../services/apiService';
+import { submitEnrollment } from '../services/apiService.js';
 import { createWhatsAppEnrollLink } from '../services/whatsappService';
 import { COURSES_DATA } from '../data/coursesData';
 import { TRAINING_PROGRAMS_DATA } from '../data/programsData';

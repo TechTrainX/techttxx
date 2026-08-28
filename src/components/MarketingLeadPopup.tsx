@@ -3,7 +3,7 @@ import {
   X, Gift, CheckCircle2, 
   ArrowRight, User, BookOpen
 } from 'lucide-react';
-import { submitEnrollment } from '../services/apiService';
+import { submitEnrollment } from '../services/apiService.js';
 import { ValidatedInput } from './ui/ValidatedInput';
 import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
 import { ValidatedSelect } from './ui/ValidatedSelect';

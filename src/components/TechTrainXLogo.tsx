@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 
 interface TechTrainXLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -23,7 +23,7 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
   const [imageError, setImageError] = useState(false);
   const isDark = theme === 'dark';
 
-  // Determine active logo source: prop -> companyConfig -> fallback vector
+  // Determine active logo source: prop -> companyConfig.js -> fallback vector
   const effectiveLogoUrl = customLogoUrl || COMPANY_CONFIG.logoImageUrl;
 
   // Sizing configurations

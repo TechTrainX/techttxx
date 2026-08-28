@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HARDWARE_PROJECTS_DATA } from '../data/hardwareProjectsData';
-import { submitHardwareProjectInquiry } from '../services/apiService';
+import { submitHardwareProjectInquiry } from '../services/apiService.js';
 import { createWhatsAppHardwareProjectLink } from '../services/whatsappService';
 import { 
   X, CheckCircle2, MessageSquare, ArrowRight, User, Mail, Cpu, MapPin, GraduationCap

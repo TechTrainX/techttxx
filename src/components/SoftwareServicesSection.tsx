@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { submitServiceQuote } from '../services/apiService';
+import { submitServiceQuote } from '../services/apiService.js';
 import { 
   Code2, Smartphone, Cpu, Cloud, CheckCircle2, 
   Send, User, Building, Mail, MessageSquare, RefreshCw,
@@ -12,7 +12,7 @@ import { ValidatedSelect } from './ui/ValidatedSelect';
 import { ValidatedTextarea } from './ui/ValidatedTextarea';
 import { validateFullName, validateEmail, validatePhoneNumber, validateTextMessage, validateCollegeOrOrg } from '../utils/validators.js';
 import { getServiceWhatsAppUrl } from '../utils/whatsappHelper';
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 
 export const SoftwareServicesSection: React.FC = () => {
   const [formData, setFormData] = useState({

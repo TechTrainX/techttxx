@@ -4,7 +4,7 @@ import {
   ArrowUp, Lock, Award, Clock, Sparkles, ExternalLink, ChevronRight, CheckCircle2
 } from 'lucide-react';
 import { TechTrainXLogo } from './TechTrainXLogo';
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 
 interface FooterProps {
   onOpenCertificateVerifier?: () => void;

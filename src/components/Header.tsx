@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { createWhatsAppDirectQueryLink } from '../services/whatsappService';
 import { TechTrainXLogo } from './TechTrainXLogo';
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 
 interface HeaderProps {
   onOpenEnrollment: (courseOrProgram?: string) => void;

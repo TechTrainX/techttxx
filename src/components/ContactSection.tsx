@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ContactFormData } from '../types';
-import { submitContactMessage } from '../services/apiService';
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { submitContactMessage } from '../services/apiService.js';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 import { 
   Phone, Mail, MapPin, Send, 
   Building, Clock, User, CheckCircle2, RefreshCw, MessageSquare,

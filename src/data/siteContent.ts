@@ -1,5 +1,5 @@
 import { SiteConfig } from '../types';
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 
 export const SITE_CONFIG: SiteConfig = {
   brandName: COMPANY_CONFIG.brandName,
