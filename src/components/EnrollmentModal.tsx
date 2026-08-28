@@ -8,7 +8,7 @@ import { X, CheckCircle2, MessageSquare, ArrowRight, User, Mail, GraduationCap, 
 import { ValidatedInput } from './ui/ValidatedInput';
 import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
 import { ValidatedSelect } from './ui/ValidatedSelect';
-import { validateFullName, validateEmail, validatePhoneNumber, validateCollegeOrOrg } from '../utils/validators';
+import { validateFullName, validateEmail, validatePhoneNumber, validateCollegeOrOrg } from '../utils/validators.js';
 
 interface EnrollmentModalProps {
   isOpen: boolean;

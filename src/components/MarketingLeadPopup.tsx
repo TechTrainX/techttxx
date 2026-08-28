@@ -7,7 +7,7 @@ import { submitEnrollment } from '../services/apiService';
 import { ValidatedInput } from './ui/ValidatedInput';
 import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
 import { ValidatedSelect } from './ui/ValidatedSelect';
-import { validateFullName, validatePhoneNumber } from '../utils/validators';
+import { validateFullName, validatePhoneNumber } from '../utils/validators.js';
 
 interface MarketingLeadPopupProps {
   isOpen?: boolean;

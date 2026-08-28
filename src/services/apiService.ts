@@ -18,7 +18,7 @@ import {
   COURSES_DATA,
   PLACEMENTS_DATA,
   FRONTIER_TECH_ROADMAPS_DATA
-} from '../data/index';
+} from '../data/index.js';
 
 export async function fetchSiteConfig(): Promise<SiteConfig> {
   try {

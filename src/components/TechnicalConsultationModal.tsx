@@ -6,7 +6,7 @@ import {
 import { ValidatedInput } from './ui/ValidatedInput';
 import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
 import { ValidatedSelect } from './ui/ValidatedSelect';
-import { validateFullName, validateEmail, validatePhoneNumber } from '../utils/validators';
+import { validateFullName, validateEmail, validatePhoneNumber } from '../utils/validators.js';
 
 interface TechnicalConsultationModalProps {
   isOpen: boolean;

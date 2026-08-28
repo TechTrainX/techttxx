@@ -10,7 +10,7 @@ import { ValidatedInput } from './ui/ValidatedInput';
 import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
 import { ValidatedSelect } from './ui/ValidatedSelect';
 import { ValidatedTextarea } from './ui/ValidatedTextarea';
-import { validateFullName, validateEmail, validatePhoneNumber, validateTextMessage, validateCollegeOrOrg } from '../utils/validators';
+import { validateFullName, validateEmail, validatePhoneNumber, validateTextMessage, validateCollegeOrOrg } from '../utils/validators.js';
 import { getServiceWhatsAppUrl } from '../utils/whatsappHelper';
 import { COMPANY_CONFIG } from '../config/companyConfig';
 

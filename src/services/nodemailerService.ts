@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { escapeHtml } from '../utils/validators';
+import { escapeHtml } from '../utils/validators.js';
 
 /**
  * TechTrainX Enterprise Notification & Email Routing Engine

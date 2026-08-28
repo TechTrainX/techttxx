@@ -10,7 +10,7 @@ import {
 import { ValidatedInput } from './ui/ValidatedInput';
 import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
 import { ValidatedTextarea } from './ui/ValidatedTextarea';
-import { validateFullName, validateEmail, validatePhoneNumber, validateTextMessage } from '../utils/validators';
+import { validateFullName, validateEmail, validatePhoneNumber, validateTextMessage } from '../utils/validators.js';
 import { createWhatsAppDirectQueryLink } from '../services/whatsappService';
 
 export const ContactSection: React.FC = () => {

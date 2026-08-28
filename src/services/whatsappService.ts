@@ -1,4 +1,4 @@
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 
 /**
  * TechTrainX WhatsApp Direct Communication Service

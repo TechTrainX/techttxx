@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, CheckCircle2, AlertCircle, X } from 'lucide-react';
-import { validatePhoneNumber } from '../../utils/validators';
+import { validatePhoneNumber } from '../../utils/validators.js';
 
 interface ValidatedPhoneInputProps {
   label?: string;

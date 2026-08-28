@@ -9,7 +9,7 @@ import { ValidatedInput } from './ui/ValidatedInput';
 import { ValidatedPhoneInput } from './ui/ValidatedPhoneInput';
 import { ValidatedSelect } from './ui/ValidatedSelect';
 import { ValidatedTextarea } from './ui/ValidatedTextarea';
-import { validateFullName, validateEmail, validatePhoneNumber, validateCollegeOrOrg, validateCity } from '../utils/validators';
+import { validateFullName, validateEmail, validatePhoneNumber, validateCollegeOrOrg, validateCity } from '../utils/validators.js';
 
 interface HardwareProjectInquiryModalProps {
   isOpen: boolean;
