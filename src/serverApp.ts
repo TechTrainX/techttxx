@@ -1,7 +1,7 @@
 import express from 'express';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
-import { sendHostingerEmailAlert } from './services/nodemailerService';
+import { sendHostingerEmailAlert } from './services/nodemailerService.js';
 import { 
   COURSES_DATA, 
   TRAINING_PROGRAMS_DATA, 
@@ -11,7 +11,7 @@ import {
   GALLERY_DATA, 
   FRONTIER_TECH_ROADMAPS_DATA 
 } from './data/index.js';
-import { HARDWARE_PROJECTS_DATA } from './data/hardwareProjectsData';
+import { HARDWARE_PROJECTS_DATA } from './data/hardwareProjectsData.js';
 import {
   validateFullName,
   validateEmail,
@@ -19,7 +19,7 @@ import {
   validateTextMessage,
   validateCertificateId,
   sanitizeText
-} from './utils/validators';
+} from './utils/validators.js';
 import {
   fetchAllCertificatesFromDb,
   findCertificateByIdFromDb,
@@ -34,7 +34,7 @@ import {
   fetchAllServiceQuotesFromDb,
   updateLeadStatusInDb,
   deleteLeadFromDb
-} from './services/dbService';
+} from './services/dbService.js';
 
 dotenv.config();
 

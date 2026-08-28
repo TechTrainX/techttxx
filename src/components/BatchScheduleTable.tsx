@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { BATCH_SCHEDULES_DATA } from '../data/batchesData';
+import { BATCH_SCHEDULES_DATA } from '../data/batchesData.js';
 import { BatchSchedule } from '../types';
 import { Calendar, Clock, User, ArrowRight, Flame, X, CheckCircle2, MessageSquare, Sparkles } from 'lucide-react';
-import { createWhatsAppDirectQueryLink } from '../services/whatsappService';
+import { createWhatsAppDirectQueryLink } from '../services/whatsappService.js';
 
 interface BatchScheduleTableProps {
   onOpenEnrollment: (batchInfo: string) => void;

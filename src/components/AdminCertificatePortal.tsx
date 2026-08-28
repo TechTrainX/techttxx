@@ -12,7 +12,7 @@ import {
   ShieldCheck, ArrowRight, Eye, User, FileText, Database,
   Activity, CheckCircle as CheckIcon, Info, Users, Send
 } from 'lucide-react';
-import { TechTrainXLogo } from './TechTrainXLogo';
+import { TechTrainXLogo } from './TechTrainXLogo.js';
 
 interface AdminCertificatePortalProps {
   isOpen: boolean;

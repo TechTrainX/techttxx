@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { verifyCertificateById } from '../services/apiService';
+import { verifyCertificateById } from '../services/apiService.js';
 import { CertificateData } from '../types';
 import { 
   Award, ShieldCheck, Search, CheckCircle2, AlertTriangle, 
   ArrowLeft, Download, Printer, Share2, ExternalLink, QrCode,
   Building, Calendar, User, FileCheck, Check, Copy
 } from 'lucide-react';
-import { validateCertificateId } from '../utils/validators';
+import { validateCertificateId } from '../utils/validators.js';
 import confetti from 'canvas-confetti';
-import { TechTrainXLogo } from './TechTrainXLogo';
-import { COMPANY_CONFIG } from '../config/companyConfig';
+import { TechTrainXLogo } from './TechTrainXLogo.js';
+import { COMPANY_CONFIG } from '../config/companyConfig.js';
 
 interface CertificateVerifierPageProps {
   onBackToHome: () => void;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { verifyCertificateById } from '../services/apiService';
+import { verifyCertificateById } from '../services/apiService.js';
 import { CertificateData } from '../types';
 import { Award, ShieldCheck, Search, CheckCircle2, AlertTriangle, X, ShieldAlert, ExternalLink } from 'lucide-react';
-import { validateCertificateId } from '../utils/validators';
+import { validateCertificateId } from '../utils/validators.js';
 import confetti from 'canvas-confetti';
 
 interface CertificateVerifierProps {

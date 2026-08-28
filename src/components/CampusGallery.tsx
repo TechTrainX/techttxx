@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { GALLERY_DATA } from '../data/galleryData';
+import { GALLERY_DATA } from '../data/galleryData.js';
 import { GalleryItem } from '../types';
 import { X, ChevronLeft, ChevronRight, Maximize2, Sparkles, Eye, Play, Pause } from 'lucide-react';
-import { getOptimizedImageUrl } from '../services/imagekitService';
+import { getOptimizedImageUrl } from '../services/imagekitService.js';
 
 export const CampusGallery: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
