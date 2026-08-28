@@ -6,7 +6,7 @@ import {
   PLACEMENTS_DATA, 
   GALLERY_DATA,
   FRONTIER_TECH_ROADMAPS_DATA
-} from '../src/data';
+} from '../src/data/index.ts';
 import {
   findCertificateByIdFromDb,
   saveEnrollmentToDb,
