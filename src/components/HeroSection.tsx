@@ -263,7 +263,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <p className="text-[10px] text-slate-500 uppercase tracking-wider font-sans font-semibold">Graduates</p>
           </div>
           <div className="bg-white/90 backdrop-blur-xs p-3.5 rounded-xl border border-slate-200/90 text-center hover:border-[#0066cc] transition-all shadow-xs">
-            <p className="text-2xl sm:text-3xl font-luxury-title font-bold text-[#0a0a0f]">80% to 90%</p>
+            <p className="text-2xl sm:text-3xl font-luxury-title font-bold text-[#0a0a0f]">100%</p>
             <p className="text-[10px] text-slate-500 uppercase tracking-wider font-sans font-semibold">Placement Drives</p>
           </div>
           <div className="bg-white/90 backdrop-blur-xs p-3.5 rounded-xl border border-slate-200/90 text-center hover:border-[#0066cc] transition-all shadow-xs">
