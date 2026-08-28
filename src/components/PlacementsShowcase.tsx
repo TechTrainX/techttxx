@@ -43,17 +43,17 @@ export const PlacementsShowcase: React.FC<PlacementsShowcaseProps> = ({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div className="bg-slate-50/90 backdrop-blur-xs p-3.5 rounded-xl border border-slate-200/90 text-center shadow-2xs hover:border-[#0066cc] transition-colors">
             <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-[0.12em] block">Top CTC</span>
-            <p className="text-2xl sm:text-3xl font-bold font-luxury-title text-[#0a0a0f] my-0.5">₹12.5 <span className="text-xs font-semibold text-[#0066cc]">LPA</span></p>
-            <p className="text-[10px] text-slate-500 font-sans uppercase font-medium">Cloud & Product</p>
+            <p className="text-2xl sm:text-3xl font-bold font-luxury-title text-[#0a0a0f] my-0.5">₹7.25 LPA <span className="text-xs font-semibold text-[#0066cc]">LPA</span></p>
+            <p className="text-[10px] text-slate-500 font-sans uppercase font-medium">Service & Product</p>
           </div>
           <div className="bg-slate-50/90 backdrop-blur-xs p-3.5 rounded-xl border border-slate-200/90 text-center shadow-2xs hover:border-[#0066cc] transition-colors">
             <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-[0.12em] block">Average CTC</span>
-            <p className="text-2xl sm:text-3xl font-bold font-luxury-title text-[#0066cc] my-0.5">₹6.4 <span className="text-xs font-semibold text-[#0a0a0f]">LPA</span></p>
+            <p className="text-2xl sm:text-3xl font-bold font-luxury-title text-[#0066cc] my-0.5">₹7.25 <span className="text-xs font-semibold text-[#0a0a0f]">LPA</span></p>
             <p className="text-[10px] text-slate-500 font-sans uppercase font-medium">Full-Stack & Embedded</p>
           </div>
           <div className="bg-slate-50/90 backdrop-blur-xs p-3.5 rounded-xl border border-slate-200/90 text-center shadow-2xs hover:border-[#0066cc] transition-colors">
             <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-[0.12em] block">Hiring Network</span>
-            <p className="text-2xl sm:text-3xl font-bold font-luxury-title text-[#0a0a0f] my-0.5">150+</p>
+            <p className="text-2xl sm:text-3xl font-bold font-luxury-title text-[#0a0a0f] my-0.5">15+</p>
             <p className="text-[10px] text-slate-500 font-sans uppercase font-medium">Active Partners</p>
           </div>
           <div className="bg-slate-50/90 backdrop-blur-xs p-3.5 rounded-xl border border-slate-200/90 text-center shadow-2xs hover:border-[#0066cc] transition-colors">
