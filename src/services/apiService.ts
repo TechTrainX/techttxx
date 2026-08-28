@@ -18,7 +18,7 @@ import {
   COURSES_DATA,
   PLACEMENTS_DATA,
   FRONTIER_TECH_ROADMAPS_DATA
-} from '../data';
+} from '../data/index';
 
 export async function fetchSiteConfig(): Promise<SiteConfig> {
   try {
@@ -149,7 +149,7 @@ export async function verifyCertificateById(certId: string): Promise<Certificate
         studentName: 'Student Candidate',
         courseName: 'Full Stack MERN Stack Engineering',
         programType: 'Industrial Placement Training',
-        issueDate: 'August 10, 2026-27',
+        issueDate: 'August 10, 2026',
         grade: 'A+ (Outstanding)',
         verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
         isVerified: true,
