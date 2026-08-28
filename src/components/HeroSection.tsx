@@ -23,7 +23,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       title: 'Applied AI & Neural Systems',
       subtitle: 'LLMs, Computer Vision & High-Performance Compute',
       badge: 'ADMISSIONS OPEN',
-      stat: '₹12.5 LPA',
+      stat: '₹7.5 LPA',
       statLabel: 'Top Offer',
       imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=85',
       actionTitle: 'Artificial Intelligence & ML'
@@ -33,7 +33,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       title: 'Full-Stack Software Foundry',
       subtitle: 'Production React, Node.js & Cloud Deployments',
       badge: 'DAILY LABS',
-      stat: '₹8.5 LPA',
+      stat: '₹7.25 LPA',
       statLabel: 'Avg Package',
       imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85',
       actionTitle: 'Full Stack MERN Stack Development'
@@ -43,7 +43,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       title: 'Embedded Robotics & IoT Studio',
       subtitle: 'Physical MCUs, RTOS Firmware & Circuit Design',
       badge: 'HARDWARE LABS',
-      stat: '50+ Labs',
+      stat: '10+ Labs',
       statLabel: 'Live Kits',
       imageUrl: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1200&q=85',
       actionTitle: 'Embedded Systems & IoT Engineering'
@@ -53,7 +53,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       title: 'Cloud & DevOps Engineering',
       subtitle: 'Kubernetes, CI/CD Pipelines & Terraform Clusters',
       badge: 'ENTERPRISE',
-      stat: '150+',
+      stat: '15+',
       statLabel: 'Hiring Partners',
       imageUrl: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85',
       actionTitle: 'AWS Cloud & DevOps Engineering'
@@ -89,7 +89,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Subtle Technical Coordinates */}
       <div className="absolute top-3 left-6 hidden lg:flex items-center gap-2 text-[10px] font-mono text-gray-400 tracking-widest pointer-events-none uppercase">
         <span className="w-1.5 h-1.5 rounded-full bg-[#0066cc]" />
-        <span>TECHTRAINX // APPLIED DEEP-TECH FOUNDRY // BATCH 2026-27</span>
+        <span>TECHTRAINX // A UNIT OF XNAVA ENTERPRISES.</span>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">

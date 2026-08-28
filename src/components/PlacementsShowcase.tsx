@@ -80,7 +80,7 @@ export const PlacementsShowcase: React.FC<PlacementsShowcaseProps> = ({
               </div>
               <div>
                 <h3 className="text-sm font-bold text-[#0a0a0f] font-sans">
-                  Active Hiring Network (150+ Corporate Partners)
+                  Active Hiring Network
                 </h3>
                 <p className="text-[11px] text-gray-500 font-sans">
                   Weekly placement drives, salary negotiation support & interview pipelines
