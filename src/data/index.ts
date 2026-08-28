@@ -7,12 +7,12 @@
  * ==============================================================================
  */
 
-export { SITE_CONFIG } from './siteContent';
-export { COURSES_DATA } from './coursesData';
-export { TRAINING_PROGRAMS_DATA } from './programsData';
-export { BATCH_SCHEDULES_DATA } from './batchesData';
-export { PLACEMENTS_DATA, RECRUITER_PARTNERS } from './placementsData';
-export { GALLERY_DATA } from './galleryData';
-export { HARDWARE_PROJECTS_DATA, HARDWARE_CATEGORIES } from './hardwareProjectsData';
-export { FRONTIER_TECH_ROADMAPS_DATA } from './roadmapData';
+export { SITE_CONFIG } from './siteContent.js';
+export { COURSES_DATA } from './coursesData.js';
+export { TRAINING_PROGRAMS_DATA } from './programsData.js';
+export { BATCH_SCHEDULES_DATA } from './batchesData.js';
+export { PLACEMENTS_DATA, RECRUITER_PARTNERS } from './placementsData.js';
+export { GALLERY_DATA } from './galleryData.js';
+export { HARDWARE_PROJECTS_DATA, HARDWARE_CATEGORIES } from './hardwareProjectsData.js';
+export { FRONTIER_TECH_ROADMAPS_DATA } from './roadmapData.js';
 export type { HardwareProject, FrontierTechRoadmapTrack, RoadmapSkillGroup } from '../types';

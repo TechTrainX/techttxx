@@ -10,7 +10,7 @@ import {
   PLACEMENTS_DATA, 
   GALLERY_DATA, 
   FRONTIER_TECH_ROADMAPS_DATA 
-} from './data/index';
+} from './data/index.js';
 import { HARDWARE_PROJECTS_DATA } from './data/hardwareProjectsData';
 import {
   validateFullName,
