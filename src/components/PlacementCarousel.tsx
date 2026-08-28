@@ -45,15 +45,16 @@ export const PlacementCarousel: React.FC<PlacementCarouselProps> = ({
   const currentSlide = slides[currentIndex];
 
   return (
-    <div className="w-full bg-white border border-gray-200/80 rounded-2xl p-5 sm:p-6 shadow-xs space-y-5">
+    <div className="w-full bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-6 shadow-[0_8px_28px_-12px_rgba(7,26,53,0.18)] space-y-5">
       
       {/* Header Bar */}
-      <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0066cc] bg-blue-50 px-2.5 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#0066cc] bg-[#eef4fb] px-2.5 py-1 rounded-full">
+            <Award className="w-3 h-3" />
             Verified Placements
           </span>
-          <h3 className="text-lg sm:text-xl font-luxury-title font-bold text-[#0a0a0f] mt-1">
+          <h3 className="text-lg sm:text-xl font-luxury-title font-bold text-[#0a0a0f] mt-1.5 tracking-tight">
             {currentSlide.title}
           </h3>
         </div>
@@ -62,14 +63,14 @@ export const PlacementCarousel: React.FC<PlacementCarouselProps> = ({
         <div className="flex items-center gap-1.5">
           <button
             onClick={prevSlide}
-            className="w-8 h-8 rounded-full border border-gray-200 hover:border-[#0066cc] text-[#333] hover:text-[#0066cc] bg-white transition-colors cursor-pointer flex items-center justify-center"
+            className="w-8 h-8 rounded-full border border-slate-200 hover:border-[#0066cc] hover:shadow-sm text-slate-600 hover:text-[#0066cc] bg-white transition-all cursor-pointer flex items-center justify-center"
             aria-label="Previous Slide"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={nextSlide}
-            className="w-8 h-8 rounded-full border border-gray-200 hover:border-[#0066cc] text-[#333] hover:text-[#0066cc] bg-white transition-colors cursor-pointer flex items-center justify-center"
+            className="w-8 h-8 rounded-full border border-slate-200 hover:border-[#0066cc] hover:shadow-sm text-slate-600 hover:text-[#0066cc] bg-white transition-all cursor-pointer flex items-center justify-center"
             aria-label="Next Slide"
           >
             <ChevronRight className="w-4 h-4" />
@@ -82,14 +83,15 @@ export const PlacementCarousel: React.FC<PlacementCarouselProps> = ({
         {currentSlide.items.map((item, idx) => (
           <div
             key={idx}
-            className="bg-[#f7f9fc] p-4 rounded-xl border border-gray-200/80 hover:border-[#0066cc] transition-all flex flex-col justify-between"
+            className="group bg-[#f7f9fc] p-4 rounded-xl border border-slate-200/80 hover:border-[#0066cc] hover:shadow-[0_10px_24px_-14px_rgba(0,102,204,0.35)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center justify-between mb-2.5 gap-2">
                 <span className="font-bold text-xs sm:text-sm text-[#0a0a0f] font-sans">
                   {item.name}
                 </span>
-                <span className="bg-[#0066cc] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1 bg-[#0066cc] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                  <TrendingUp className="w-2.5 h-2.5" />
                   {item.packageLPA} LPA
                 </span>
               </div>
@@ -108,11 +110,11 @@ export const PlacementCarousel: React.FC<PlacementCarouselProps> = ({
               </div>
             </div>
 
-            <div className="pt-3 mt-2.5 border-t border-gray-200 flex items-center justify-between text-[10px] font-sans">
+            <div className="pt-3 mt-2.5 border-t border-slate-200 flex items-center justify-between text-[10px] font-sans">
               <span className="text-emerald-700 font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Verified
               </span>
-              <span className="text-[#666]">
+              <span className="text-slate-500 group-hover:text-[#0066cc] transition-colors">
                 {item.courseTaken}
               </span>
             </div>
@@ -127,7 +129,7 @@ export const PlacementCarousel: React.FC<PlacementCarouselProps> = ({
             key={idx}
             onClick={() => setCurrentIndex(idx)}
             className={`h-1.5 rounded-full transition-all cursor-pointer ${
-              currentIndex === idx ? 'w-6 bg-[#0066cc]' : 'w-2.5 bg-gray-200 hover:bg-gray-300'
+              currentIndex === idx ? 'w-6 bg-[#0066cc]' : 'w-2.5 bg-slate-200 hover:bg-slate-300'
             }`}
             aria-label={`Go to slide ${idx + 1}`}
           />

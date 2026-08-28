@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { HardwareProject } from '../types';
 import { HARDWARE_PROJECTS_DATA, HARDWARE_CATEGORIES } from '../data/hardwareProjectsData';
-import { 
+import {
   Cpu, Search, CheckCircle2, ChevronLeft, ChevronRight,
-  ArrowRight, X, FileText, MessageSquare, Play, Pause, Sparkles, Maximize2, ShieldCheck
+  ArrowRight, X, FileText, MessageSquare, Play, Pause, Sparkles,
+  Maximize2, ShieldCheck, PackageCheck, Truck, Wrench, SearchX,
 } from 'lucide-react';
 import { createWhatsAppHardwareProjectLink } from '../services/whatsappService';
 
@@ -11,8 +12,18 @@ interface HardwareProjectsSectionProps {
   onOpenInquiryModal?: (projectTitle?: string) => void;
 }
 
+// Slim, scannable trust signals — the kind of thing that answers the
+// "is this legit / will it actually work" question before a student
+// even reads a single card.
+const TRUST_SIGNALS: { icon: React.ElementType; label: string }[] = [
+  { icon: PackageCheck, label: 'Bench-tested before shipping' },
+  { icon: Wrench, label: 'Firmware & source code included' },
+  { icon: Truck, label: 'Pan-India delivery' },
+  { icon: ShieldCheck, label: 'Viva & defense support' },
+];
+
 export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = ({
-  onOpenInquiryModal
+  onOpenInquiryModal,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState('All Projects');
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,18 +35,26 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
     return HARDWARE_PROJECTS_DATA.filter((proj) => {
       const matchCat = selectedCategory === 'All Projects' || proj.category === selectedCategory;
       const q = searchQuery.toLowerCase().trim();
-      const matchSearch = !q || 
+      const matchSearch = !q ||
         proj.title.toLowerCase().includes(q) ||
-        proj.hardwareComponents.some(c => c.toLowerCase().includes(q)) ||
+        proj.hardwareComponents.some((c) => c.toLowerCase().includes(q)) ||
         proj.microcontroller.toLowerCase().includes(q);
       return matchCat && matchSearch;
     });
   }, [selectedCategory, searchQuery]);
 
+  // Respect users who've asked their OS for reduced motion — the
+  // auto-gliding carousel is a nice-to-have, not something that
+  // should override an accessibility preference.
+  const prefersReducedMotion = useMemo(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    []
+  );
+
   // Smooth Auto-Scrolling Carousel Loop (Right-to-Left Continuous Gliding)
   useEffect(() => {
     const el = carouselRef.current;
-    if (!el || isPaused) return;
+    if (!el || isPaused || prefersReducedMotion) return;
 
     let animationFrameId: number;
     const speed = 0.7; // Luxurious non-rushed gliding speed
@@ -53,37 +72,47 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
 
     animationFrameId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPaused, filteredProjects]);
+  }, [isPaused, filteredProjects, prefersReducedMotion]);
 
   const handleManualScroll = (direction: 'left' | 'right') => {
     if (!carouselRef.current) return;
     const scrollAmount = 390;
     carouselRef.current.scrollBy({
       left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
+  // Close the specs modal on Escape — small but expected affordance.
+  useEffect(() => {
+    if (!activeDetailProject) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveDetailProject(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [activeDetailProject]);
+
   return (
     <section id="hardware-projects" className="py-12 sm:py-16 px-4 bg-[#f8fafc] bg-tech-dots border-b border-slate-200/80 relative overflow-hidden">
-      
+
       {/* Background ambient glow */}
       <div className="absolute inset-0 bg-aura-glow pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto space-y-6 relative z-10">
-        
+
         {/* Section Header with Carousel Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 border-b border-slate-200/80 pb-4">
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-blue-50 text-[#0066cc] text-[10px] font-bold uppercase tracking-[0.14em] border border-blue-200/80">
               <Sparkles className="w-3 h-3 text-[#0066cc]" />
               <span>Hardware Studio</span>
             </span>
             <h2 className="text-2xl sm:text-3xl font-luxury-title font-bold text-[#0a0a0f] tracking-tight">
-              Project Kits & <span className="text-[#0066cc] italic font-normal">Capstones</span>
+              Final-Year & Minor Project Kits, <span className="text-[#0066cc] italic font-normal">Built to Defend</span>
             </h2>
-            <p className="text-xs text-slate-500 font-sans">
-              IoT & embedded kits with schematics, firmware code, and reports.
+            <p className="text-xs sm:text-[13px] text-slate-500 font-sans max-w-xl">
+              Pre-assembled IoT & embedded kits — schematics, firmware, and a report ready for your viva, not just a parts bag.
             </p>
           </div>
 
@@ -101,18 +130,28 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
             <button
               onClick={() => handleManualScroll('left')}
               className="w-[38px] h-[38px] rounded-full border border-gray-200 hover:border-[#0066cc] bg-white text-gray-700 hover:text-[#0066cc] flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
-              aria-label="Previous Project"
+              aria-label="Scroll to previous project"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => handleManualScroll('right')}
               className="w-[38px] h-[38px] rounded-full border border-gray-200 hover:border-[#0066cc] bg-white text-gray-700 hover:text-[#0066cc] flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
-              aria-label="Next Project"
+              aria-label="Scroll to next project"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
+        </div>
+
+        {/* Trust Signal Strip — answers "is this legit" before scrolling */}
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 -mt-1">
+          {TRUST_SIGNALS.map(({ icon: Icon, label }) => (
+            <div key={label} className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
+              <Icon className="w-3.5 h-3.5 text-[#0066cc] shrink-0" />
+              <span>{label}</span>
+            </div>
+          ))}
         </div>
 
         {/* Filter & Search Bar */}
@@ -140,124 +179,163 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search ESP32, Arduino, Drone..."
-              className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-3 h-9 text-xs text-[#333] placeholder-gray-400 focus:outline-none focus:border-[#0066cc] font-sans shadow-xs"
+              aria-label="Search hardware kits"
+              className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-8 h-9 text-xs text-[#333] placeholder-gray-400 focus:outline-none focus:border-[#0066cc] font-sans shadow-xs"
             />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                aria-label="Clear search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Continuous Horizontal Auto-Running Product Carousel */}
-        <div
-          ref={carouselRef}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
-          className="flex items-stretch gap-5 overflow-x-auto pb-4 pt-1 scroll-smooth no-scrollbar select-none"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {filteredProjects.map((project, idx) => (
-            <div
-              key={`${project.id}-${idx}`}
-              className="w-[320px] sm:w-[380px] shrink-0 bg-white rounded-2xl overflow-hidden border border-gray-200/90 group cursor-pointer relative shadow-sm hover:shadow-xl hover:border-[#0066cc] hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between"
+        {/* Result count — quiet confirmation the filters are doing something */}
+        <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider -mt-2">
+          {filteredProjects.length} kit{filteredProjects.length === 1 ? '' : 's'}
+          {selectedCategory !== 'All Projects' ? ` in ${selectedCategory}` : ''}
+        </p>
+
+        {/* Empty State */}
+        {filteredProjects.length === 0 ? (
+          <div className="flex flex-col items-center justify-center text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-gray-300">
+            <SearchX className="w-8 h-8 text-slate-300 mb-3" />
+            <h3 className="text-sm font-bold text-[#0a0a0f]">No kits match that search</h3>
+            <p className="text-xs text-slate-500 mt-1 max-w-xs">
+              Try a different component name, or tell us what you're building — we take custom requests too.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('All Projects');
+              }}
+              className="custom-btn-outline h-[36px] text-[10px] tracking-[0.08em] px-4 rounded-xl mt-4"
             >
-              {/* Image Container with Consistent Aspect Ratio */}
-              <div 
-                onClick={() => setActiveDetailProject(project)}
-                className="relative h-64 overflow-hidden bg-slate-900"
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          /* Continuous Horizontal Auto-Running Product Carousel */
+          <div
+            ref={carouselRef}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+            className="flex items-stretch gap-5 overflow-x-auto pb-4 pt-1 scroll-smooth no-scrollbar select-none"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {filteredProjects.map((project, idx) => (
+              <div
+                key={`${project.id}-${idx}`}
+                className="w-[320px] sm:w-[380px] shrink-0 bg-white rounded-2xl overflow-hidden border border-gray-200/90 group cursor-pointer relative shadow-sm hover:shadow-xl hover:border-[#0066cc] hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between"
               >
-                <img
-                  src={project.imageUrl}
-                  alt={project.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
-                  loading="lazy"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80';
-                  }}
-                />
-
-                {/* Always-on Top Floating Microcontroller & Category Pill */}
-                <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                  <span className="bg-white/95 backdrop-blur-md text-[#0066cc] text-[9px] font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-wider border border-white/40">
-                    {project.microcontroller}
-                  </span>
-                  
-                  <span className="bg-[#050814]/90 backdrop-blur-md text-[#7fffd4] text-[9px] font-bold px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider border border-white/10">
-                    {project.category}
-                  </span>
-                </div>
-
-                {/* Top-Right Quick Expand Icon */}
-                <div className="absolute bottom-28 right-3.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center shadow-lg hover:bg-[#0066cc] transition-colors">
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-
-                {/* High-Contrast Bottom Detail Strip */}
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-12 pb-4 px-4 text-white z-10 space-y-1.5 transition-all duration-300">
-                  <div className="flex items-center justify-between text-[10px] text-blue-300 font-mono">
-                    <span className="flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#7fffd4] animate-pulse" />
-                      <span>{project.badge || 'Complete Kit'}</span>
-                    </span>
-                    <span className="text-emerald-400 font-semibold">100% Tested HW</span>
-                  </div>
-
-                  <h3 className="text-sm font-bold leading-snug text-white drop-shadow-sm font-sans line-clamp-1">
-                    {project.title}
-                  </h3>
-
-                  {/* Included Components Tags */}
-                  <div className="flex flex-wrap gap-1 pt-0.5">
-                    {project.hardwareComponents.slice(0, 3).map((comp, cIdx) => (
-                      <span key={cIdx} className="bg-white/15 backdrop-blur-md text-gray-200 text-[9px] font-medium px-2 py-0.5 rounded-full">
-                        {comp}
-                      </span>
-                    ))}
-                    {project.hardwareComponents.length > 3 && (
-                      <span className="text-[9px] text-blue-300 font-semibold self-center">
-                        +{project.hardwareComponents.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons Strip */}
-              <div className="p-3.5 bg-white border-t border-gray-100 flex items-center justify-between gap-2">
-                <button
-                  onClick={() => onOpenInquiryModal ? onOpenInquiryModal(project.title) : null}
-                  className="custom-btn flex-1 h-[38px] text-[10px] tracking-[0.08em] rounded-xl shadow-xs"
-                >
-                  <span>Inquire Kit</span>
-                  <ArrowRight className="w-3 h-3" />
-                </button>
-                <button
+                {/* Image Container with Consistent Aspect Ratio */}
+                <div
                   onClick={() => setActiveDetailProject(project)}
-                  className="custom-btn-outline h-[38px] text-[10px] tracking-[0.08em] px-3.5 rounded-xl"
+                  className="relative h-64 overflow-hidden bg-slate-900"
                 >
-                  <FileText className="w-3 h-3 text-[#0066cc]" />
-                  <span>Specs</span>
-                </button>
+                  <img
+                    src={project.imageUrl}
+                    alt={project.title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80';
+                    }}
+                  />
+
+                  {/* Always-on Top Floating Microcontroller & Category Pill */}
+                  <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
+                    <span className="bg-white/95 backdrop-blur-md text-[#0066cc] text-[9px] font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-wider border border-white/40">
+                      {project.microcontroller}
+                    </span>
+
+                    <span className="bg-[#050814]/90 backdrop-blur-md text-[#7fffd4] text-[9px] font-bold px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider border border-white/10">
+                      {project.category}
+                    </span>
+                  </div>
+
+                  {/* Top-Right Quick Expand Icon */}
+                  <div className="absolute bottom-28 right-3.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center shadow-lg hover:bg-[#0066cc] transition-colors">
+                      <Maximize2 className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+
+                  {/* High-Contrast Bottom Detail Strip */}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-12 pb-4 px-4 text-white z-10 space-y-1.5 transition-all duration-300">
+                    <div className="flex items-center justify-between text-[10px] text-blue-300 font-mono">
+                      <span className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#7fffd4] animate-pulse" />
+                        <span>{project.badge || 'Complete Kit'}</span>
+                      </span>
+                      <span className="text-emerald-400 font-semibold">100% Tested HW</span>
+                    </div>
+
+                    <h3 className="text-sm font-bold leading-snug text-white drop-shadow-sm font-sans line-clamp-1">
+                      {project.title}
+                    </h3>
+
+                    {/* Included Components Tags */}
+                    <div className="flex flex-wrap gap-1 pt-0.5">
+                      {project.hardwareComponents.slice(0, 3).map((comp, cIdx) => (
+                        <span key={cIdx} className="bg-white/15 backdrop-blur-md text-gray-200 text-[9px] font-medium px-2 py-0.5 rounded-full">
+                          {comp}
+                        </span>
+                      ))}
+                      {project.hardwareComponents.length > 3 && (
+                        <span className="text-[9px] text-blue-300 font-semibold self-center">
+                          +{project.hardwareComponents.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons Strip */}
+                <div className="p-3.5 bg-white border-t border-gray-100 flex items-center justify-between gap-2">
+                  <button
+                    onClick={() => (onOpenInquiryModal ? onOpenInquiryModal(project.title) : null)}
+                    className="custom-btn flex-1 h-[38px] text-[10px] tracking-[0.08em] rounded-xl shadow-xs"
+                  >
+                    <span>Get This Kit</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                  <button
+                    onClick={() => setActiveDetailProject(project)}
+                    className="custom-btn-outline h-[38px] text-[10px] tracking-[0.08em] px-3.5 rounded-xl"
+                  >
+                    <FileText className="w-3 h-3 text-[#0066cc]" />
+                    <span>Full Specs</span>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
       </div>
 
       {/* Full Specs Details Modal */}
       {activeDetailProject && (
-        <div 
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeDetailProject.title} specifications`}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setActiveDetailProject(null)}
         >
-          <div 
+          <div
             className="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-6 space-y-4 shadow-2xl border border-gray-200 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            
+
             <div className="flex items-start justify-between border-b border-gray-100 pb-3">
               <div>
                 <span className="text-[10px] font-bold uppercase text-[#0066cc] tracking-[0.14em] bg-blue-50 px-2.5 py-0.5 rounded-full">
@@ -270,7 +348,7 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
               <button
                 onClick={() => setActiveDetailProject(null)}
                 className="p-2 rounded-full hover:bg-slate-100 text-gray-400 hover:text-gray-700 cursor-pointer transition-colors"
-                aria-label="Close"
+                aria-label="Close specifications"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -285,7 +363,7 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
               <div className="p-4 bg-[#f7f9fc] rounded-2xl border border-blue-100/80">
                 <h4 className="text-xs font-bold text-[#0a0a0f] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Cpu className="w-3.5 h-3.5 text-[#0066cc]" />
-                  <span>Hardware Components Included in Kit</span>
+                  <span>What's Physically In The Box</span>
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
                   {activeDetailProject.hardwareComponents.map((comp, idx) => (
@@ -300,24 +378,24 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
               <div className="p-4 bg-slate-50 rounded-2xl border border-gray-200">
                 <h4 className="text-xs font-bold text-[#0a0a0f] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#0066cc]" />
-                  <span>Kit Deliverables & Defense Support</span>
+                  <span>Everything Needed To Present & Defend It</span>
                 </h4>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#444]">
                   <li className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Tested Pre-Assembled Hardware</span>
+                    <span>Tested, pre-assembled hardware</span>
                   </li>
                   <li className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Complete Working Source Code</span>
+                    <span>Complete, working source code</span>
                   </li>
                   <li className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Verified Circuit Diagram & Pinouts</span>
+                    <span>Verified circuit diagram & pinouts</span>
                   </li>
                   <li className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Project Report & Presentation PPT</span>
+                    <span>Project report & presentation deck</span>
                   </li>
                 </ul>
               </div>
@@ -332,7 +410,7 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
                 className="custom-btn-outline h-[40px] text-[10px] tracking-[0.08em] px-4 text-emerald-700 hover:text-emerald-800 border-emerald-300 rounded-xl flex items-center justify-center gap-1.5"
               >
                 <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
-                <span>WhatsApp Lab Team</span>
+                <span>Ask The Lab Team</span>
               </a>
 
               <div className="flex items-center gap-2">
@@ -350,7 +428,7 @@ export const HardwareProjectsSection: React.FC<HardwareProjectsSectionProps> = (
                   }}
                   className="custom-btn flex-1 sm:flex-none h-[40px] text-[10px] tracking-[0.08em] px-5 rounded-xl"
                 >
-                  Inquire This Kit
+                  Get This Kit
                 </button>
               </div>
             </div>

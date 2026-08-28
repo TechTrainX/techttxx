@@ -109,61 +109,63 @@ export const MarketingLeadPopup: React.FC<MarketingLeadPopupProps> = ({
             setMinimizedBadge(false);
             setInternalOpen(true);
           }}
-          className="fixed bottom-5 left-5 z-40 bg-[#0066cc] text-white px-4 h-[38px] rounded-full shadow-lg text-[10px] uppercase tracking-[0.1em] font-bold flex items-center gap-1.5 hover:bg-[#0a0a0f] transition-all cursor-pointer"
+          className="group fixed bottom-5 left-5 z-40 flex h-11 items-center gap-2 rounded-2xl border border-blue-300/30 bg-[#050d24] px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-white shadow-[0_16px_35px_rgba(5,13,36,0.28)] transition-all hover:-translate-y-1 hover:bg-[#0066cc] hover:shadow-[0_20px_42px_rgba(0,102,204,0.3)] cursor-pointer"
         >
-          <Gift className="w-3.5 h-3.5 text-white" />
+          <Gift className="h-4 w-4 text-blue-200 transition-transform group-hover:rotate-12" />
           <span>Special Offer</span>
         </button>
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-md w-full p-5 sm:p-6 rounded-2xl border border-slate-200/90 relative shadow-2xl space-y-3.5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050d24]/75 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md space-y-4 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_28px_90px_rgba(5,13,36,0.35)] sm:p-6">
+            <div aria-hidden="true" className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#0066cc]/10 blur-3xl" />
+            <div className="relative z-10 mb-1 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] text-[#0066cc]"><span className="h-1.5 w-1.5 rounded-full bg-[#0066cc] shadow-[0_0_8px_rgba(0,102,204,0.7)]" />TechTrainX early access</div>
             
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 cursor-pointer transition-colors"
+              className="absolute right-4 top-4 z-20 rounded-xl border border-slate-200 bg-white/80 p-2 text-slate-400 shadow-sm backdrop-blur-sm transition-all hover:border-[#0066cc] hover:bg-[#0066cc] hover:text-white cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
             {isSubmitted ? (
-              <div className="text-center py-4 space-y-3 animate-in zoom-in-95 duration-200">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
+              <div className="space-y-4 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-5 text-center animate-in zoom-in-95 duration-200">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-200 bg-white text-emerald-600 shadow-sm">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-[#0a0a0f]">Scholarship Claimed!</h3>
+                <h3 className="text-xl font-bold tracking-tight text-[#050d24]">Scholarship Claimed!</h3>
                 <p className="text-xs text-slate-600">
                   Application recorded for <strong>{formData.course}</strong>. Our counseling desk will WhatsApp you the fee structure and schedule.
                 </p>
                 <button
                   onClick={handleClose}
-                  className="custom-btn h-[36px] px-6 text-[10px] tracking-[0.08em] mt-2 cursor-pointer rounded-xl"
+                  className="custom-btn mt-2 h-11 rounded-xl px-6 text-[10px] font-bold uppercase tracking-[0.1em] shadow-[0_10px_24px_rgba(0,102,204,0.2)] transition-all hover:-translate-y-0.5 cursor-pointer"
                 >
                   Got It
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div className="space-y-1">
-                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 text-[#0066cc] text-[10px] font-bold uppercase tracking-wider">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2 border-b border-slate-200 pb-4">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#0066cc]">
                     Limited Period Offer
                   </span>
-                  <h3 className="text-lg font-bold text-[#0a0a0f]">
+                  <h3 className="text-xl font-bold tracking-tight text-[#050d24]">
                     Claim Early Bird Scholarship
                   </h3>
-                  <p className="text-xs text-slate-500">
+                  <p className="max-w-sm text-xs leading-5 text-slate-600">
                     Fee waiver for upcoming industrial engineering batches.
                   </p>
                 </div>
 
                 {errorMessage && (
-                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs font-semibold">
+                  <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
                     {errorMessage}
                   </div>
                 )}
 
-                <div className="space-y-2.5">
+                <div className="space-y-3">
                   <ValidatedInput
                     label="Full Name"
                     required
@@ -201,7 +203,7 @@ export const MarketingLeadPopup: React.FC<MarketingLeadPopupProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting || !isFormValid}
-                    className="custom-btn w-full justify-center h-[38px] text-[10px] tracking-[0.09em] font-bold shadow-xs rounded-xl"
+                    className="custom-btn h-11 w-full justify-center rounded-xl text-[10px] font-bold uppercase tracking-[0.1em] shadow-[0_12px_28px_rgba(0,102,204,0.22)] transition-all hover:-translate-y-0.5"
                   >
                     <span>{isSubmitting ? 'Processing...' : 'Claim Discount & Syllabus'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />

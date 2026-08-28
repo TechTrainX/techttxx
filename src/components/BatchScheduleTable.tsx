@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BATCH_SCHEDULES_DATA } from '../data/batchesData.js';
 import { BatchSchedule } from '../types';
-import { Calendar, Clock, User, ArrowRight, Flame, X, CheckCircle2, MessageSquare, Sparkles } from 'lucide-react';
+import { Calendar, Clock, User, ArrowRight, Flame, X, CheckCircle2, MessageSquare, Sparkles, Terminal, Cpu, Layers } from 'lucide-react';
 import { createWhatsAppDirectQueryLink } from '../services/whatsappService.js';
 
 interface BatchScheduleTableProps {
@@ -18,36 +18,50 @@ export const BatchScheduleTable: React.FC<BatchScheduleTableProps> = ({ onOpenEn
   });
 
   return (
-    <section id="batches" className="py-14 sm:py-20 px-4 bg-[#f8fafc] border-b border-gray-200/80 relative overflow-hidden bg-tech-grid">
+    <section id="batches" className="relative isolate overflow-hidden border-b border-slate-200/80 bg-[#050d24] px-4 py-14 text-white sm:py-20 lg:px-8">
       
       {/* 3D Depth Lighting Background */}
-      <div className="absolute inset-0 bg-aura-glow pointer-events-none -z-10" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[#050d24]" />
+        <div className="absolute -left-40 -top-48 h-[30rem] w-[30rem] rounded-full bg-[#0066cc]/15 blur-3xl" />
+        <div className="absolute -right-32 top-[-8rem] h-[26rem] w-[26rem] rounded-[40%] border border-white/10 bg-[#0066cc]/10 shadow-[0_0_100px_rgba(0,102,204,0.18)] rotate-12" />
+        <div className="absolute bottom-[-16rem] left-[12%] h-[30rem] w-[70rem] rounded-[50%] border border-white/10 bg-[#0066cc]/[0.06] rotate-[-5deg]" />
+        <div className="absolute inset-0 opacity-[0.045] [background-image:linear-gradient(rgba(255,255,255,0.35)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.35)_1px,transparent_1px)] [background-size:52px_52px]" />
+      </div>
 
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="relative z-10 mx-auto max-w-7xl space-y-10 sm:space-y-12">
         
-        {/* Section Header */}
-        <div className="text-center max-w-lg mx-auto space-y-1.5">
-          <span className="inline-block px-3 py-0.5 rounded-md bg-white text-[#0066cc] text-[10px] font-bold uppercase tracking-[0.14em] border border-blue-200/80">
-            Batch Calendar
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-luxury-title font-bold text-[#0a0a0f] tracking-tight">
-            Upcoming <span className="text-[#0066cc] italic font-normal">Batches</span>
-          </h2>
-          <p className="text-xs text-slate-600 font-sans">
-            Prayagraj Campus & Live Online cohorts starting this month.
-          </p>
+        {/* Strength-led Section Header */}
+        <div className="grid items-end gap-7 border-b border-white/10 pb-8 lg:grid-cols-[1fr_auto]">
+          <div className="max-w-2xl space-y-3">
+            <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/25 bg-[#0066cc]/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-blue-100 shadow-[0_8px_24px_rgba(0,102,204,0.14)]">
+              <Terminal className="h-3.5 w-3.5 text-blue-300" />
+              <span>Live Learning Operations</span>
+            </span>
+            <h2 className="font-luxury-title text-3xl font-bold tracking-[-0.05em] text-white sm:text-5xl">
+              Choose your <span className="font-normal italic text-blue-300">build window.</span>
+            </h2>
+            <p className="max-w-xl text-sm leading-6 text-slate-300 sm:text-base">
+              Reserve a focused learning track with practical sessions, mentor guidance, and a schedule built for consistent progress.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-center shadow-[0_12px_30px_rgba(0,0,0,0.16)] sm:min-w-[108px]"><Calendar className="mx-auto mb-2 h-4 w-4 text-blue-300" /><span className="block text-[9px] font-bold uppercase tracking-[0.12em] text-white">Live dates</span><span className="mt-1 block text-[9px] text-slate-400">Plan ahead</span></div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-center shadow-[0_12px_30px_rgba(0,0,0,0.16)] sm:min-w-[108px]"><Cpu className="mx-auto mb-2 h-4 w-4 text-blue-300" /><span className="block text-[9px] font-bold uppercase tracking-[0.12em] text-white">Build-led</span><span className="mt-1 block text-[9px] text-slate-400">Practical work</span></div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-center shadow-[0_12px_30px_rgba(0,0,0,0.16)] sm:min-w-[108px]"><Layers className="mx-auto mb-2 h-4 w-4 text-blue-300" /><span className="block text-[9px] font-bold uppercase tracking-[0.12em] text-white">Two modes</span><span className="mt-1 block text-[9px] text-slate-400">Campus + online</span></div>
+          </div>
         </div>
 
         {/* Filter Switcher - Clean Rectangular Buttons */}
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           {['All', 'Classroom', 'Online'].map((mode) => (
             <button
               key={mode}
               onClick={() => setFilterMode(mode)}
               className={`h-9 px-4 rounded-md text-[11px] font-bold uppercase tracking-[0.08em] cursor-pointer transition-all border ${
                 filterMode === mode
-                  ? 'bg-[#0066cc] text-white border-[#0066cc] shadow-xs'
-                  : 'bg-white text-[#374151] hover:bg-blue-50 border-gray-200'
+                  ? 'bg-[#0066cc] text-white border-[#0066cc] shadow-[0_10px_24px_rgba(0,102,204,0.24)]'
+                  : 'bg-white/95 text-slate-700 shadow-sm hover:bg-blue-50 hover:border-[#0066cc]/50 border-slate-200'
               }`}
             >
               {mode === 'All' ? 'All Batches' : `${mode} Batches`}
@@ -64,7 +78,7 @@ export const BatchScheduleTable: React.FC<BatchScheduleTableProps> = ({ onOpenEn
             return (
               <div 
                 key={`mobile-${batch.id}`} 
-                className="bg-white rounded-xl border border-gray-200/90 p-4 shadow-sm space-y-3.5 hover:border-[#0066cc] transition-all flex flex-col justify-between"
+                className="group flex flex-col justify-between space-y-3.5 rounded-[1.35rem] border border-slate-200 bg-white p-4 text-slate-950 shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-1 hover:border-[#0066cc]/60 hover:shadow-[0_25px_55px_rgba(0,102,204,0.18)]"
               >
                 {/* Header with Title & Badge */}
                 <div className="space-y-1.5">
@@ -150,11 +164,11 @@ export const BatchScheduleTable: React.FC<BatchScheduleTableProps> = ({ onOpenEn
         </div>
 
         {/* 2. Desktop High-Contrast Responsive Data Table */}
-        <div className="hidden md:block bg-white rounded-xl border border-gray-200/90 overflow-hidden shadow-xs">
+        <div className="hidden overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-[0_22px_60px_rgba(0,0,0,0.2)] md:block">
           <div className="w-full overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50/90 border-b border-gray-200 text-[10px] text-[#0a0a0f] font-bold uppercase tracking-[0.12em]">
+                <tr className="border-b border-slate-200 bg-[#f8fafc] text-[10px] font-bold uppercase tracking-[0.12em] text-[#0a0a0f]">
                   <th className="py-4 px-5">Track & Program</th>
                   <th className="py-4 px-4">Start Date</th>
                   <th className="py-4 px-4">Timing & Mode</th>
@@ -169,7 +183,7 @@ export const BatchScheduleTable: React.FC<BatchScheduleTableProps> = ({ onOpenEn
                   const isAlmostFull = fillPercent >= 80;
 
                   return (
-                    <tr key={batch.id} className="hover:bg-blue-50/40 transition-colors">
+                    <tr key={batch.id} className="transition-colors hover:bg-blue-50/60">
                       
                       {/* Course */}
                       <td className="py-4 px-5">
@@ -258,11 +272,11 @@ export const BatchScheduleTable: React.FC<BatchScheduleTableProps> = ({ onOpenEn
       {/* Batch Details Modal */}
       {selectedBatch && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050d24]/75 p-4 backdrop-blur-sm"
           onClick={() => setSelectedBatch(null)}
         >
           <div 
-            className="bg-white rounded-xl max-w-lg w-full p-6 space-y-4 shadow-xl border border-gray-200"
+            className="w-full max-w-lg space-y-4 rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_28px_90px_rgba(5,13,36,0.35)]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between border-b border-gray-100 pb-3">
@@ -276,7 +290,7 @@ export const BatchScheduleTable: React.FC<BatchScheduleTableProps> = ({ onOpenEn
               </div>
               <button 
                 onClick={() => setSelectedBatch(null)}
-                className="p-1.5 rounded-md hover:bg-gray-100 text-gray-400 hover:text-gray-700 cursor-pointer"
+                className="rounded-xl border border-slate-200 p-2 text-slate-400 transition-all hover:border-[#0066cc] hover:bg-[#0066cc] hover:text-white cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>

@@ -53,7 +53,7 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
   return (
     <div 
       onClick={onClick}
-      className={`inline-flex items-center gap-2.5 sm:gap-3 select-none group cursor-pointer ${className}`}
+      className={`inline-flex items-center gap-2.5 sm:gap-3 select-none group cursor-pointer rounded-2xl transition-all duration-300 hover:-translate-y-0.5 ${className}`}
     >
       {/* Dynamic Brand Logo (From /public or CDN or High-Precision Vector Emblem) */}
       {effectiveLogoUrl && !imageError ? (
@@ -62,15 +62,15 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
           alt={COMPANY_CONFIG.brandName}
           referrerPolicy="no-referrer"
           onError={() => setImageError(true)}
-          className={`${dimensions.icon} object-contain rounded-xl`}
+          className={`${dimensions.icon} object-contain rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)]`}
         />
       ) : (
         <div className={`relative ${dimensions.icon} shrink-0`}>
           {/* Subtle Ambient Energy Glow */}
-          <div className="absolute -inset-0.5 bg-gradient-to-tr from-[#0066cc] via-[#00c2ff] to-[#7fffd4] rounded-xl blur-[2px] opacity-40 group-hover:opacity-80 transition-opacity duration-300" />
+          <div className="absolute -inset-1 rounded-[1rem] bg-[#0066cc]/35 blur-md opacity-50 transition-opacity duration-300 group-hover:opacity-90" />
           
           {/* Main Vector Emblem Container */}
-          <div className="relative w-full h-full rounded-xl bg-gradient-to-b from-[#000d2b] to-[#000511] p-[1.5px] shadow-sm overflow-hidden border border-white/10 flex items-center justify-center">
+          <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-white/15 bg-[#050d24] p-[1.5px] shadow-[0_10px_28px_rgba(5,13,36,0.28)]">
             
             {/* SVG Precision Tech Mark */}
             <svg
@@ -86,18 +86,18 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
                   <stop offset="100%" stopColor="#020409" />
                 </radialGradient>
                 <linearGradient id="ttxBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#22d3ee" />
-                  <stop offset="50%" stopColor="#38bdf8" />
-                  <stop offset="100%" stopColor="#6366f1" />
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="50%" stopColor="#0066cc" />
+                  <stop offset="100%" stopColor="#1d4ed8" />
                 </linearGradient>
                 <linearGradient id="ttxLetterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#ffffff" />
                   <stop offset="100%" stopColor="#cbd5e1" />
                 </linearGradient>
                 <linearGradient id="ttxLaserGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00f2fe" />
-                  <stop offset="50%" stopColor="#4facfe" />
-                  <stop offset="100%" stopColor="#818cf8" />
+                  <stop offset="0%" stopColor="#0066cc" />
+                  <stop offset="50%" stopColor="#3b82f6" />
+                  <stop offset="100%" stopColor="#bfdbfe" />
                 </linearGradient>
               </defs>
 
@@ -105,8 +105,8 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
               <rect x="24" y="24" width="464" height="464" rx="100" ry="100" fill="url(#ttxBgGrad)" stroke="url(#ttxBorderGrad)" strokeWidth="16" />
 
               {/* Cyber Accents */}
-              <path d="M 70 160 L 70 100 L 130 100" fill="none" stroke="#22d3ee" strokeWidth="8" strokeLinecap="round" opacity="0.7"/>
-              <path d="M 442 352 L 442 412 L 382 412" fill="none" stroke="#818cf8" strokeWidth="8" strokeLinecap="round" opacity="0.7"/>
+              <path d="M 70 160 L 70 100 L 130 100" fill="none" stroke="#0066cc" strokeWidth="8" strokeLinecap="round" opacity="0.7"/>
+              <path d="M 442 352 L 442 412 L 382 412" fill="none" stroke="#3b82f6" strokeWidth="8" strokeLinecap="round" opacity="0.7"/>
 
               {/* Core TTX Monogram Mark */}
               <g transform="translate(18, 12)">
@@ -122,7 +122,7 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
                 
                 {/* Central Energy Core Spark */}
                 <circle cx="355" cy="255" r="18" fill="#ffffff"/>
-                <circle cx="355" cy="255" r="28" fill="#00f2fe" opacity="0.4"/>
+                <circle cx="355" cy="255" r="28" fill="#0066cc" opacity="0.35"/>
               </g>
             </svg>
 
@@ -143,7 +143,7 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
             {/* Active Lab Pulse Dot */}
             <span 
               className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                isDark ? 'bg-[#7fffd4] shadow-[0_0_6px_#7fffd4]' : 'bg-[#0066cc] shadow-[0_0_4px_#0066cc]'
+                isDark ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-[#0066cc] shadow-[0_0_6px_rgba(0,102,204,0.65)]'
               } animate-pulse`} 
               title="Live Operational Labs"
             />
@@ -151,7 +151,7 @@ export const TechTrainXLogo: React.FC<TechTrainXLogoProps> = ({
 
           {/* Subtitle */}
           {showTagline && (
-            <span className={`font-semibold tracking-[0.12em] uppercase mt-0.5 ${isDark ? 'text-slate-400' : 'text-[#666666]'} ${dimensions.subText}`}>
+            <span className={`font-semibold tracking-[0.12em] uppercase mt-0.5 ${isDark ? 'text-slate-300' : 'text-slate-500'} ${dimensions.subText}`}>
               A unit of Xnava Enterprises.
             </span>
           )}

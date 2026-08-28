@@ -33,7 +33,7 @@ export default function App() {
   const [preselectedCourse, setPreselectedCourse] = useState('Full Stack MERN Stack Development');
   const [adminPortalOpen, setAdminPortalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Hardware Projects Inquiry Modal State
   const [hardwareInquiryModalOpen, setHardwareInquiryModalOpen] = useState(false);
   const [selectedProjectTitle, setSelectedProjectTitle] = useState('Smart 4WD RC Car with Bluetooth & Obstacle Radar');
@@ -86,13 +86,17 @@ export default function App() {
   if (currentRoute === 'verifier') {
     return (
       <div className="min-h-screen bg-[#fbfcfd] text-[#333333] flex flex-col justify-between selection:bg-[#0066cc] selection:text-white">
-        <CertificateVerifierPage
-          initialCertId={verifierInitialId}
-          onBackToHome={() => {
-            setCurrentRoute('main');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
+        {/* Header is fixed even on this route, so the page content
+            still needs the same top offset reserved for it. */}
+        <div style={{ paddingTop: 'var(--ttx-header-height, 96px)' }}>
+          <CertificateVerifierPage
+            initialCertId={verifierInitialId}
+            onBackToHome={() => {
+              setCurrentRoute('main');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        </div>
         <WhatsAppFloatingButton />
         <AdminCertificatePortal
           isOpen={adminPortalOpen}
@@ -104,11 +108,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-[#333333] flex flex-col justify-between selection:bg-[#0066cc] selection:text-white transition-colors duration-300">
-      
+
       {/* 3D Cube Solver Opening Experience */}
       <CubeSolverLoader onLoadingComplete={() => setLoading(false)} minDurationMs={1500} />
 
-      {/* Top Navbar */}
+      {/* Top Navbar — now truly `fixed`, not `sticky`. See Header.tsx
+          for why: `sticky` silently breaks the moment any ancestor
+          gets an overflow/transform/filter applied to it (e.g. the
+          cube loader, a modal, or the mobile drawer's animation
+          wrapper), and the header just scrolls away with the page. */}
       <Header
         onOpenEnrollment={handleOpenEnrollment}
         onOpenDedicatedVerifier={() => handleOpenDedicatedVerifier()}
@@ -117,16 +125,20 @@ export default function App() {
         setActiveSection={setActiveSection}
       />
 
-      <main className="flex-1">
-        
+      {/* Reserve space for the fixed header. The 96px is only a
+          first-paint fallback before Header's ResizeObserver measures
+          the real height and sets --ttx-header-height; after that,
+          this tracks it automatically at every breakpoint. */}
+      <main className="flex-1" style={{ paddingTop: 'var(--ttx-header-height, 96px)' }}>
+
         {/* Minimalist Editorial 3D Hero Section */}
         <HeroSection
           onOpenEnrollment={handleOpenEnrollment}
           onOpenConsultation={() => setConsultationModalOpen(true)}
-          onSearchCourse={handleSearchCourse}
+        
         />
 
-     
+
 
         {/* Course Catalog & Week-by-Week Placement Syllabus Viewer */}
         <CourseCatalog
@@ -154,7 +166,7 @@ export default function App() {
 
         {/* Corporate Software Engineering Services & Project Quote Estimator */}
         <SoftwareServicesSection />
-   {/* Future Engineering Roadmaps: Agentic AI, GenAI, ML/DL, DSA & Concurrency */}
+        {/* Future Engineering Roadmaps: Agentic AI, GenAI, ML/DL, DSA & Concurrency */}
         <FutureTechRoadmap
           onOpenEnrollment={handleOpenEnrollment}
         />

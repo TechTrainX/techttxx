@@ -751,13 +751,13 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
       <div className="bg-white max-w-7xl w-full max-h-[96vh] flex flex-col rounded-2xl border border-slate-200 shadow-2xl overflow-hidden relative font-sans">
         
         {/* Top Header Bar */}
-        <div className="bg-[#00061a] text-white px-5 sm:px-7 py-3.5 flex items-center justify-between border-b border-slate-800 shrink-0">
+        <div className="bg-[#111111] text-white px-5 sm:px-7 py-3.5 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
             <TechTrainXLogo size="sm" showTagline={false} theme="dark" />
             <div className="h-4 w-[1px] bg-slate-700 hidden sm:block" />
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] uppercase font-bold tracking-[0.14em] text-[#7fffd4]">
+                <span className="text-[10px] uppercase font-bold tracking-[0.14em] text-[#d1d5db]">
                   Administrative Operations & Registrar Hub
                 </span>
                 {isAuthenticated && (
@@ -799,16 +799,16 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
           {!isAuthenticated ? (
             <div className="max-w-md mx-auto py-12 px-6 sm:px-8 bg-white rounded-2xl border border-slate-200 shadow-lg text-center space-y-6">
               
-              <div className="w-14 h-14 rounded-xl bg-blue-50 border border-blue-200/80 flex items-center justify-center mx-auto text-[#0066cc]">
+              <div className="w-14 h-14 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center mx-auto text-[#1f2937]">
                 <KeyRound className="w-6 h-6" />
               </div>
               
               <div className="space-y-1.5">
-                <span className="inline-block px-3 py-0.5 rounded-full bg-[#f0f8ff] text-[#0066cc] text-[10px] font-bold uppercase tracking-[0.14em] border border-blue-200/80">
+                <span className="inline-block px-3 py-0.5 rounded-full bg-[#f0f8ff] text-[#1f2937] text-[10px] font-bold uppercase tracking-[0.14em] border border-slate-200">
                   Secured Access
                 </span>
                 <h3 className="text-2xl font-bold text-[#0a0a0f] tracking-tight">
-                  Staff & Registrar <span className="text-[#0066cc] italic font-normal">Gateway</span>
+                  Staff & Registrar <span className="text-[#1f2937] italic font-normal">Gateway</span>
                 </h3>
                 <p className="text-xs text-slate-600 font-sans">
                   Enter your assigned master passcode to access candidate inquiries, admissions, and certificate issuing tools.
@@ -825,7 +825,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                     value={passwordInput}
                     onChange={(e) => setPasswordInput(e.target.value)}
                     placeholder="Enter Passcode"
-                    className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white text-center font-mono tracking-widest transition-all"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white text-center font-mono tracking-widest transition-all"
                     autoFocus
                   />
                 </div>
@@ -840,7 +840,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-2.5 rounded-lg bg-[#0066cc] hover:bg-[#0052a3] text-white font-bold text-xs tracking-wide uppercase transition-all shadow-md shadow-blue-500/20 cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full py-2.5 rounded-lg bg-[#1f2937] hover:bg-[#000000] text-white font-bold text-xs tracking-wide uppercase transition-all shadow-md shadow-slate-500/20 cursor-pointer flex items-center justify-center gap-2"
                 >
                   {loading ? 'Verifying Passcode...' : 'Unlock Administrative Console'}
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -848,7 +848,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
               </form>
 
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-[11px] text-slate-600 flex items-center justify-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#0066cc]" />
+                <ShieldCheck className="w-4 h-4 text-[#1f2937]" />
                 <span>HMAC-SHA256 Timing-Safe Session Authentication</span>
               </div>
             </div>
@@ -863,11 +863,11 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                     onClick={() => setActiveTab('leads')}
                     className={`px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                       activeTab === 'leads'
-                        ? 'bg-[#00061a] text-white shadow-xs'
+                        ? 'bg-[#111111] text-white shadow-xs'
                         : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
                     }`}
                   >
-                    <FileSpreadsheet className={`w-3.5 h-3.5 ${activeTab === 'leads' ? 'text-[#7fffd4]' : 'text-slate-500'}`} />
+                    <FileSpreadsheet className={`w-3.5 h-3.5 ${activeTab === 'leads' ? 'text-[#d1d5db]' : 'text-slate-500'}`} />
                     <span>Candidate Leads ({leadsList.length})</span>
                   </button>
 
@@ -875,11 +875,11 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                     onClick={() => setActiveTab('certificates')}
                     className={`px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                       activeTab === 'certificates'
-                        ? 'bg-[#00061a] text-white shadow-xs'
+                        ? 'bg-[#111111] text-white shadow-xs'
                         : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
                     }`}
                   >
-                    <Award className={`w-3.5 h-3.5 ${activeTab === 'certificates' ? 'text-[#7fffd4]' : 'text-slate-500'}`} />
+                    <Award className={`w-3.5 h-3.5 ${activeTab === 'certificates' ? 'text-[#d1d5db]' : 'text-slate-500'}`} />
                     <span>Certificates ({certificatesList.length})</span>
                   </button>
 
@@ -887,11 +887,11 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                     onClick={() => setActiveTab('bulk_cert')}
                     className={`px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                       activeTab === 'bulk_cert'
-                        ? 'bg-[#00061a] text-white shadow-xs'
+                        ? 'bg-[#111111] text-white shadow-xs'
                         : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
                     }`}
                   >
-                    <Upload className={`w-3.5 h-3.5 ${activeTab === 'bulk_cert' ? 'text-[#7fffd4]' : 'text-slate-500'}`} />
+                    <Upload className={`w-3.5 h-3.5 ${activeTab === 'bulk_cert' ? 'text-[#d1d5db]' : 'text-slate-500'}`} />
                     <span>Excel Batch Upload</span>
                   </button>
 
@@ -899,11 +899,11 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                     onClick={() => setActiveTab('manual_cert')}
                     className={`px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                       activeTab === 'manual_cert'
-                        ? 'bg-[#00061a] text-white shadow-xs'
+                        ? 'bg-[#111111] text-white shadow-xs'
                         : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
                     }`}
                   >
-                    <PlusCircle className={`w-3.5 h-3.5 ${activeTab === 'manual_cert' ? 'text-[#7fffd4]' : 'text-slate-500'}`} />
+                    <PlusCircle className={`w-3.5 h-3.5 ${activeTab === 'manual_cert' ? 'text-[#d1d5db]' : 'text-slate-500'}`} />
                     <span>Issue Single Certificate</span>
                   </button>
                 </div>
@@ -914,7 +914,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                     className="px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                     title="Refresh Data from Server"
                   >
-                    <RefreshCw className={`w-3.5 h-3.5 text-[#0066cc] ${loading ? 'animate-spin' : ''}`} />
+                    <RefreshCw className={`w-3.5 h-3.5 text-[#1f2937] ${loading ? 'animate-spin' : ''}`} />
                     <span>Sync Live DB</span>
                   </button>
                 </div>
@@ -943,33 +943,33 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                       onClick={() => setCategoryFilter('all')}
                       className={`p-4 rounded-xl border transition-all cursor-pointer ${
                         categoryFilter === 'all'
-                          ? 'bg-white border-[#0066cc] shadow-sm ring-1 ring-[#0066cc]/20'
+                          ? 'bg-white border-[#1f2937] shadow-sm ring-1 ring-[#1f2937]/20'
                           : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Total Leads</span>
-                        <Users className="w-4 h-4 text-[#0066cc]" />
+                        <Users className="w-4 h-4 text-[#1f2937]" />
                       </div>
                       <p className="text-2xl sm:text-3xl font-bold text-[#0a0a0f] my-0.5">
                         {leadsList.length.toLocaleString()}
                       </p>
-                      <span className="text-[11px] text-[#0066cc] font-medium">All Direct Inquiries</span>
+                      <span className="text-[11px] text-[#1f2937] font-medium">All Direct Inquiries</span>
                     </div>
 
                     <div 
                       onClick={() => setCategoryFilter('enrollment')}
                       className={`p-4 rounded-xl border transition-all cursor-pointer ${
                         categoryFilter === 'enrollment'
-                          ? 'bg-white border-[#0066cc] shadow-sm ring-1 ring-[#0066cc]/20'
+                          ? 'bg-white border-[#1f2937] shadow-sm ring-1 ring-[#1f2937]/20'
                           : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Course Admissions</span>
-                        <Award className="w-4 h-4 text-[#0066cc]" />
+                        <Award className="w-4 h-4 text-[#1f2937]" />
                       </div>
-                      <p className="text-2xl sm:text-3xl font-bold text-[#0066cc] my-0.5">
+                      <p className="text-2xl sm:text-3xl font-bold text-[#1f2937] my-0.5">
                         {(leadSummary.totalEnrollments || leadsList.filter(l => l.typeKey === 'enrollment').length).toLocaleString()}
                       </p>
                       <span className="text-[11px] text-slate-500 font-medium">Internships & Batches</span>
@@ -997,15 +997,15 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                       onClick={() => setCategoryFilter('quote')}
                       className={`p-4 rounded-xl border transition-all cursor-pointer ${
                         categoryFilter === 'quote'
-                          ? 'bg-white border-indigo-600 shadow-sm ring-1 ring-indigo-600/20'
+                          ? 'bg-white border-slate-700 shadow-sm ring-1 ring-slate-700/20'
                           : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Software Quotes</span>
-                        <Briefcase className="w-4 h-4 text-indigo-600" />
+                        <Briefcase className="w-4 h-4 text-slate-700" />
                       </div>
-                      <p className="text-2xl sm:text-3xl font-bold text-indigo-700 my-0.5">
+                      <p className="text-2xl sm:text-3xl font-bold text-slate-800 my-0.5">
                         {(leadSummary.totalQuotes || leadsList.filter(l => l.typeKey === 'quote').length).toLocaleString()}
                       </p>
                       <span className="text-[11px] text-slate-500 font-medium">Enterprise & Custom</span>
@@ -1025,7 +1025,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           value={leadSearchQuery}
                           onChange={(e) => setLeadSearchQuery(e.target.value)}
                           placeholder="Search candidate name, phone, email, college, or requirement..."
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white transition-colors"
                         />
                         {leadSearchQuery && (
                           <button
@@ -1050,7 +1050,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
 
                         <button
                           onClick={handleExportLeadsToCSV}
-                          className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-[#00061a] text-white font-bold text-xs shadow-xs flex items-center gap-2 transition-all cursor-pointer"
+                          className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-[#111111] text-white font-bold text-xs shadow-xs flex items-center gap-2 transition-all cursor-pointer"
                           title="Download CSV (.csv) file"
                         >
                           <Download className="w-4 h-4" />
@@ -1065,7 +1065,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                       
                       <div className="flex flex-wrap items-center gap-1.5">
                         <span className="text-[11px] text-slate-500 font-bold uppercase tracking-wider mr-1 flex items-center gap-1">
-                          <Filter className="w-3 h-3 text-[#0066cc]" /> Category:
+                          <Filter className="w-3 h-3 text-[#1f2937]" /> Category:
                         </span>
                         {[
                           { key: 'all', label: `All (${leadsList.length})` },
@@ -1079,7 +1079,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                             onClick={() => setCategoryFilter(f.key)}
                             className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
                               categoryFilter === f.key
-                                ? 'bg-blue-50 text-[#0066cc] border border-blue-300 font-bold'
+                                ? 'bg-slate-50 text-[#1f2937] border border-slate-300 font-bold'
                                 : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
                             }`}
                           >
@@ -1094,7 +1094,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-md px-2 py-1 focus:outline-none focus:border-[#0066cc]"
+                            className="bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-md px-2 py-1 focus:outline-none focus:border-slate-950"
                           >
                             <option value="all">All Statuses</option>
                             <option value="new">New</option>
@@ -1110,7 +1110,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           <select
                             value={leadPageSize}
                             onChange={(e) => setLeadPageSize(Number(e.target.value))}
-                            className="bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-md px-2 py-1 focus:outline-none focus:border-[#0066cc]"
+                            className="bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-md px-2 py-1 focus:outline-none focus:border-slate-950"
                           >
                             <option value={25}>25 / page</option>
                             <option value={50}>50 / page</option>
@@ -1142,7 +1142,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                         <tbody className="divide-y divide-slate-100">
                           {paginatedLeads.length > 0 ? (
                             paginatedLeads.map((lead) => (
-                              <tr key={lead.id} className="hover:bg-blue-50/40 transition-colors">
+                              <tr key={lead.id} className="hover:bg-slate-100/60 transition-colors">
                                 {/* Date */}
                                 <td className="p-3 whitespace-nowrap text-[11px] text-slate-500 font-mono">
                                   {lead.date}
@@ -1155,10 +1155,10 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                                   </div>
                                   <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider mt-0.5 border ${
                                     lead.category.includes('Admissions')
-                                      ? 'bg-blue-50 text-[#0066cc] border-blue-200'
+                                      ? 'bg-slate-50 text-[#1f2937] border-slate-200'
                                       : lead.category.includes('Hardware')
                                       ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                      : 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                                      : 'bg-slate-50 text-slate-800 border-slate-200'
                                   }`}>
                                     {lead.category}
                                   </span>
@@ -1179,13 +1179,13 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                                     </a>
                                     <a
                                       href={`tel:${lead.phone.replace(/[^0-9+]/g, '')}`}
-                                      className="p-1 rounded bg-slate-100 text-slate-700 hover:bg-[#00061a] hover:text-white transition-colors inline-flex border border-slate-200 cursor-pointer"
+                                      className="p-1 rounded bg-slate-100 text-slate-700 hover:bg-[#111111] hover:text-white transition-colors inline-flex border border-slate-200 cursor-pointer"
                                       title="Direct Phone Call"
                                     >
                                       <Phone className="w-3.5 h-3.5" />
                                     </a>
                                   </div>
-                                  <a href={`mailto:${lead.email}`} className="text-[11px] text-slate-500 hover:text-[#0066cc] block truncate max-w-[180px]">
+                                  <a href={`mailto:${lead.email}`} className="text-[11px] text-slate-500 hover:text-[#1f2937] block truncate max-w-[180px]">
                                     {lead.email}
                                   </a>
                                 </td>
@@ -1215,7 +1215,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                                       lead.status === 'Converted'
                                         ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
                                         : lead.status === 'Contacted'
-                                        ? 'bg-blue-50 text-[#0066cc] border-blue-300'
+                                        ? 'bg-slate-50 text-[#1f2937] border-slate-300'
                                         : lead.status === 'Follow Up'
                                         ? 'bg-amber-50 text-amber-800 border-amber-300'
                                         : 'bg-slate-50 text-slate-700 border-slate-200'
@@ -1326,7 +1326,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                         value={certSearchQuery}
                         onChange={(e) => setCertSearchQuery(e.target.value)}
                         placeholder="Search certificates by candidate name, certificate ID, or course..."
-                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white"
                       />
                     </div>
 
@@ -1334,7 +1334,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                       <select
                         value={certPageSize}
                         onChange={(e) => setCertPageSize(Number(e.target.value))}
-                        className="bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-lg px-2.5 py-2 focus:outline-none focus:border-[#0066cc]"
+                        className="bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-lg px-2.5 py-2 focus:outline-none focus:border-slate-950"
                       >
                         <option value={25}>25 / page</option>
                         <option value={50}>50 / page</option>
@@ -1351,7 +1351,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
 
                       <button
                         onClick={() => setActiveTab('manual_cert')}
-                        className="px-3.5 py-2 rounded-lg bg-[#0066cc] hover:bg-[#0052a3] text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs"
+                        className="px-3.5 py-2 rounded-lg bg-[#1f2937] hover:bg-[#000000] text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs"
                       >
                         <PlusCircle className="w-3.5 h-3.5" />
                         <span>Issue Single</span>
@@ -1376,8 +1376,8 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                         <tbody className="divide-y divide-slate-100">
                           {paginatedCerts.length > 0 ? (
                             paginatedCerts.map((c) => (
-                              <tr key={c.certificateId} className="hover:bg-blue-50/40 transition-colors">
-                                <td className="p-3 font-mono font-bold text-[#0066cc]">
+                              <tr key={c.certificateId} className="hover:bg-slate-100/60 transition-colors">
+                                <td className="p-3 font-mono font-bold text-[#1f2937]">
                                   <div className="flex items-center gap-1.5">
                                     <span>{c.certificateId}</span>
                                     <button
@@ -1408,7 +1408,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                                     href={`/verify?id=${c.certificateId}`}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="p-1.5 rounded bg-blue-50 hover:bg-blue-100 text-[#0066cc] inline-flex transition-colors cursor-pointer"
+                                    className="p-1.5 rounded bg-slate-50 hover:bg-slate-100 text-[#1f2937] inline-flex transition-colors cursor-pointer"
                                     title="Open Public Verification Link"
                                   >
                                     <ExternalLink className="w-3.5 h-3.5" />
@@ -1489,7 +1489,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                   <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-100">
                     <div>
                       <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                        <Upload className="w-4 h-4 text-[#0066cc]" />
+                        <Upload className="w-4 h-4 text-[#1f2937]" />
                         <span>Batch Import Student Certificates (.xlsx, .xls, .csv)</span>
                       </h4>
                       <p className="text-xs text-slate-500 font-sans mt-0.5">
@@ -1501,20 +1501,20 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                       onClick={handleDownloadSampleTemplate}
                       className="px-3.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
-                      <Download className="w-3.5 h-3.5 text-[#0066cc]" />
+                      <Download className="w-3.5 h-3.5 text-[#1f2937]" />
                       <span>Download Excel Template (.xlsx)</span>
                     </button>
                   </div>
 
                   {/* Dropzone */}
-                  <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center space-y-3 bg-slate-50 hover:bg-blue-50/30 hover:border-[#0066cc] transition-colors relative">
+                  <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center space-y-3 bg-slate-50 hover:bg-slate-100/60 hover:border-slate-950 transition-colors relative">
                     <input
                       type="file"
                       accept=".xlsx, .xls, .csv"
                       onChange={handleFileUpload}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 text-[#0066cc] flex items-center justify-center mx-auto">
+                    <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 text-[#1f2937] flex items-center justify-center mx-auto">
                       <FileSpreadsheet className="w-6 h-6" />
                     </div>
                     <div>
@@ -1560,7 +1560,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           <tbody className="divide-y divide-slate-100">
                             {parsedRows.map((r, i) => (
                               <tr key={i} className="hover:bg-slate-50">
-                                <td className="p-3 font-bold font-mono text-[#0066cc]">{r.certificateId}</td>
+                                <td className="p-3 font-bold font-mono text-[#1f2937]">{r.certificateId}</td>
                                 <td className="p-3 font-semibold text-slate-900 font-sans">{r.studentName}</td>
                                 <td className="p-3 text-slate-600 font-sans">{r.courseName}</td>
                                 <td className="p-3 text-slate-500 font-sans">{r.programType}</td>
@@ -1583,7 +1583,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                   
                   <div className="pb-3 border-b border-slate-100">
                     <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                      <PlusCircle className="w-4 h-4 text-[#0066cc]" />
+                      <PlusCircle className="w-4 h-4 text-[#1f2937]" />
                       <span>Issue Single Verifiable Certificate</span>
                     </h4>
                     <p className="text-xs text-slate-500 font-sans mt-0.5">
@@ -1604,7 +1604,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           value={manualForm.certificateId}
                           onChange={(e) => setManualForm({ ...manualForm, certificateId: e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() })}
                           placeholder="e.g. TTXIN26271102"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white font-mono tracking-wider uppercase font-semibold"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white font-mono tracking-wider uppercase font-semibold"
                         />
                       </div>
 
@@ -1618,7 +1618,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           value={manualForm.studentName}
                           onChange={(e) => setManualForm({ ...manualForm, studentName: e.target.value })}
                           placeholder="e.g. Annu Mishra"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white"
                         />
                       </div>
                     </div>
@@ -1629,7 +1629,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                         <select
                           value={manualForm.programType}
                           onChange={(e) => setManualForm({ ...manualForm, programType: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-slate-950 focus:bg-white"
                         >
                           <option value="Certificate of Internship">Certificate of Internship</option>
                           <option value="Summer Training Program (45 Days)">Summer Training Program (45 Days)</option>
@@ -1647,7 +1647,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           value={manualForm.courseName}
                           onChange={(e) => setManualForm({ ...manualForm, courseName: e.target.value })}
                           placeholder="e.g. Applied Artificial Intelligence & Machine Learning"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white"
                         />
                       </div>
                     </div>
@@ -1658,7 +1658,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                         <select
                           value={manualForm.grade}
                           onChange={(e) => setManualForm({ ...manualForm, grade: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-slate-950 focus:bg-white"
                         >
                           <option value="A+ (Outstanding)">A+ (Outstanding)</option>
                           <option value="O (Excellent)">O (Excellent)</option>
@@ -1674,7 +1674,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           value={manualForm.issueDate}
                           onChange={(e) => setManualForm({ ...manualForm, issueDate: e.target.value })}
                           placeholder="e.g. July 26, 2026-27"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white"
                         />
                       </div>
 
@@ -1685,7 +1685,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                           value={manualForm.email}
                           onChange={(e) => setManualForm({ ...manualForm, email: e.target.value })}
                           placeholder="annu.mishra@example.com"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white"
                         />
                       </div>
                     </div>
@@ -1697,14 +1697,14 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
                         value={manualForm.skills}
                         onChange={(e) => setManualForm({ ...manualForm, skills: e.target.value })}
                         placeholder="e.g. Python, Machine Learning, TensorFlow, REST APIs, Git"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066cc] focus:bg-white"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-950 focus:bg-white"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full py-2.5 rounded-lg bg-[#0066cc] hover:bg-[#0052a3] text-white font-bold text-xs tracking-wide uppercase transition-all shadow-md shadow-blue-500/20 cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-lg bg-[#1f2937] hover:bg-[#000000] text-white font-bold text-xs tracking-wide uppercase transition-all shadow-md shadow-slate-500/20 cursor-pointer flex items-center justify-center gap-2"
                     >
                       <PlusCircle className="w-4 h-4" />
                       <span>{loading ? 'Publishing...' : 'Issue Certificate & Register to Database'}</span>
@@ -1728,7 +1728,7 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
             
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-[#0066cc]">Candidate Dossier</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#1f2937]">Candidate Dossier</span>
                 <h3 className="text-lg font-bold text-slate-900">{selectedLead.candidateName}</h3>
               </div>
               <button
@@ -1743,13 +1743,13 @@ export const AdminCertificatePortal: React.FC<AdminCertificatePortalProps> = ({ 
               <div className="grid grid-cols-2 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-slate-400 block">Phone</span>
-                  <a href={`tel:${selectedLead.phone}`} className="font-mono font-bold text-slate-900 hover:text-[#0066cc]">
+                  <a href={`tel:${selectedLead.phone}`} className="font-mono font-bold text-slate-900 hover:text-[#1f2937]">
                     {selectedLead.phone}
                   </a>
                 </div>
                 <div>
                   <span className="text-[10px] uppercase font-bold text-slate-400 block">Email</span>
-                  <a href={`mailto:${selectedLead.email}`} className="text-slate-900 hover:text-[#0066cc] truncate block">
+                  <a href={`mailto:${selectedLead.email}`} className="text-slate-900 hover:text-[#1f2937] truncate block">
                     {selectedLead.email || 'N/A'}
                   </a>
                 </div>
