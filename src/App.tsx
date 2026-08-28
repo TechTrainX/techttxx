@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header.js';
 import { HeroSection } from './components/HeroSection.js';
-import { FutureTechRoadmap } from './components/FutureTechRoadmap.js';
+
 import { HardwareProjectsSection } from './components/HardwareProjectsSection.js';
 import { ProgramsGrid } from './components/ProgramsGrid.js';
 import { CourseCatalog } from './components/CourseCatalog.js';
 import { BatchScheduleTable } from './components/BatchScheduleTable.js';
+import { FutureTechRoadmap } from './components/FutureTechRoadmap.js';
 import { CertificateVerifierPage } from './components/CertificateVerifierPage.js';
 import { SoftwareServicesSection } from './components/SoftwareServicesSection.js';
 import { PlacementsShowcase } from './components/PlacementsShowcase.js';
@@ -125,10 +126,7 @@ export default function App() {
           onSearchCourse={handleSearchCourse}
         />
 
-        {/* Future Engineering Roadmaps: Agentic AI, GenAI, ML/DL, DSA & Concurrency */}
-        <FutureTechRoadmap
-          onOpenEnrollment={handleOpenEnrollment}
-        />
+     
 
         {/* Course Catalog & Week-by-Week Placement Syllabus Viewer */}
         <CourseCatalog
@@ -156,7 +154,10 @@ export default function App() {
 
         {/* Corporate Software Engineering Services & Project Quote Estimator */}
         <SoftwareServicesSection />
-
+   {/* Future Engineering Roadmaps: Agentic AI, GenAI, ML/DL, DSA & Concurrency */}
+        <FutureTechRoadmap
+          onOpenEnrollment={handleOpenEnrollment}
+        />
         {/* Media & Campus Labs Gallery */}
         <CampusGallery />
 
