@@ -4,10 +4,10 @@ import {
   BATCH_SCHEDULES_DATA, 
   SITE_CONFIG, 
   PLACEMENTS_DATA, 
-  GALLERY_DATA 
+  GALLERY_DATA,
+  FRONTIER_TECH_ROADMAPS_DATA
 } from '../src/data';
 import {
-  fetchAllCertificatesFromDb,
   findCertificateByIdFromDb,
   saveEnrollmentToDb,
   saveInquiryToDb,
@@ -31,7 +31,7 @@ export default async function handler(req: any, res: any) {
 
   try {
     if (url.includes('/api/health')) {
-      return res.status(200).json({ status: 'ok', service: 'TechTrainX API ' });
+      return res.status(200).json({ status: 'ok', service: 'TechTrainX API' });
     }
 
     if (url.includes('/api/db-status')) {
@@ -45,6 +45,10 @@ export default async function handler(req: any, res: any) {
 
     if (url.includes('/api/courses')) {
       return res.status(200).json({ success: true, courses: COURSES_DATA });
+    }
+
+    if (url.includes('/api/roadmaps')) {
+      return res.status(200).json({ success: true, roadmaps: FRONTIER_TECH_ROADMAPS_DATA });
     }
 
     if (url.includes('/api/programs')) {
@@ -95,7 +99,7 @@ export default async function handler(req: any, res: any) {
       await saveInquiryToDb(body);
       return res.status(200).json({
         success: true,
-        message: 'Thank you! Your inquiry has been routed to ttx@xnava.in.'
+        message: 'Thank you! Your inquiry has been routed to info@xnava.in.'
       });
     }
 

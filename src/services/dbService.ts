@@ -67,194 +67,13 @@ export function getPrismaClient(): any {
 }
 
 // Master Pre-Seeded Certificate Records for Zero-Latency Lookup & Instant Verification
-export let IN_MEMORY_CERTIFICATES = [
-  {
-    certificateId: 'TTXIN26271102',
-    studentName: 'Annu Mishra',
-    courseName: 'Agentic AI & Python Development',
-    programType: 'Certificate of Internship',
-    issueDate: 'July 26, 2026',
-    grade: 'A+ (Outstanding)',
-    verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
-    issuedBy: 'TechTrainX Academic & Placement Board',
-    skillsCertified: ['Agentic AI', 'Python Development', 'Prompt Engineering', 'REST APIs', 'Git'],
-    coFounder: 'Suraj Chauhan',
-    director: 'R. S. Pandey',
-    email: 'annu.mishra@example.com',
-    isVerified: true
-  },
-  {
-    certificateId: 'TTXIN26271103',
-    studentName: 'Suraj Chauhan',
-    courseName: 'Full Stack MERN Engineering & Cloud DevOps',
-    programType: 'Certificate of Completion',
-    issueDate: 'July 28, 2026',
-    grade: 'O (Excellent)',
-    verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
-    issuedBy: 'TechTrainX Academic & Placement Board',
-    skillsCertified: ['React 19', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Docker'],
-    coFounder: 'Suraj Chauhan',
-    director: 'R. S. Pandey',
-    email: 'suraj@techtrainx.com',
-    isVerified: true
-  },
-  {
-    certificateId: 'TTXIN26271104',
-    studentName: 'Jay Shukla',
-    courseName: 'Cybersecurity & Ethical Hacking',
-    programType: 'Vocational Training Certificate',
-    issueDate: 'August 02, 2026',
-    grade: 'A+ (Outstanding)',
-    verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
-    issuedBy: 'TechTrainX Academic & Placement Board',
-    skillsCertified: ['Penetration Testing', 'Network Security', 'Linux Admin', 'Nginx', 'OWASP'],
-    coFounder: 'Suraj Chauhan',
-    director: 'R. S. Pandey',
-    email: 'jayshukla80050@gmail.com',
-    isVerified: true
-  },
-  {
-    certificateId: 'TTXIN26271105',
-    studentName: 'Aarav Sharma',
-    courseName: 'Full Stack MERN Stack Development',
-    programType: 'Summer Training Program (45 Days)',
-    issueDate: 'August 05, 2026',
-    grade: 'A+ (Outstanding)',
-    verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
-    issuedBy: 'TechTrainX Academic & Placement Board',
-    skillsCertified: ['React 19', 'Node.js', 'MongoDB', 'Express', 'TypeScript', 'Tailwind CSS'],
-    coFounder: 'Suraj Chauhan',
-    director: 'R. S. Pandey',
-    email: 'aarav.sharma@example.com',
-    isVerified: true
-  }
-];
+export let IN_MEMORY_CERTIFICATES: any[] = [];
 
-export let IN_MEMORY_ENROLLMENTS: any[] = [
-  {
-    id: 'ENR-2026-0801',
-    fullName: 'Ananya Srivastava',
-    email: 'ananya.sri@bbu.ac.in',
-    phone: '+91 94501 23456',
-    collegeName: 'National Institute of Technology (NIT)',
-    selectedCourseOrProgram: 'Full Stack MERN Stack Development',
-    trainingMode: 'Offline (Tech Foundry Campus)',
-    preferredTiming: 'Morning Batch (09:00 AM - 02:00 PM)',
-    status: 'Contacted',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 4) // 4 hours ago
-  },
-  {
-    id: 'ENR-2026-0802',
-    fullName: 'Vikramaditya Singh',
-    email: 'vikram.singh@iet.ac.in',
-    phone: '+91 98390 87654',
-    collegeName: 'Institute of Engineering and Technology (IET)',
-    selectedCourseOrProgram: 'Applied AI & Python Machine Learning Track',
-    trainingMode: 'Hybrid (Weekend Mentorship)',
-    preferredTiming: 'Evening Batch (03:00 PM - 08:00 PM)',
-    status: 'New',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12) // 12 hours ago
-  },
-  {
-    id: 'ENR-2026-0803',
-    fullName: 'Ritika Dubey',
-    email: 'ritika.dubey@integral.edu.in',
-    phone: '+91 70071 99881',
-    collegeName: 'State Technical University',
-    selectedCourseOrProgram: 'Data Science with Python, Pandas & Machine Learning',
-    trainingMode: 'Offline (Tech Foundry Campus)',
-    preferredTiming: 'Morning Batch (09:00 AM - 02:00 PM)',
-    status: 'Converted',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24) // 1 day ago
-  },
-  {
-    id: 'ENR-2026-0804',
-    fullName: 'Mohd. Farhan',
-    email: 'farhan.khan@bbdniit.ac.in',
-    phone: '+91 91402 33445',
-    collegeName: 'Dr. A.P.J. Abdul Kalam Technical University (AKTU)',
-    selectedCourseOrProgram: 'Agentic AI & Full Stack Web Development',
-    trainingMode: 'Offline (Tech Foundry Campus)',
-    preferredTiming: 'Fast-Track Weekend Intensive',
-    status: 'Follow Up',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 36)
-  },
-  {
-    id: 'ENR-2026-0805',
-    fullName: 'Pooja Verma',
-    email: 'pooja.verma88@gmail.com',
-    phone: '+91 88401 55667',
-    collegeName: 'SRM Institute of Science & Technology',
-    selectedCourseOrProgram: 'Cybersecurity, Linux & Ethical Hacking Defense',
-    trainingMode: 'Offline (Tech Foundry Campus)',
-    preferredTiming: 'Morning Batch (09:00 AM - 02:00 PM)',
-    status: 'New',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 48)
-  }
-];
+export let IN_MEMORY_ENROLLMENTS: any[] = [];
 
-export let IN_MEMORY_INQUIRIES: any[] = [
-  {
-    id: 'INQ-2026-0901',
-    fullName: 'Adarsh Tripathi',
-    email: 'adarsh.trip@gmail.com',
-    phone: '+91 96214 77889',
-    subject: '[Hardware Project Kit Order] Smart 4WD RC Car with Bluetooth & Obstacle Radar',
-    message: 'College: Amity University Engineering\nCity: Delhi NCR\nMode: Full Hardware Kit + Online Mentorship\nCustomization: Ultrasonic Radar + Bluetooth app source code included',
-    purpose: 'Hardware Project Kit Purchase',
-    status: 'New',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2) // 2 hours ago
-  },
-  {
-    id: 'INQ-2026-0902',
-    fullName: 'Siddharth Pandey',
-    email: 'siddharth.iot@gmail.com',
-    phone: '+91 93350 11223',
-    subject: '[Hardware Project Kit Order] IoT Smart Agriculture & Precision Irrigation System',
-    message: 'College: KNIT Institute\nCity: Bengaluru\nMode: Assembled Hardware + Lab Guidance\nCustomization: ESP8266 + Capacitive Soil Moisture Sensor + Relay',
-    purpose: 'Hardware Project Kit Purchase',
-    status: 'Contacted',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 18)
-  },
-  {
-    id: 'INQ-2026-0903',
-    fullName: 'Akanksha Tiwari',
-    email: 'akanksha.tiwari@gmail.com',
-    phone: '+91 94150 99882',
-    subject: 'Summer Internship Batch Timings and Hostel Assistance',
-    message: 'I want to know if hostel/PG accommodation support is provided for outstation students during the 45-day summer training at Gomti Nagar center.',
-    purpose: 'General Admission Query',
-    status: 'Follow Up',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 30)
-  }
-];
+export let IN_MEMORY_INQUIRIES: any[] = [];
 
-export let IN_MEMORY_SERVICE_QUOTES: any[] = [
-  {
-    id: 'QT-2026-0401',
-    clientName: 'Dr. Alok Srivastava',
-    companyName: 'MedTech Labs UP',
-    email: 'alok@medtechup.org',
-    phone: '+91 98380 44556',
-    projectType: 'Custom Healthcare SaaS Platform & Patient Portal',
-    budgetRange: '₹1.5 Lakh - ₹3 Lakh',
-    projectDetails: 'Need full stack HIPAA-compliant doctor appointment scheduling and lab report distribution system.',
-    status: 'New',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 10)
-  },
-  {
-    id: 'QT-2026-0402',
-    clientName: 'Rameshwar Nath',
-    companyName: 'Nath Logistics & Warehousing',
-    email: 'rameshwar@nathlogistics.in',
-    phone: '+91 94520 77881',
-    projectType: 'IoT Fleet Tracking & Inventory Management Dashboard',
-    budgetRange: '₹75,000 - ₹1.5 Lakh',
-    projectDetails: 'GPS telemetry dashboard with automated SMS dispatch and dispatch reports.',
-    status: 'Contacted',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 50)
-  }
-];
+export let IN_MEMORY_SERVICE_QUOTES: any[] = [];
 
 // -----------------------------------------------------------------------------
 // Database Status Diagnostic Provider
@@ -291,7 +110,7 @@ export async function fetchAllCertificatesFromDb() {
           studentName: c.studentName,
           courseName: c.courseName,
           programType: c.programType,
-          issueDate: c.issueDate || 'August 10, 2026',
+          issueDate: c.issueDate || 'August 10, 2026-27',
           grade: c.grade || 'A+ (Outstanding)',
           verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
           issuedBy: 'TechTrainX Academic & Placement Board',
@@ -320,7 +139,7 @@ export async function fetchAllCertificatesFromDb() {
           studentName: c.studentName,
           courseName: c.courseName,
           programType: c.programType,
-          issueDate: c.issueDate ? new Date(c.issueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'August 10, 2026',
+          issueDate: c.issueDate ? new Date(c.issueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'August 10, 2026-27',
           grade: c.grade || 'A+ (Outstanding)',
           verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
           issuedBy: 'TechTrainX Academic & Placement Board',
@@ -358,7 +177,7 @@ export async function findCertificateByIdFromDb(certId: string) {
           studentName: found.studentName,
           courseName: found.courseName,
           programType: found.programType,
-          issueDate: found.issueDate || 'August 10, 2026',
+          issueDate: found.issueDate || 'August 10, 2026-27',
           grade: found.grade || 'A+ (Outstanding)',
           verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
           issuedBy: 'TechTrainX Academic & Placement Board',
@@ -392,7 +211,7 @@ export async function findCertificateByIdFromDb(certId: string) {
           studentName: found.studentName,
           courseName: found.courseName,
           programType: found.programType,
-          issueDate: found.issueDate ? new Date(found.issueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'August 10, 2026',
+          issueDate: found.issueDate ? new Date(found.issueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'August 10, 2026-27',
           grade: found.grade || 'A+ (Outstanding)',
           verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
           issuedBy: 'TechTrainX Academic & Placement Board',
@@ -720,6 +539,79 @@ export async function fetchAllServiceQuotesFromDb() {
   return IN_MEMORY_SERVICE_QUOTES;
 }
 
+export async function fetchAllLeadsFromDb() {
+  const [enrollments, inquiries, quotes] = await Promise.all([
+    fetchAllEnrollmentsFromDb(),
+    fetchAllInquiriesFromDb(),
+    fetchAllServiceQuotesFromDb()
+  ]);
+
+  const mappedEnrollments = (enrollments || []).map((e: any) => ({
+    id: e.id,
+    category: 'Course Admissions',
+    typeKey: 'enrollment',
+    candidateName: e.fullName || 'Candidate',
+    email: e.email || '',
+    phone: e.phone || '',
+    collegeOrOrg: e.collegeName || 'N/A',
+    interestOrSubject: e.selectedCourseOrProgram || 'Program Enrollment',
+    modeOrTiming: `${e.trainingMode || 'Classroom'} • ${e.preferredTiming || 'Batch'}`,
+    additionalDetails: `Enrolled for ${e.selectedCourseOrProgram || 'Course'} (${e.trainingMode || 'Classroom'})`,
+    status: e.status || 'New',
+    date: new Date(e.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    rawDate: e.createdAt || new Date()
+  }));
+
+  const mappedInquiries = (inquiries || []).map((i: any) => {
+    const isHardware = (i.subject || '').includes('Hardware') || (i.purpose || '').includes('Hardware') || (i.message || '').includes('Hardware');
+    return {
+      id: i.id,
+      category: isHardware ? 'Hardware Kit Order' : 'Direct Counseling / Query',
+      typeKey: 'inquiry',
+      candidateName: i.fullName || 'Student / Professional',
+      email: i.email || '',
+      phone: i.phone || '',
+      collegeOrOrg: 'Inquiry Lead',
+      interestOrSubject: i.subject || 'General Academic Counseling',
+      modeOrTiming: i.purpose || 'Website Form Inquiry',
+      additionalDetails: i.message || 'General Inquiry',
+      status: i.status || 'New',
+      date: new Date(i.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      rawDate: i.createdAt || new Date()
+    };
+  });
+
+  const mappedQuotes = (quotes || []).map((q: any) => ({
+    id: q.id,
+    category: 'Software Service Quote (RFP)',
+    typeKey: 'quote',
+    candidateName: q.clientName || 'Client',
+    email: q.email || '',
+    phone: q.phone || '',
+    collegeOrOrg: q.companyName || 'Corporate Client',
+    interestOrSubject: `${q.projectType || 'Software Development'} (Budget: ${q.budgetRange || 'Flexible'})`,
+    modeOrTiming: `Budget: ${q.budgetRange || 'Not Specified'}`,
+    additionalDetails: q.projectDetails || 'Custom Software Requirement',
+    status: q.status || 'New',
+    date: new Date(q.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    rawDate: q.createdAt || new Date()
+  }));
+
+  const allLeads = [...mappedEnrollments, ...mappedInquiries, ...mappedQuotes].sort((a, b) => {
+    return new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime();
+  });
+
+  const summary = {
+    totalLeads: allLeads.length,
+    totalEnrollments: mappedEnrollments.length,
+    totalInquiries: mappedInquiries.length,
+    totalQuotes: mappedQuotes.length,
+    hardwareOrders: mappedInquiries.filter(l => l.category.includes('Hardware')).length
+  };
+
+  return { allLeads, summary };
+}
+
 export async function updateLeadStatusInDb(leadCategory: string, id: string, newStatus: string) {
   if (leadCategory === 'enrollment') {
     const found = IN_MEMORY_ENROLLMENTS.find(e => e.id === id || e._id === id);
@@ -731,6 +623,22 @@ export async function updateLeadStatusInDb(leadCategory: string, id: string, new
     const found = IN_MEMORY_SERVICE_QUOTES.find(q => q.id === id || q._id === id);
     if (found) found.status = newStatus;
   }
+
+  // Persist directly to MongoDB Native collection
+  try {
+    const nativeDb = await getMongoNativeDb();
+    if (nativeDb) {
+      const collectionName = leadCategory === 'enrollment' ? 'enrollments' : leadCategory === 'inquiry' ? 'inquiries' : 'service_quotes';
+      await nativeDb.collection(collectionName).updateOne(
+        { $or: [{ id: id }, { _id: id as any }] },
+        { $set: { status: newStatus, updatedAt: new Date() } }
+      );
+      console.log(`[MongoDB Native] Lead ${id} in ${collectionName} updated to status: ${newStatus}`);
+    }
+  } catch (err: any) {
+    console.warn('[MongoDB Native] Update lead status fallback:', err.message);
+  }
+
   return { success: true, newStatus };
 }
 
@@ -758,5 +666,3 @@ export async function deleteLeadFromDb(leadCategory: string, id: string) {
 
   return { success: true, id };
 }
-
-

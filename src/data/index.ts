@@ -14,4 +14,5 @@ export { BATCH_SCHEDULES_DATA } from './batchesData';
 export { PLACEMENTS_DATA, RECRUITER_PARTNERS } from './placementsData';
 export { GALLERY_DATA } from './galleryData';
 export { HARDWARE_PROJECTS_DATA, HARDWARE_CATEGORIES } from './hardwareProjectsData';
-export type { HardwareProject } from '../types';
+export { FRONTIER_TECH_ROADMAPS_DATA } from './roadmapData';
+export type { HardwareProject, FrontierTechRoadmapTrack, RoadmapSkillGroup } from '../types';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  X, Sparkles, Gift, CheckCircle2, 
-  ArrowRight, MessageSquare, User, BookOpen
+  X, Gift, CheckCircle2, 
+  ArrowRight, User, BookOpen
 } from 'lucide-react';
 import { submitEnrollment } from '../services/apiService';
 import { ValidatedInput } from './ui/ValidatedInput';
@@ -109,66 +109,66 @@ export const MarketingLeadPopup: React.FC<MarketingLeadPopupProps> = ({
             setMinimizedBadge(false);
             setInternalOpen(true);
           }}
-          className="fixed bottom-5 left-5 z-40 bg-[#0066cc] text-white px-3.5 py-2 rounded-full shadow-elevation-2 text-xs font-bold flex items-center gap-1.5 hover:bg-[#00061a] transition-all cursor-pointer"
+          className="fixed bottom-5 left-5 z-40 bg-[#0066cc] text-white px-4 h-[38px] rounded-full shadow-lg text-[10px] uppercase tracking-[0.1em] font-bold flex items-center gap-1.5 hover:bg-[#0a0a0f] transition-all cursor-pointer"
         >
-          <Gift className="w-3.5 h-3.5 text-[#7fffd4]" />
+          <Gift className="w-3.5 h-3.5 text-white" />
           <span>Special Offer</span>
         </button>
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white max-w-md w-full p-6 rounded-[20px] border border-blue-200 relative shadow-elevation-3 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white max-w-md w-full p-5 sm:p-6 rounded-2xl border border-slate-200/90 relative shadow-2xl space-y-3.5">
             
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-gray-400 hover:text-gray-700 cursor-pointer"
+              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 cursor-pointer transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
             {isSubmitted ? (
               <div className="text-center py-4 space-y-3 animate-in zoom-in-95 duration-200">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-elevation-1">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-[#00061a]">Coupon Claimed!</h3>
-                <p className="text-xs text-[#555]">
-                  Our counseling team and director have received your application for <strong>{formData.course}</strong>. We will WhatsApp you the fee scholarship details.
+                <h3 className="text-lg font-bold text-[#0a0a0f]">Scholarship Claimed!</h3>
+                <p className="text-xs text-slate-600">
+                  Application recorded for <strong>{formData.course}</strong>. Our counseling desk will WhatsApp you the fee structure and schedule.
                 </p>
                 <button
                   onClick={handleClose}
-                  className="custom-btn py-2 px-6 text-xs mt-2 cursor-pointer shadow-elevation-1"
+                  className="custom-btn h-[36px] px-6 text-[10px] tracking-[0.08em] mt-2 cursor-pointer rounded-xl"
                 >
                   Got It
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-3.5">
-                <div>
-                  <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full">
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <div className="space-y-1">
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 text-[#0066cc] text-[10px] font-bold uppercase tracking-wider">
                     Limited Period Offer
                   </span>
-                  <h3 className="text-lg font-bold text-[#00061a] mt-1">
-                    Claim Early Bird Batch Discount
+                  <h3 className="text-lg font-bold text-[#0a0a0f]">
+                    Claim Early Bird Scholarship
                   </h3>
-                  <p className="text-xs text-[#666]">
-                    Get instant fee waiver on upcoming software & hardware training batches.
+                  <p className="text-xs text-slate-500">
+                    Fee waiver for upcoming industrial engineering batches.
                   </p>
                 </div>
 
                 {errorMessage && (
-                  <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-semibold">
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs font-semibold">
                     {errorMessage}
                   </div>
                 )}
 
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   <ValidatedInput
-                    label="Your Full Name"
+                    label="Full Name"
                     required
                     icon={User}
-                    placeholder="e.g. Rahul Verma"
+                    placeholder="Rahul Verma"
                     value={formData.fullName}
                     onChange={(val) => setFormData({ ...formData, fullName: val })}
                     error={nameValidation.error}
@@ -177,7 +177,7 @@ export const MarketingLeadPopup: React.FC<MarketingLeadPopupProps> = ({
                   />
 
                   <ValidatedPhoneInput
-                    label="WhatsApp Mobile Number"
+                    label="WhatsApp Mobile"
                     required
                     value={formData.phone}
                     onChange={(val) => setFormData({ ...formData, phone: val })}
@@ -197,14 +197,14 @@ export const MarketingLeadPopup: React.FC<MarketingLeadPopupProps> = ({
                   </ValidatedSelect>
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-1.5">
                   <button
                     type="submit"
                     disabled={isSubmitting || !isFormValid}
-                    className="custom-btn w-full justify-center py-2.5 text-xs font-bold shadow-elevation-2"
+                    className="custom-btn w-full justify-center h-[38px] text-[10px] tracking-[0.09em] font-bold shadow-xs rounded-xl"
                   >
                     <span>{isSubmitting ? 'Processing...' : 'Claim Discount & Syllabus'}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </form>

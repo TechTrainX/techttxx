@@ -109,76 +109,76 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white max-w-xl w-full p-6 sm:p-7 rounded-[20px] border border-gray-200 relative max-h-[92vh] overflow-y-auto shadow-elevation-3 space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-white max-w-lg w-full p-5 sm:p-7 rounded-2xl border border-slate-200/90 relative max-h-[90vh] overflow-y-auto shadow-2xl space-y-4">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-gray-400 hover:text-gray-700 cursor-pointer"
+          className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 cursor-pointer transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
         {isSuccess ? (
-          <div className="text-center py-6 space-y-4 animate-in zoom-in-95 duration-200">
-            <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-elevation-1">
-              <CheckCircle2 className="w-8 h-8" />
+          <div className="text-center py-4 space-y-3.5 animate-in zoom-in-95 duration-200">
+            <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-xl font-bold text-[#00061a]">Hardware Kit Inquiry Received</h3>
-              <p className="text-xs text-[#555] max-w-md mx-auto">
-                Thank you <strong className="text-[#0066cc]">{fullName}</strong>. Our hardware engineers & director have received your order details for <strong className="text-[#00061a]">{selectedProjectTitle}</strong>.
+              <h3 className="text-lg sm:text-xl font-bold text-[#0a0a0f]">Hardware Inquiry Received</h3>
+              <p className="text-xs text-slate-600 max-w-sm mx-auto">
+                Thank you <strong className="text-[#0066cc]">{fullName}</strong>. Your project kit details for <strong className="text-[#0a0a0f]">{selectedProjectTitle}</strong> have been logged.
               </p>
               {submissionRefId && (
-                <div className="mt-2 inline-block bg-blue-50 text-[#0066cc] px-3 py-1 rounded-md text-[11px] font-mono font-bold">
+                <div className="mt-1.5 inline-block bg-blue-50 text-[#0066cc] px-3 py-0.5 rounded-md text-[11px] font-bold">
                   Tracking Ref: {submissionRefId}
                 </div>
               )}
             </div>
 
-            <div className="p-4 rounded-xl bg-[#f0f8ff] border border-blue-100 text-xs text-[#444] space-y-1.5 text-left">
-              <p className="font-bold text-[#00061a]">Deliverables Included with Kit:</p>
-              <ul className="space-y-1 list-disc list-inside text-[#555]">
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-1 text-left">
+              <p className="font-semibold text-slate-800 text-[11px]">Kit Deliverables Included:</p>
+              <ul className="space-y-0.5 list-disc list-inside text-slate-600 text-[11px]">
                 <li>Tested electronic sensors, microcontrollers & cables</li>
                 <li>Complete Arduino / ESP32 source code & PDF schematics</li>
-                <li>Project documentation for viva / college presentations</li>
+                <li>Project documentation for viva / presentations</li>
               </ul>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">
               <button
                 onClick={handleWhatsAppDirect}
-                className="custom-btn w-full sm:w-auto bg-[#25d366] hover:bg-[#20bd5a] text-xs py-2.5 px-6 shadow-elevation-1 cursor-pointer"
+                className="custom-btn w-full sm:w-auto bg-[#25d366] hover:bg-[#20bd5a] h-[38px] text-[10px] tracking-[0.08em] px-5 rounded-xl cursor-pointer shadow-xs"
               >
-                <MessageSquare className="w-4 h-4" />
+                <MessageSquare className="w-3.5 h-3.5" />
                 <span>Chat with Hardware Lab</span>
               </button>
               <button
                 onClick={onClose}
-                className="custom-btn-outline w-full sm:w-auto text-xs py-2.5 px-6 cursor-pointer"
+                className="custom-btn-outline w-full sm:w-auto h-[38px] text-[10px] tracking-[0.08em] px-5 rounded-xl cursor-pointer border-slate-200"
               >
                 Close
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="space-y-1">
+              <span className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 text-[#0066cc] text-[10px] font-bold uppercase tracking-wider">
                 Hardware Engineering Lab
               </span>
-              <h3 className="text-xl font-bold text-[#00061a] mt-1">
+              <h3 className="text-lg sm:text-xl font-bold text-[#0a0a0f]">
                 Inquire Project Kit & Schematics
               </h3>
-              <p className="text-xs text-[#666]">
-                Order verified hardware kits with working code and 1:1 project assistance.
+              <p className="text-xs text-slate-500">
+                Verified hardware kits with working code and project assistance.
               </p>
             </div>
 
             {errorMessage && (
-              <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl border border-red-200 font-semibold">
+              <div className="p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200 font-semibold font-sans">
                 {errorMessage}
               </div>
             )}
@@ -196,12 +196,12 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
               ))}
             </ValidatedSelect>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <ValidatedInput
-                label="Your Full Name"
+                label="Full Name"
                 required
                 icon={User}
-                placeholder="e.g. Anand Verma"
+                placeholder="Anand Verma"
                 value={fullName}
                 onChange={setFullName}
                 error={nameValidation.error}
@@ -217,13 +217,13 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <ValidatedInput
                 label="Email Address"
                 required
                 type="email"
                 icon={Mail}
-                placeholder="e.g. anand@gmail.com"
+                placeholder="anand@example.com"
                 value={email}
                 onChange={setEmail}
                 error={emailValidation.error}
@@ -234,7 +234,7 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
               <ValidatedInput
                 label="College & Branch"
                 icon={GraduationCap}
-                placeholder="e.g. CBIT - ECE 4th Year"
+                placeholder="College - ECE 4th Year"
                 value={collegeName}
                 onChange={setCollegeName}
                 error={collegeValidation.error}
@@ -243,7 +243,7 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <ValidatedSelect
                 label="Assistance Mode"
                 value={preferredAssistanceMode}
@@ -255,9 +255,9 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
               </ValidatedSelect>
 
               <ValidatedInput
-                label="Delivery City / Town"
+                label="Delivery City"
                 icon={MapPin}
-                placeholder="e.g. Hyderabad / Bangalore"
+                placeholder="City name"
                 value={deliveryCity}
                 onChange={setDeliveryCity}
                 error={cityValidation.error}
@@ -267,8 +267,8 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
             </div>
 
             <ValidatedTextarea
-              label="Customization or Sensor Add-on Needs (Optional)"
-              placeholder="e.g. Need extra ultrasonic sensors, GSM module, or custom PCB layout..."
+              label="Customization or Add-ons (Optional)"
+              placeholder="Sensor changes, extra modules, or viva deadline..."
               rows={2}
               minLen={0}
               maxLen={400}
@@ -276,18 +276,18 @@ export const HardwareProjectInquiryModal: React.FC<HardwareProjectInquiryModalPr
               onChange={setKitCustomizationNeeds}
             />
 
-            <div className="pt-2 flex items-center justify-end gap-3 border-t border-gray-100">
+            <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-slate-100">
               <button
                 type="button"
                 onClick={onClose}
-                className="custom-btn-outline py-2.5 px-5 text-xs cursor-pointer"
+                className="custom-btn-outline h-[36px] text-[10px] tracking-[0.08em] px-4 rounded-xl cursor-pointer border-slate-200"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={submitting || !isFormValid}
-                className="custom-btn py-2.5 px-7 text-xs font-bold shadow-elevation-2"
+                className="custom-btn h-[36px] text-[10px] tracking-[0.08em] px-6 font-bold rounded-xl"
               >
                 <span>{submitting ? 'Submitting...' : 'Inquire Hardware Kit'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />

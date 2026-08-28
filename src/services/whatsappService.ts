@@ -1,13 +1,17 @@
+import { COMPANY_CONFIG } from '../config/companyConfig';
+
 /**
  * TechTrainX WhatsApp Direct Communication Service
- * Organization: TechTrainX Technologies Pvt. Ltd.
+ * Organization: TechTrainX Technologies (A Unit of Xnava Enterprise)
  * Official Helpline: +91 8545092070
  */
 
-const DEFAULT_WHATSAPP_PHONE = '918545092070';
-
 export function getWhatsAppNumber(): string {
-  return (import.meta as any).env?.VITE_WHATSAPP_PHONE || DEFAULT_WHATSAPP_PHONE;
+  const envPhone = (import.meta as any).env?.VITE_WHATSAPP_PHONE;
+  if (envPhone) {
+    return envPhone.replace(/[^0-9]/g, '');
+  }
+  return COMPANY_CONFIG.phone.replace(/[^0-9]/g, '');
 }
 
 export interface WhatsAppEnrollPayload {

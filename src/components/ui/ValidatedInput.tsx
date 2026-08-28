@@ -40,12 +40,12 @@ export const ValidatedInput: React.FC<ValidatedInputProps> = ({
     <div className={`space-y-1.5 text-left ${className}`}>
       {/* Label and Character / Status Counter */}
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-bold text-[#00061a] transition-colors">
+        <label className="block text-xs font-semibold text-slate-700 transition-colors">
           {label}
-          {required && <span className="text-red-500 ml-1 font-black">*</span>}
+          {required && <span className="text-red-500 ml-1 font-bold">*</span>}
         </label>
         {maxLength && (
-          <span className="text-[10px] text-gray-400 font-mono">
+          <span className="text-[10px] text-slate-400 font-sans font-medium">
             {value.length}/{maxLength}
           </span>
         )}
@@ -53,20 +53,20 @@ export const ValidatedInput: React.FC<ValidatedInputProps> = ({
 
       {/* Input Box Wrapper */}
       <div
-        className={`relative flex items-center rounded-xl bg-white border transition-all duration-200 ${
+        className={`relative flex items-center rounded-lg bg-white border transition-all duration-200 ${
           showError
-            ? 'border-red-400 ring-2 ring-red-400/20 bg-red-50/20'
+            ? 'border-red-400 ring-2 ring-red-400/15 bg-red-50/20'
             : showSuccess
-            ? 'border-emerald-400 ring-2 ring-emerald-400/20'
+            ? 'border-emerald-400 ring-2 ring-emerald-400/15'
             : focused
-            ? 'border-[#0066cc] ring-3 ring-blue-500/15 shadow-xs'
-            : 'border-gray-300 hover:border-gray-400 shadow-xs'
-        } ${disabled ? 'opacity-60 bg-gray-50 cursor-not-allowed' : ''}`}
+            ? 'border-[#0066cc] ring-2 ring-[#0066cc]/10 shadow-xs'
+            : 'border-slate-200/90 hover:border-slate-300 shadow-2xs'
+        } ${disabled ? 'opacity-60 bg-slate-50 cursor-not-allowed' : ''}`}
       >
         {/* Leading Icon */}
         {Icon && (
-          <div className="pl-3.5 pr-1 text-gray-400 shrink-0">
-            <Icon className={`w-4 h-4 transition-colors ${focused ? 'text-[#0066cc]' : ''}`} />
+          <div className="pl-3.5 pr-1 text-slate-400 shrink-0">
+            <Icon className={`w-4 h-4 transition-colors ${focused ? 'text-[#0066cc]' : 'text-slate-400'}`} />
           </div>
         )}
 
@@ -83,7 +83,7 @@ export const ValidatedInput: React.FC<ValidatedInputProps> = ({
           disabled={disabled}
           placeholder={placeholder}
           maxLength={maxLength}
-          className={`w-full py-2.5 px-3 text-xs sm:text-sm text-[#00061a] placeholder-gray-400 outline-none bg-transparent font-medium ${
+          className={`w-full py-2.5 px-3 text-xs text-slate-800 placeholder:text-slate-400/40 placeholder:font-light outline-none bg-transparent font-normal ${
             Icon ? 'pl-2' : 'pl-3.5'
           } ${showSuccess || showError || value.length > 0 ? 'pr-8' : 'pr-3.5'}`}
           {...props}
@@ -99,7 +99,7 @@ export const ValidatedInput: React.FC<ValidatedInputProps> = ({
                 onChange('');
                 setTouched(false);
               }}
-              className="p-1 rounded-full text-gray-300 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+              className="p-1 rounded-md text-slate-300 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
               title="Clear input"
             >
               <X className="w-3.5 h-3.5" />
@@ -122,11 +122,11 @@ export const ValidatedInput: React.FC<ValidatedInputProps> = ({
 
       {/* Inline Feedback Helper or Error */}
       {showError ? (
-        <p className="text-[11px] font-semibold text-red-600 flex items-center gap-1 animate-in fade-in slide-in-from-top-1 duration-200">
+        <p className="text-[11px] font-medium text-red-600 flex items-center gap-1 animate-in fade-in slide-in-from-top-1 duration-200 font-sans">
           <span>{error}</span>
         </p>
       ) : hint ? (
-        <p className="text-[11px] text-gray-500">{hint}</p>
+        <p className="text-[11px] text-slate-400 font-sans">{hint}</p>
       ) : null}
     </div>
   );

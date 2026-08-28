@@ -39,12 +39,12 @@ export const ValidatedTextarea: React.FC<ValidatedTextareaProps> = ({
     <div className={`space-y-1.5 text-left ${className}`}>
       {/* Label and Live Character Count */}
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-bold text-[#00061a]">
+        <label className="block text-xs font-semibold text-slate-700">
           {label}
-          {required && <span className="text-red-500 ml-1 font-black">*</span>}
+          {required && <span className="text-red-500 ml-1 font-bold">*</span>}
         </label>
-        <span className={`text-[10px] font-mono ${
-          value.length > maxLen ? 'text-red-500 font-bold' : value.length >= minLen ? 'text-emerald-600' : 'text-gray-400'
+        <span className={`text-[10px] font-sans font-medium ${
+          value.length > maxLen ? 'text-red-500 font-bold' : value.length >= minLen ? 'text-emerald-600' : 'text-slate-400'
         }`}>
           {value.length}/{maxLen} chars {minLen > 0 && `(min ${minLen})`}
         </span>
@@ -52,15 +52,15 @@ export const ValidatedTextarea: React.FC<ValidatedTextareaProps> = ({
 
       {/* Textarea Wrapper */}
       <div
-        className={`relative rounded-xl bg-white border transition-all duration-200 ${
+        className={`relative rounded-lg bg-white border transition-all duration-200 ${
           showError
-            ? 'border-red-400 ring-2 ring-red-400/20 bg-red-50/20'
+            ? 'border-red-400 ring-2 ring-red-400/15 bg-red-50/20'
             : showSuccess
-            ? 'border-emerald-400 ring-2 ring-emerald-400/20'
+            ? 'border-emerald-400 ring-2 ring-emerald-400/15'
             : focused
-            ? 'border-[#0066cc] ring-3 ring-blue-500/15 shadow-xs'
-            : 'border-gray-300 hover:border-gray-400 shadow-xs'
-        } ${disabled ? 'opacity-60 bg-gray-50 cursor-not-allowed' : ''}`}
+            ? 'border-[#0066cc] ring-2 ring-[#0066cc]/10 shadow-xs'
+            : 'border-slate-200/90 hover:border-slate-300 shadow-2xs'
+        } ${disabled ? 'opacity-60 bg-slate-50 cursor-not-allowed' : ''}`}
       >
         <textarea
           rows={rows}
@@ -73,7 +73,7 @@ export const ValidatedTextarea: React.FC<ValidatedTextareaProps> = ({
           }}
           disabled={disabled}
           placeholder={placeholder}
-          className="w-full py-2.5 px-3.5 text-xs sm:text-sm text-[#00061a] placeholder-gray-400 outline-none bg-transparent resize-y font-normal"
+          className="w-full py-2.5 px-3.5 text-xs text-slate-800 placeholder:text-slate-400/40 placeholder:font-light outline-none bg-transparent resize-y font-normal"
           {...props}
         />
 
@@ -95,11 +95,11 @@ export const ValidatedTextarea: React.FC<ValidatedTextareaProps> = ({
 
       {/* Error / Hint */}
       {showError ? (
-        <p className="text-[11px] font-semibold text-red-600 flex items-center gap-1 animate-in fade-in slide-in-from-top-1 duration-200">
+        <p className="text-[11px] font-medium text-red-600 flex items-center gap-1 animate-in fade-in slide-in-from-top-1 duration-200 font-sans">
           <span>{error}</span>
         </p>
       ) : hint ? (
-        <p className="text-[11px] text-gray-500">{hint}</p>
+        <p className="text-[11px] text-slate-400 font-sans">{hint}</p>
       ) : null}
     </div>
   );

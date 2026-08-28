@@ -1,10 +1,11 @@
 import nodemailer from 'nodemailer';
+import { escapeHtml } from '../utils/validators';
 
 /**
  * TechTrainX Enterprise Notification & Email Routing Engine
  * Primary Mailboxes:
- * - Main Owner: jayshukla80050@gmail.com
- * - Platform Inbox: ttx@xnava.in
+ * - Main Owner: info@xnava.in
+ * - Platform Inbox: info@xnava.in
  * - Admissions Office: admission@xnava.in
  * - General Desk: info@xnava.in
  */
@@ -21,23 +22,29 @@ export interface EmailAlertPayload {
 
 // Master Admin & Owner Recipients
 const DEFAULT_RECIPIENTS = [
-  'jayshukla80050@gmail.com', // Main Owner
-  'ttx@xnava.in',             // Platform Desk
+  'info@xnava.in', // Main Owner
+  'info@xnava.in',             // Platform Desk
   'admission@xnava.in'        // Admissions Department
 ];
 
 export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promise<boolean> {
-  const smtpUser = process.env.SMTP_USER || 'ttx@xnava.in';
+  const smtpUser = process.env.SMTP_USER || 'info@xnava.in';
   const smtpPass = process.env.SMTP_PASS;
   const smtpHost = process.env.SMTP_HOST || 'smtp.hostinger.com';
   const smtpPort = parseInt(process.env.SMTP_PORT || '465', 10);
+  const isSecure = process.env.SMTP_SECURE === 'true' || smtpPort === 465;
 
-  // Configured recipients
+  // Configured recipients (including NOTIFICATION_EMAIL from .env if defined)
+  const notificationEmail = process.env.NOTIFICATION_EMAIL;
   const ownerEnvList = process.env.OWNER_ALERT_EMAILS 
     ? process.env.OWNER_ALERT_EMAILS.split(',').map(s => s.trim())
     : DEFAULT_RECIPIENTS;
 
-  const recipients = Array.from(new Set([...ownerEnvList, smtpUser])).filter(Boolean);
+  const recipients = Array.from(new Set([
+    ...ownerEnvList, 
+    notificationEmail, 
+    smtpUser
+  ])).filter((email): email is string => Boolean(email && email.includes('@')));
 
   const cleanPhoneDigits = payload.phone.replace(/[^0-9]/g, '');
   const whatsAppPhone = cleanPhoneDigits.startsWith('91') && cleanPhoneDigits.length === 12
@@ -47,6 +54,13 @@ export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promi
     : cleanPhoneDigits;
 
   const leadRefId = `TTX-${Date.now().toString(36).toUpperCase()}`;
+
+  // Security XSS Prevention: Escape all user-provided data
+  const safeFullName = escapeHtml(payload.fullName);
+  const safePhone = escapeHtml(payload.phone);
+  const safeEmail = escapeHtml(payload.email);
+  const safeSubject = escapeHtml(payload.subject);
+  const safeDetails = escapeHtml(payload.details);
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -83,31 +97,31 @@ export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promi
         <div class="body">
           <div class="field-group">
             <div class="label">Candidate / Contact Name</div>
-            <div class="value" style="color: #38bdf8; font-size: 18px;">${payload.fullName}</div>
+            <div class="value" style="color: #38bdf8; font-size: 18px;">${safeFullName}</div>
           </div>
 
           <div class="field-group">
             <div class="label">Verified Contact Phone</div>
-            <div class="value">${payload.phone}</div>
+            <div class="value">${safePhone}</div>
           </div>
 
           <div class="field-group">
             <div class="label">Email Address</div>
-            <div class="value"><a href="mailto:${payload.email}" style="color: #38bdf8; text-decoration: none;">${payload.email}</a></div>
+            <div class="value"><a href="mailto:${safeEmail}" style="color: #38bdf8; text-decoration: none;">${safeEmail}</a></div>
           </div>
 
           <div class="field-group">
             <div class="label">Inquiry Focus / Subject</div>
-            <div class="value">${payload.subject}</div>
+            <div class="value">${safeSubject}</div>
           </div>
 
           <div class="highlight-box">
             <div class="label" style="color: #38bdf8; margin-bottom: 8px;">Detailed Information & Notes:</div>
-            <div style="font-size: 13px; line-height: 1.6; color: #e2e8f0; white-space: pre-wrap;">${payload.details}</div>
+            <div style="font-size: 13px; line-height: 1.6; color: #e2e8f0; white-space: pre-wrap;">${safeDetails}</div>
           </div>
 
           <div style="margin-top: 24px; text-align: center;">
-            <a href="https://wa.me/${whatsAppPhone}?text=${encodeURIComponent(`Hello ${payload.fullName}, this is TechTrainX (A Unit of xnava enterprises). We received your inquiry regarding ${payload.subject}.`)}" 
+            <a href="https://wa.me/${whatsAppPhone}?text=${encodeURIComponent(`Hello ${payload.fullName}, this is TechTrainX (A Unit of Xnava Enterprise - xnava.in). We received your inquiry regarding ${payload.subject}.`)}" 
                style="background-color: #22c55e; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-block; margin: 4px;">
               💬 Open WhatsApp Chat
             </a>
@@ -120,7 +134,7 @@ export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promi
 
         <div class="footer">
           Dispatched securely to Owner (${recipients.join(', ')}) via TechTrainX Platform Engine.<br/>
-          TechTrainX — A Unit of xnava enterprises (www.xnava.in)
+          TechTrainX — A Unit of Xnava Enterprises (<a href="https://xnava.in" style="color: #38bdf8; text-decoration: none;">xnava.in</a>)
         </div>
       </div>
     </body>
@@ -128,15 +142,21 @@ export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promi
   `;
 
   // If live credentials are available
-  if (smtpPass && smtpPass !== 'your-hostinger-mailbox-password') {
+  if (smtpPass && smtpPass !== 'your_hostinger_email_password' && smtpPass !== 'your-hostinger-mailbox-password') {
     try {
       const transporter = nodemailer.createTransport({
         host: smtpHost,
         port: smtpPort,
-        secure: true,
+        secure: isSecure,
         auth: {
           user: smtpUser,
           pass: smtpPass
+        },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 15000,
+        tls: {
+          rejectUnauthorized: false
         }
       });
 
@@ -151,8 +171,8 @@ export async function sendHostingerEmailAlert(payload: EmailAlertPayload): Promi
       await transporter.sendMail(mailOptions);
       console.log(`[Nodemailer Dispatch Success] Alert routed to owners: ${recipients.join(', ')} for candidate ${payload.fullName}`);
       return true;
-    } catch (err) {
-      console.error('[Nodemailer Error sending email]:', err);
+    } catch (err: any) {
+      console.error('[Nodemailer Error sending email]:', err?.message || err);
       return false;
     }
   }

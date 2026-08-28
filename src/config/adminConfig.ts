@@ -10,7 +10,7 @@ export interface AdminPortalConfig {
   issuerAuthority: string;
   /** Digital signature signatory designation */
   signatoryDesignation: string;
-  /** Default certificate template series prefix (e.g., TTX-2026) */
+  /** Default certificate template series prefix (e.g., TTX-2026-27) */
   certificatePrefix: string;
   /** Admin support hotline */
   adminSupportPhone: string;
@@ -21,9 +21,9 @@ export interface AdminPortalConfig {
 export const ADMIN_CONFIG: AdminPortalConfig = {
   issuerAuthority: 'TechTrainX Academic & Industry Placement Board',
   signatoryDesignation: 'Director of Deep-Tech Training & Placement Operations',
-  certificatePrefix: 'TTX-2026',
+  certificatePrefix: 'TTX-2026-27',
   adminSupportPhone: '+91 8545092070',
-  adminSupportEmail: 'ttx@xnava.in'
+  adminSupportEmail: 'info@xnava.in'
 };
 
 export default ADMIN_CONFIG;

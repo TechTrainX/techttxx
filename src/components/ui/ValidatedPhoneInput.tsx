@@ -59,44 +59,43 @@ export const ValidatedPhoneInput: React.FC<ValidatedPhoneInputProps> = ({
     <div className={`space-y-1.5 text-left ${className}`}>
       {/* Label and Character / Status Counter */}
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-bold text-[#00061a]">
+        <label className="block text-xs font-semibold text-slate-700">
           {label}
-          {required && <span className="text-red-500 ml-1 font-black">*</span>}
+          {required && <span className="text-red-500 ml-1 font-bold">*</span>}
         </label>
-        <span className="text-[10px] text-gray-400 font-mono">
+        <span className="text-[10px] text-slate-400 font-sans font-medium">
           {rawDigits.length}/{countryCode === '+91' ? '10' : '15'} digits
         </span>
       </div>
 
       {/* Input Box with Integrated Country Code Badge */}
       <div
-        className={`relative flex items-center rounded-xl bg-white border transition-all duration-200 ${
+        className={`relative flex items-center rounded-lg bg-white border transition-all duration-200 ${
           showError
-            ? 'border-red-400 ring-2 ring-red-400/20 bg-red-50/20'
+            ? 'border-red-400 ring-2 ring-red-400/15 bg-red-50/20'
             : showSuccess
-            ? 'border-emerald-400 ring-2 ring-emerald-400/20'
+            ? 'border-emerald-400 ring-2 ring-emerald-400/15'
             : focused
-            ? 'border-[#0066cc] ring-3 ring-blue-500/15 shadow-xs'
-            : 'border-gray-300 hover:border-gray-400 shadow-xs'
-        } ${disabled ? 'opacity-60 bg-gray-50 cursor-not-allowed' : ''}`}
+            ? 'border-[#0066cc] ring-2 ring-[#0066cc]/10 shadow-xs'
+            : 'border-slate-200/90 hover:border-slate-300 shadow-2xs'
+        } ${disabled ? 'opacity-60 bg-slate-50 cursor-not-allowed' : ''}`}
       >
         {/* Country Code Selector / Indicator */}
-        <div className="flex items-center gap-1.5 pl-3 pr-2 py-2 border-r border-gray-200 bg-gray-50/80 rounded-l-xl select-none">
+        <div className="flex items-center gap-1.5 pl-3 pr-2 py-2 border-r border-slate-200/80 bg-slate-50/70 rounded-l-lg select-none">
           <Phone className="w-3.5 h-3.5 text-[#0066cc]" />
           <select
             value={countryCode}
             onChange={(e) => {
               setCountryCode(e.target.value);
-              // Clean value if changing
               if (e.target.value === '+91') {
                 onChange(value.replace(/[^0-9]/g, '').slice(0, 10));
               }
             }}
             disabled={disabled}
-            className="text-xs font-bold text-gray-700 bg-transparent outline-none cursor-pointer pr-1"
+            className="text-xs font-medium text-slate-700 bg-transparent outline-none cursor-pointer pr-1 font-sans"
           >
             <option value="+91">🇮🇳 +91 (IN)</option>
-            <option value="+1">🇺🇸 +1 (US/CA)</option>
+            <option value="+1">🇺🇸 +1 (US)</option>
             <option value="+44">🇬🇧 +44 (UK)</option>
             <option value="+971">🇦🇪 +971 (UAE)</option>
             <option value="+65">🇸🇬 +65 (SG)</option>
@@ -118,9 +117,9 @@ export const ValidatedPhoneInput: React.FC<ValidatedPhoneInputProps> = ({
             setTouched(true);
           }}
           disabled={disabled}
-          placeholder={countryCode === '+91' ? '98765 43210' : 'Mobile number'}
+          placeholder={countryCode === '+91' ? '98765 43210' : 'Phone number'}
           maxLength={countryCode === '+91' ? 10 : 15}
-          className="w-full py-2.5 px-3 text-xs sm:text-sm text-[#00061a] placeholder-gray-400 outline-none bg-transparent font-mono tracking-wide"
+          className="w-full py-2.5 px-3 text-xs text-slate-800 placeholder:text-slate-400/40 placeholder:font-light outline-none bg-transparent font-normal font-sans"
         />
 
         {/* Trailing Clear and Feedback Status */}
@@ -130,7 +129,7 @@ export const ValidatedPhoneInput: React.FC<ValidatedPhoneInputProps> = ({
               type="button"
               tabIndex={-1}
               onClick={handleClear}
-              className="p-1 rounded-full text-gray-300 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+              className="p-1 rounded-md text-slate-300 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
               title="Clear phone"
             >
               <X className="w-3.5 h-3.5" />
@@ -153,11 +152,11 @@ export const ValidatedPhoneInput: React.FC<ValidatedPhoneInputProps> = ({
 
       {/* Error / Validation Feedback */}
       {showError ? (
-        <p className="text-[11px] font-semibold text-red-600 flex items-center gap-1 animate-in fade-in slide-in-from-top-1 duration-200">
+        <p className="text-[11px] font-medium text-red-600 flex items-center gap-1 animate-in fade-in slide-in-from-top-1 duration-200 font-sans">
           <span>{validation.error || 'Please enter a valid 10-digit mobile number.'}</span>
         </p>
       ) : hint ? (
-        <p className="text-[11px] text-gray-500">{hint}</p>
+        <p className="text-[11px] text-slate-400 font-sans">{hint}</p>
       ) : null}
     </div>
   );

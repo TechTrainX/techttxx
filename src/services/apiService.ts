@@ -1,10 +1,24 @@
-import { Course, EnrollmentFormData, ContactFormData, CertificateData, ServiceQuoteRequest, BatchSchedule, PlacementRecord, GalleryItem, SiteConfig } from '../types';
+import { 
+  Course, 
+  EnrollmentFormData, 
+  ContactFormData, 
+  CertificateData, 
+  ServiceQuoteRequest, 
+  BatchSchedule, 
+  PlacementRecord, 
+  GalleryItem, 
+  SiteConfig,
+  FrontierTechRoadmapTrack
+} from '../types';
 
-import{SITE_CONFIG}from  "../data"
-import{GALLERY_DATA}from '../data'
-import{BATCH_SCHEDULES_DATA}from  "../data"
-import { COURSES_DATA } from '../data';
-import{PLACEMENTS_DATA}from  "../data"
+import { 
+  SITE_CONFIG,
+  GALLERY_DATA,
+  BATCH_SCHEDULES_DATA,
+  COURSES_DATA,
+  PLACEMENTS_DATA,
+  FRONTIER_TECH_ROADMAPS_DATA
+} from '../data';
 
 export async function fetchSiteConfig(): Promise<SiteConfig> {
   try {
@@ -25,6 +39,17 @@ export async function fetchAllCourses(): Promise<Course[]> {
     return data.courses || COURSES_DATA;
   } catch {
     return COURSES_DATA;
+  }
+}
+
+export async function fetchRoadmaps(): Promise<FrontierTechRoadmapTrack[]> {
+  try {
+    const res = await fetch('/api/roadmaps');
+    if (!res.ok) throw new Error('API request failed');
+    const data = await res.json();
+    return data.roadmaps || FRONTIER_TECH_ROADMAPS_DATA;
+  } catch {
+    return FRONTIER_TECH_ROADMAPS_DATA;
   }
 }
 
@@ -124,7 +149,7 @@ export async function verifyCertificateById(certId: string): Promise<Certificate
         studentName: 'Student Candidate',
         courseName: 'Full Stack MERN Stack Engineering',
         programType: 'Industrial Placement Training',
-        issueDate: 'August 10, 2026',
+        issueDate: 'August 10, 2026-27',
         grade: 'A+ (Outstanding)',
         verificationCode: 'VERIFIED-TTX-INDUSTRY-CERTIFIED',
         isVerified: true,

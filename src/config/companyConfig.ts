@@ -19,8 +19,24 @@ export interface CompanyConfig {
   tagline: string;
   /** Primary Copyright notice */
   copyright: string;
-  /** Custom logo image URL (set to empty string '' or a direct URL if using a custom PNG/SVG logo) */
+
+  /**
+   * Custom Favicon URL
+   * You can place your custom favicon file directly in the `/public` folder
+   * (for example `/favicon.svg`, `/favicon.png`, or `/favicon.ico`)
+   * or provide an external image URL.
+   */
+  faviconUrl: string;
+
+  /** 
+   * Custom Logo Image URL
+   * You can place your custom logo file inside the `/public` folder
+   * (for example `/logo.png`, `/logo.svg`, or `/logo.jpg`)
+   * or provide a remote image URL.
+   * If left as '' or if the image fails to load, it automatically falls back to the built-in precision vector logo.
+   */
   logoImageUrl: string;
+
   /** Helpline & Admissions Phone */
   phone: string;
   phoneDisplay: string;
@@ -41,28 +57,33 @@ export interface CompanyConfig {
 
 export const COMPANY_CONFIG: CompanyConfig = {
   brandName: 'TechTrainX',
-  legalName: 'TechTrainX (A Unit of xnava enterprises)',
-  parentCompanyName: 'xnava enterprises',
-  parentCompanyUrl: 'https://www.xnava.in',
+  legalName: 'TechTrainX — A Unit of Xnava Enterprise',
+  parentCompanyName: 'Xnava Enterprise',
+  parentCompanyUrl: 'https://xnava.in',
   parentCompanyDomain: 'xnava.in',
-  tagline: 'PLACEMENT & INDUSTRIAL INTERNSHIP FOUNDRY',
-  copyright: '© 2026 TechTrainX (A Unit of xnava enterprises). All rights reserved.',
+  tagline: 'A unit of Xnava Enterprises.',
+  copyright: '© 2026-27 TechTrainX — A Unit of Xnava Enterprises. All rights reserved.',
   
-  // Custom company logo (leave '' to use vector logo)
-  logoImageUrl: '',
+  /** 
+   * FAVICON & LOGO CONFIGURATION:
+   * 1. Favicon: Put your icon in `/public/favicon.svg` or `/public/favicon.png` and set here.
+   * 2. Logo: Put your logo in `/public/logo.png` or `/public/logo.svg` and set here.
+   */
+  faviconUrl: '/favicon.svg',
+  logoImageUrl: '/logo.svg',
 
   phone: '+918545092070',
   phoneDisplay: '+91 8545092070',
   whatsappNumber: '+918545092070',
 
   admissionsEmail: 'admission@xnava.in',
-  ttxEmail: 'ttx@xnava.in',
+  ttxEmail: 'info@xnava.in',
   infoEmail: 'info@xnava.in',
-  supportEmail: 'ttx@xnava.in',
+  supportEmail: 'info@xnava.in',
   contactEmail: 'info@xnava.in',
 
-  campusAddress: 'TechTrainX Innovation Campus & Deep-Tech Labs, Cyber Hub Complex, India',
-  campusCity: 'National Tech Campus & Live Hybrid Labs',
+  campusAddress: 'Malhour Near, Amity University Rd, Malhour, Lucknow, Nijampur Malhaur, Uttar Pradesh 226028',
+  campusCity: 'Lucknow',
   websiteUrl: 'https://techtrainx.online'
 };
 

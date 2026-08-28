@@ -20,6 +20,33 @@ export interface PhoneValidationResult {
 }
 
 /**
+ * Escape HTML entities to prevent XSS in email & HTML rendering contexts
+ */
+export function escapeHtml(input: unknown): string {
+  if (typeof input !== 'string') {
+    if (input === null || input === undefined) return '';
+    return String(input);
+  }
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/**
+ * Anti-Bot Honeypot Checker
+ * If honeypot field is filled by an automated crawler/bot, returns true
+ */
+export function isSpamBotHoneypot(honeypotValue: unknown): boolean {
+  if (typeof honeypotValue === 'string' && honeypotValue.trim().length > 0) {
+    return true;
+  }
+  return false;
+}
+
+/**
  * Sanitize plain text strings:
  * - Trims whitespace
  * - Strips control characters and dangerous script injection characters
@@ -32,6 +59,30 @@ export function sanitizeText(input: unknown): string {
     .replace(/[<>]/g, '') // strip angle brackets to prevent HTML injection
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+/**
+ * Deep recursive object sanitizer for request payloads
+ */
+export function sanitizeObject<T>(obj: T): T {
+  if (typeof obj === 'string') {
+    return sanitizeText(obj) as unknown as T;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeObject(item)) as unknown as T;
+  }
+  if (obj !== null && typeof obj === 'object') {
+    const cleaned: Record<string, any> = {};
+    for (const key of Object.keys(obj)) {
+      // Prevent prototype pollution
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        continue;
+      }
+      cleaned[key] = sanitizeObject((obj as Record<string, any>)[key]);
+    }
+    return cleaned as T;
+  }
+  return obj;
 }
 
 /**

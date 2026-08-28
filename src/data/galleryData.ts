@@ -3,73 +3,57 @@ import { GalleryItem } from '../types';
 /**
  * ==============================================================================
  * TECHTRAINX — CAMPUS & LAB MEDIA GALLERY
- * Curated high-resolution imagery capturing production labs, hardware benches,
- * live hackathons, and certification milestones.
+ * Photos from our center near Amity University, Lucknow.
+ * Actual class sessions, lab work, and student activities.
  * ==============================================================================
  */
 export const GALLERY_DATA: GalleryItem[] = [
   {
     id: 'g1',
-    title: 'High-Density Compute & IoT Workbench Lab',
+    title: 'Python Full Stack Class in Progress',
     category: 'Campus & Labs',
-    imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=85',
-    date: 'Summer 2026',
-    description: 'Hardware workbench equipped with digital oscilloscopes, ESP32 development modules, and dual-display developer workstations.'
+    imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85',
+    date: 'June 2026',
+    description: 'Students working on Django projects in our weekday batch. Small group ensures individual attention.'
   },
   {
     id: 'g2',
-    title: 'Collaborative Full-Stack Sprint Sessions',
+    title: 'IoT & Embedded Systems Lab Work',
     category: 'Campus & Labs',
-    imageUrl: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85',
-    date: 'Summer 2026',
-    description: 'Students pair-programming on distributed microservices and real-time WebSocket applications.'
+    imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85',
+    date: 'July 2026',
+    description: 'Hands-on session with ESP32 and Arduino boards. Basic sensor interfacing and firmware debugging.'
   },
   {
     id: 'g3',
-    title: 'Robotics & Embedded Firmware Prototyping',
+    title: 'Mock Interview Practice',
     category: 'Campus & Labs',
-    imageUrl: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=85',
-    date: 'Summer 2026',
-    description: 'Autonomous line-follower and obstacle-avoidance robotic rover calibration in the embedded systems lab.'
+    imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=85',
+    date: 'August 2026',
+    description: 'Students appearing for simulated HR and technical interviews to gain confidence for actual campus drives.'
   },
   {
     id: 'g4',
-    title: 'TechTrainX 36-Hour Hackathon Championship',
-    category: 'Hackathons',
-    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=85',
-    date: 'Annual Sprint',
-    description: 'Over 120 engineers competing in real-time to architect scalable GenAI pipelines and decentralized databases.'
+    title: 'Certificate Distribution — VLSI Batch',
+    category: 'Certifications',
+    imageUrl: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&w=1200&q=85',
+    date: 'July 2026',
+    description: 'Completion certificates handed over to students who successfully finished the VLSI certification course.'
   },
   {
     id: 'g5',
-    title: 'Official Certificate Convocation & Honors',
-    category: 'Certifications',
-    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85',
-    date: 'Convocation Batch',
-    description: 'Graduating batch receiving university-recognized industrial training completion credentials and verified transcripts.'
+    title: 'Group Project Discussion',
+    category: 'Campus & Labs',
+    imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=85',
+    date: 'June 2026',
+    description: 'BCA and MCA students planning the architecture of their full stack project on the whiteboard.'
   },
   {
     id: 'g6',
-    title: 'Tier-1 IT Campus Placement Celebrations',
-    category: 'Placement Celebrations',
-    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85',
-    date: 'Placement Drive',
-    description: 'Alumni celebrating offer letters from top MNCs including TCS, Infosys, Wipro, and high-growth SaaS startups.'
-  },
-  {
-    id: 'g7',
-    title: 'Enterprise Datacenter & Cloud Architecture Tour',
-    category: 'Industrial Visits',
-    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85',
-    date: 'Industry Immersion',
-    description: 'Field visit to regional cloud datacenter facilities learning high-availability server clustering and optical networking.'
-  },
-  {
-    id: 'g8',
-    title: 'Deep-Tech AI Model Training & Benchmarking',
+    title: 'Placement Bootcamp Demo Week',
     category: 'Campus & Labs',
-    imageUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=85',
-    date: 'Advanced Lab',
-    description: 'Fine-tuning transformer architectures on dedicated GPU workstations with PyTorch and CUDA accelerators.'
+    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85',
+    date: 'August 2026',
+    description: 'First day of the free demo week for the Offline Placement Bootcamp. Students attending orientation.'
   }
 ];

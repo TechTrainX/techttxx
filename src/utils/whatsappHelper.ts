@@ -1,3 +1,5 @@
+import { COMPANY_CONFIG } from '../config/companyConfig';
+
 /**
  * TechTrainX — WhatsApp Deep-Link Generator Utility
  * 
@@ -5,14 +7,14 @@
  * for every specific course, hardware kit, circuit diagram request,
  * batch schedule, mentorship requirement, and admission query.
  * 
- * Official Helpline: +91 8545092070 (918545092070)
+ * Official Helpline: +91 8545092070
  */
 
-const WHATSAPP_NUMBER = '918545092070';
+const WHATSAPP_NUMBER = COMPANY_CONFIG.phone.replace(/[^0-9]/g, '');
 
 export const WHATSAPP_CONFIG = {
   phoneNumber: WHATSAPP_NUMBER,
-  formattedPhone: '+91 8545092070',
+  formattedPhone: COMPANY_CONFIG.phoneDisplay,
 };
 
 /**
@@ -144,12 +146,12 @@ I would like to know more about the *100% Placement Assistance Program*, upcomin
 }
 
 /**
- * Pre-generated WhatsApp link for Free Demo & Summer 2026 Admissions Grant
+ * Pre-generated WhatsApp link for Free Demo & Summer 2026-27 Admissions Grant
  */
-export function getAdmissionGrantWhatsAppUrl(discountCode: string = 'SUMMER2026'): string {
+export function getAdmissionGrantWhatsAppUrl(discountCode: string = 'SUMMER2026-27'): string {
   const msg = `🎁 Hello TechTrainX Admissions,
 
-I would like to claim the *Summer 2026 Student Admission Grant & Free Demo Class* (Code: *${discountCode}*).
+I would like to claim the *Summer 2026-27 Student Admission Grant & Free Demo Class* (Code: *${discountCode}*).
 
 🎯 *Reason for Contact*: Free trial coding session booking and fee scholarship application.`;
 

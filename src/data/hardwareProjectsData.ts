@@ -2,9 +2,9 @@ import { HardwareProject } from '../types';
 
 /**
  * ==============================================================================
- * TECHTRAINX — HARDWARE & EMBEDDED FOUNDRY PROJECTS
- * Production-ready hardware project kits for Arduino Uno, ESP32-S3, ARM,
- * IoT, Autonomous Robotics, and Smart Agriculture.
+ * TECHTRAINX — HARDWARE & EMBEDDED PROJECT SUPPORT
+ * Practical project development support and complete kits for Arduino, Raspberry Pi, ESP32,
+ * IoT, robotics, automation, and smart agriculture projects.
  * ==============================================================================
  */
 
@@ -12,10 +12,14 @@ export const HARDWARE_CATEGORIES: string[] = [
   'All Projects',
   'Arduino Uno Projects',
   'ESP32 IoT Projects',
+  'Raspberry Pi Projects',
   'Robotics & RC',
   'Home Automation',
   'Agriculture & Environment'
 ];
+
+export const HARDWARE_ASSISTANCE_NOTE =
+  'TechTrainX provides project development assistance and, for selected builds, a complete component kit with setup guidance for Arduino, Raspberry Pi, ESP32, robotics, IoT, automation, and sensor-based projects. Kit contents, software, delivery mode, and support level should be confirmed before enrolment.';
 
 export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
   {
@@ -23,9 +27,9 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     slug: 'smart-irrigation-system',
     title: 'Automated Precision Irrigation & Soil Telemetry System',
     category: 'Agriculture & Environment',
-    shortDescription: 'Industrial soil moisture sensing, automated relay pumping, and real-time LCD metrics using Arduino Uno.',
-    fullDescription: 'An embedded agricultural automation node that continuously monitors volumetric water content (VWC) using capacitive corrosion-resistant probes. When soil moisture drops below calibrated thresholds, the microcontroller trips an opto-isolated 5V relay driving a 12V submersible DC pump. Features manual override controls, safety timeout watchdogs, and I2C LCD telemetry.',
-    tagline: 'Precision Water Conservation & Automated Agritech',
+    shortDescription: 'Soil-moisture sensing, relay-based pump control, and LCD display practice using Arduino Uno.',
+    fullDescription: 'A guided agriculture and IoT project in which students read a capacitive soil sensor, control a small pump through a relay, and display readings on an I2C LCD. The project also covers manual control, threshold logic, and basic safety timeouts.',
+    tagline: 'Practical Irrigation and IoT Learning',
     imageUrl: 'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&w=1000&q=85',
     circuitDiagramUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85',
     circuitSummary: 'Capacitive Soil Sensor (Analog OUT) → A0 ADC. 5V Relay IN → D7 GPIO. 16x2 LCD I2C Module → SDA (A4) / SCL (A5). Dual-rail power: 5V logic via onboard regulator, 12V 2A external DC barrel for inductive pump loads.',
@@ -53,12 +57,12 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     embeddedConcepts: ['Analog-to-Digital Conversion (ADC)', 'Optoisolated Relay Driving', 'I2C Master-Slave Protocol', 'Hysteresis Threshold Logic'],
     targetBranch: ['ECE', 'EEE', 'Agriculture Engineering', 'Mechatronics', 'IoT'],
     deliverablesIncluded: [
-      'Pre-Tested Physical Hardware Component Kit with Custom PCB/Shield',
+      'Complete component kit for the listed project, subject to availability',
       'CAD / Fritzing Circuit Schematics (Vector PDF & Gerber Files)',
       'Clean Embedded C++ Source Code with Detailed In-Line Documentation',
-      'IEEE Format Comprehensive Project Report & Presentation Slides',
+      'Project report format, presentation guidance, and documentation support',
       'Viva Voce Defense Question Bank with Technical Solutions',
-      '1-on-1 Dedicated Video Mentorship & Calibration Session'
+      'Mentor-led project support & Calibration Session'
     ],
     assistanceOverview: 'Lead hardware engineer guides you step-by-step through breadboard wiring, sensor calibration curves, noise filtering algorithms, and live viva presentation preparation.'
   },
@@ -99,11 +103,11 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     embeddedConcepts: ['UART Serial Protocols', 'H-Bridge Transistor Topologies', 'PWM Speed Modulation', 'State-Machine Firmware Design'],
     targetBranch: ['ECE', 'EEE', 'Mechatronics', 'Robotics', 'CSE'],
     deliverablesIncluded: [
-      'Complete Robotic Hardware Kit with Pre-Tested Assemblies',
+      'Complete robotic component kit for the listed project, subject to availability',
       'Custom Android Controller Application (.APK & Source)',
       'Modular C++ Arduino Firmware with Packet Parsing Engine',
       'Full Wiring Blueprint & Schematic PDF',
-      'IEEE Research-Standard Capstone Documentation',
+      'Project documentation and presentation guidance',
       'Live Video Debugging & Motor Trimming Mentorship'
     ],
     assistanceOverview: 'Mentor assists with chassis alignment, Bluetooth baud rate pairing, H-bridge PWM motor trimming, and smartphone telemetry app setup.'
@@ -114,8 +118,8 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     title: 'Cloud-Connected Smart Home Automation & Energy Node',
     category: 'Home Automation',
     shortDescription: 'ESP32-S3 Dual-Core SoC hosting async WebSockets, MQTT broker bridge, and 4-channel AC appliance relay isolation.',
-    fullDescription: 'An enterprise-grade smart home controller powered by the ESP32 dual-core microcontroller running at 240MHz. Features a local asynchronous Web server with zero-latency WebSocket communication, cloud MQTT synchronization, and optocoupler galvanic isolation for controlling mains 230V AC home appliances. Supports local touch switches and remote voice control.',
-    tagline: 'Industrial IoT & Galvanically Isolated Cloud Automation',
+    fullDescription: 'A guided ESP32 home-automation project covering Wi-Fi connectivity, a simple local web interface, sensor readings, relay control, and MQTT concepts. Mains-voltage work must be carried out only with appropriate supervision and safety precautions.',
+    tagline: 'ESP32 Home Automation and IoT',
     imageUrl: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1000&q=85',
     circuitDiagramUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85',
     circuitSummary: 'ESP32 GPIO 4, 5, 18, 19 → 4-Channel Optocoupled Relay Board. Onboard DHT22 Temp/Humidity → GPIO 23 with 4.7k pull-up. Local manual tactile buttons → GPIO 13, 12, 14, 27 with hardware debounce RC filters.',
@@ -142,12 +146,12 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     embeddedConcepts: ['FreeRTOS Multi-Threading', 'Async WebSockets Server', 'MQTT Pub/Sub Telemetry', 'Galvanic Optoisolation Safety'],
     targetBranch: ['CSE', 'ECE', 'IT', 'Electrical Engineering'],
     deliverablesIncluded: [
-      'Tested Hardware Kit with AC Isolator Shield',
+      'Component kit with the listed safety parts, subject to availability',
       'C++ Firmware with AsyncTCP, WebSockets & Captive WiFi Portal',
       'Responsive Web Application & Android Companion App',
       'Full Wiring Schematic with AC Safety Clearances',
       'IEEE Format Project Report & Architecture Slides',
-      '1-on-1 Mentorship for Cloud Server Deployment & Alexa Skill Integration'
+      'Mentor-led project support for Cloud Server Deployment & Alexa Skill Integration'
     ],
     assistanceOverview: 'Learn enterprise embedded practices: non-blocking FreeRTOS tasks, Wi-Fi reconnection watchdogs, safe AC snubber wiring, and secure MQTT cloud broker setup.'
   },
@@ -157,8 +161,8 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     title: 'Biometric & Contactless RFID Smart Attendance Suite',
     category: 'Arduino Uno Projects',
     shortDescription: '13.56MHz RC522 RFID reader, DS3231 temperature-compensated RTC, and SD card transaction logger.',
-    fullDescription: 'An enterprise campus attendance logger that reads high-frequency 13.56MHz Mifare RFID smart cards. Matches student UID cards against on-board local flash or writes encrypted audit logs to an industrial micro-SD card with microsecond precision timestamps from a battery-backed DS3231 RTC. Features audio buzzer confirmation and I2C LCD feedback.',
-    tagline: 'Cryptographic Hardware Logging & Campus Access Control',
+    fullDescription: 'A guided RFID attendance project that reads card IDs, records entries on an SD card with date and time, and shows basic status feedback on an LCD. Students practise SPI, I2C, file storage, and simple data handling.',
+    tagline: 'RFID Attendance and Data Logging',
     imageUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=85',
     circuitDiagramUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85',
     circuitSummary: 'RC522 RFID Module → Hardware SPI Bus (SCK: D13, MISO: D12, MOSI: D11, SDA/CS: D10, RST: D9). MicroSD Module → Hardware SPI (CS: D4). DS3231 RTC → I2C Bus (A4/A5). Active Piezo Buzzer → D8.',
@@ -191,7 +195,7 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
       'Python Desktop GUI Application for Excel Attendance Export',
       'Detailed Hardware Pinout Blueprint & Circuit Schematic',
       'Comprehensive Project Report (IEEE Format)',
-      '1-on-1 Mentorship on Serial Protocols and Database Synchronization'
+      'Mentor-led project support on Serial Protocols and Database Synchronization'
     ],
     assistanceOverview: 'Comprehensive coaching on SPI bus arbitration, SD card FAT32 buffer management, and integrating desktop Python dashboards to synchronize attendance into MySQL databases.'
   },
@@ -201,8 +205,8 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     title: 'Autonomous PID Line-Tracking & Maze Navigation Rover',
     category: 'Robotics & RC',
     shortDescription: '5-Channel analog IR sensor array, dual closed-loop PID control algorithm, and high-RPM metal gear motors.',
-    fullDescription: 'An ultra-responsive autonomous vehicle engineered for robotics competitions. Utilizes an analog five-sensor infrared reflectance array to continuously calculate the mathematical centroid of track paths. An onboard PID (Proportional-Integral-Derivative) algorithm executes real-time feedback corrections at 200Hz, ensuring smooth high-speed trajectory tracking without wobble or overshoot.',
-    tagline: 'High-Speed Autonomous Control & Mathematical PID Tuning',
+    fullDescription: 'A guided robotics project using an IR sensor array, motor driver, and PID control. Students learn how the rover detects a line, adjusts motor speed, and improves tracking through testing and tuning.',
+    tagline: 'Line Tracking and PID Practice',
     imageUrl: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1000&q=85',
     circuitDiagramUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1000&q=85',
     circuitSummary: '5-Channel IR Reflectance Array → Analog ADC Pins A0, A1, A2, A3, A4. L298N Dual Motor Driver Inputs → D5, D6, D9, D10 with PWM speed throttling. High-discharge 7.4V Li-Po battery supplying motor driver VMS rail.',
@@ -230,23 +234,23 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     embeddedConcepts: ['Discrete PID Control Loops', 'Analog Centroid Weighting Algorithms', 'Fast Hardware PWM Output', 'Dynamic Friction Compensation'],
     targetBranch: ['Robotics', 'Mechatronics', 'ECE', 'EEE', 'Mechanical Engineering'],
     deliverablesIncluded: [
-      'Fully Assembled Racing-Grade Hardware Kit with Spares',
+      'Robotics component kit with required parts, subject to availability',
       'Modular Embedded C++ Firmware with Real-Time PID Tuning Math',
       'Complete Circuit Diagram, Pinout Matrix & PCB Design',
-      'IEEE Format Project Report & Defense Slides',
+      'Project report and presentation guidance',
       'Competition Strategy Guide & Grid Testing Roadmap',
-      '1-on-1 Dedicated Video Mentorship on Kp, Ki, Kd Parameter Optimization'
+      'Mentor-led project support on Kp, Ki, Kd Parameter Optimization'
     ],
     assistanceOverview: 'Hands-on training tuning Kp, Ki, and Kd coefficients on test tracks, eliminating sensor noise via moving average filters, and optimizing battery discharge curves for peak acceleration.'
   },
   {
     id: 'hw-006',
     slug: 'air-quality-monitoring-esp32',
-    title: 'Cloud Environmental Telemetry & Multi-Gas Optical Station',
+    title: 'ESP32 Air Quality Monitoring Project',
     category: 'Agriculture & Environment',
     shortDescription: 'Plantower PMS5003 laser particulate sensor, MQ-135 chemical sensor, and MQTT dashboard analytics on ESP32.',
-    fullDescription: 'A continuous atmospheric monitoring laboratory node. Couples a Plantower PMS5003 laser scattering optical sensor (measuring PM1.0, PM2.5, PM10 in micrograms/m³), an MQ-135 electrochemical gas sensor (detecting NH3, NOx, Alcohol, Benzene, and Smoke), and a calibrated DHT22 sensor. Streams encrypted environmental telemetry to AWS IoT and ThingSpeak cloud dashboards.',
-    tagline: 'Laser Particle Sensing & Real-Time Cloud Atmospheric Metrics',
+    fullDescription: 'A continuous atmospheric monitoring laboratory node. Couples a Plantower PMS5003 laser scattering optical sensor (measuring PM1.0, PM2.5, PM10 in micrograms/m³), an MQ-135 electrochemical gas sensor (detecting NH3, NOx, Alcohol, Benzene, and Smoke), and a calibrated DHT22 sensor. Streams encrypted environmental telemetry to an IoT dashboard such as ThingSpeak, where applicable.',
+    tagline: 'Air Quality Sensing and IoT Data',
     imageUrl: 'https://images.unsplash.com/photo-1611270629569-8b357cb88da9?auto=format&fit=crop&w=1000&q=85',
     circuitDiagramUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85',
     circuitSummary: 'Plantower PMS5003 Laser Sensor → Hardware UART2 (RX2: GPIO 16, TX2: GPIO 17). MQ-135 Analog Output → GPIO 34 (12-bit ADC). DHT22 Sensor → GPIO 4 with pull-up. 0.96-inch OLED → Hardware I2C (SDA: GPIO 21, SCL: GPIO 22).',
@@ -273,12 +277,12 @@ export const HARDWARE_PROJECTS_DATA: HardwareProject[] = [
     embeddedConcepts: ['Laser Optical Scattering Physics', 'UART Checksum Verification', 'Analog PPM Chemical Curve Math', 'Cloud MQTT & REST Telemetry'],
     targetBranch: ['ECE', 'CSE', 'Environmental Engineering', 'IoT', 'IT'],
     deliverablesIncluded: [
-      'Complete Atmospheric Sensor Hardware Kit with Pre-Calibrated Probes',
+      'Complete sensor component kit for the listed project, subject to availability',
       'ESP32 Embedded C++ Firmware with Automated Sensor Checksum Validation',
       'Cloud Dashboard Configuration Files (ThingSpeak & Grafana)',
       'Vector Circuit Schematics & PCB Layout Diagram',
-      'IEEE Standard Research Publication Report & Presentation',
-      '1-on-1 Mentorship on Environmental Data Analysis and IoT Security'
+      'Project report and presentation guidance',
+      'Mentor-led project support on Environmental Data Analysis and IoT Security'
     ],
     assistanceOverview: 'Coaching on laser scattering particulate packet decoding, polynomial curve fitting for MQ-135 gas PPM estimation, and setting up automated WhatsApp/Email alert webhooks.'
   }

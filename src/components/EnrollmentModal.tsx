@@ -103,89 +103,89 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white max-w-xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-7 rounded-[20px] border border-gray-200 relative shadow-elevation-3 space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-white max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-7 rounded-2xl border border-slate-200/90 relative shadow-2xl space-y-4">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-gray-400 hover:text-gray-700 cursor-pointer"
+          className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 cursor-pointer transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
         {completed ? (
-          <div className="text-center py-6 space-y-4 animate-in zoom-in-95 duration-200">
-            <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-elevation-1">
-              <CheckCircle2 className="w-8 h-8" />
+          <div className="text-center py-4 space-y-3.5 animate-in zoom-in-95 duration-200">
+            <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-xl font-bold text-[#00061a]">Enrollment Request Dispatched</h3>
-              <p className="text-xs text-[#555] max-w-md mx-auto">
-                Thank you <strong className="text-[#0066cc]">{formData.fullName}</strong>. Your provisional registration for <strong className="text-[#00061a]">{formData.selectedCourseOrProgram}</strong> has been received by the Owner & Admissions desk.
+              <h3 className="text-lg sm:text-xl font-bold text-[#0a0a0f]">Enrollment Request Received</h3>
+              <p className="text-xs text-slate-600 max-w-sm mx-auto">
+                Thank you <strong className="text-[#0066cc]">{formData.fullName}</strong>. Your provisional registration for <strong className="text-[#0a0a0f]">{formData.selectedCourseOrProgram}</strong> has been logged.
               </p>
               {submissionRefId && (
-                <div className="mt-2 inline-block bg-blue-50 text-[#0066cc] px-3 py-1 rounded-md text-[11px] font-mono font-bold">
-                  Reference: {submissionRefId}
+                <div className="mt-1.5 inline-block bg-blue-50 text-[#0066cc] px-3 py-0.5 rounded-md text-[11px] font-bold">
+                  Ref: {submissionRefId}
                 </div>
               )}
             </div>
 
-            <div className="p-4 rounded-xl bg-[#f0f8ff] border border-blue-100 text-xs text-[#444] space-y-1.5 text-left">
-              <p className="font-bold text-[#00061a]">Next Steps:</p>
-              <ul className="space-y-1 list-disc list-inside text-[#555]">
-                <li>Our academic counselor will contact you via WhatsApp & Call regarding batch timings and syllabus.</li>
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-1 text-left">
+              <p className="font-semibold text-slate-800 text-[11px]">Next Steps:</p>
+              <ul className="space-y-0.5 list-disc list-inside text-slate-600 text-[11px]">
+                <li>Our academic counselor will reach out with syllabus and schedule details.</li>
                 <li>Your seat in the {formData.preferredTiming} slot is reserved for 48 hours.</li>
               </ul>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">
               {whatsappRedirectUrl && (
                 <a
                   href={whatsappRedirectUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="custom-btn w-full sm:w-auto bg-[#25d366] hover:bg-[#20bd5a] text-xs py-2.5 px-6 shadow-elevation-1"
+                  className="custom-btn w-full sm:w-auto bg-[#25d366] hover:bg-[#20bd5a] h-[38px] text-[10px] tracking-[0.08em] px-5 rounded-xl shadow-xs"
                 >
-                  <MessageSquare className="w-4 h-4" />
+                  <MessageSquare className="w-3.5 h-3.5" />
                   <span>Confirm on WhatsApp</span>
                 </a>
               )}
               <button
                 onClick={onClose}
-                className="custom-btn-outline w-full sm:w-auto text-xs py-2.5 px-6 cursor-pointer"
+                className="custom-btn-outline w-full sm:w-auto h-[38px] text-[10px] tracking-[0.08em] px-5 rounded-xl cursor-pointer border-slate-200"
               >
                 Done
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <span className="text-[10px] font-bold text-[#0066cc] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full">
-                Admission Portal
+          <form onSubmit={handleSubmit} className="space-y-3.5">
+            <div className="space-y-1">
+              <span className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 text-[#0066cc] text-[10px] font-bold uppercase tracking-wider">
+                Admissions Portal
               </span>
-              <h3 className="text-xl font-bold text-[#00061a] mt-1">
-                Enroll in Training Program
+              <h3 className="text-lg sm:text-xl font-bold text-[#0a0a0f]">
+                Enroll in Training Track
               </h3>
-              <p className="text-xs text-[#666]">
-                Provide your candidate details. Submissions are dispatched directly to the director.
+              <p className="text-xs text-slate-500">
+                Fill in your candidate details to reserve a batch seat.
               </p>
             </div>
 
             {errorMessage && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-semibold">
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs font-semibold">
                 {errorMessage}
               </div>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <ValidatedInput
                 label="Full Name"
                 required
                 icon={User}
-                placeholder="e.g. Priya Sharma"
+                placeholder="Priya Sharma"
                 value={formData.fullName}
                 onChange={(val) => setFormData({ ...formData, fullName: val })}
                 error={nameValidation.error}
@@ -201,13 +201,13 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <ValidatedInput
                 label="Email Address"
                 required
                 type="email"
                 icon={Mail}
-                placeholder="e.g. priya@gmail.com"
+                placeholder="priya@example.com"
                 value={formData.email}
                 onChange={(val) => setFormData({ ...formData, email: val })}
                 error={emailValidation.error}
@@ -216,9 +216,9 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
               />
 
               <ValidatedInput
-                label="College / Institution"
+                label="College / Institute"
                 icon={GraduationCap}
-                placeholder="e.g. JNTU / AKTU / Amity"
+                placeholder="Institution name"
                 value={formData.collegeName || ''}
                 onChange={(val) => setFormData({ ...formData, collegeName: val })}
                 error={collegeValidation.error}
@@ -228,25 +228,25 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
             </div>
 
             <ValidatedSelect
-              label="Selected Course or Program Track"
+              label="Course Track"
               value={formData.selectedCourseOrProgram}
               onChange={(e) => setFormData({ ...formData, selectedCourseOrProgram: e.target.value })}
             >
-              <optgroup label="Industrial Training Courses">
+              <optgroup label="Industrial Courses">
                 {COURSES_DATA.map((c) => (
                   <option key={c.id} value={c.title}>{c.title} ({c.duration})</option>
                 ))}
               </optgroup>
-              <optgroup label="Internship & Academic Tracks">
+              <optgroup label="Academic Tracks">
                 {TRAINING_PROGRAMS_DATA.map((p) => (
                   <option key={p.id} value={p.title}>{p.title} ({p.duration})</option>
                 ))}
               </optgroup>
             </ValidatedSelect>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <ValidatedSelect
-                label="Preferred Mode"
+                label="Training Mode"
                 value={formData.trainingMode}
                 onChange={(e) => setFormData({ ...formData, trainingMode: e.target.value })}
               >
@@ -256,7 +256,7 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
               </ValidatedSelect>
 
               <ValidatedSelect
-                label="Preferred Slot Timing"
+                label="Preferred Timing"
                 icon={Clock}
                 value={formData.preferredTiming}
                 onChange={(e) => setFormData({ ...formData, preferredTiming: e.target.value as any })}
@@ -267,20 +267,20 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
               </ValidatedSelect>
             </div>
 
-            <div className="pt-3 flex items-center justify-end gap-3 border-t border-gray-100">
+            <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-slate-100">
               <button
                 type="button"
                 onClick={onClose}
-                className="custom-btn-outline py-2.5 px-5 text-xs cursor-pointer"
+                className="custom-btn-outline h-[36px] text-[10px] tracking-[0.08em] px-4 rounded-xl cursor-pointer border-slate-200"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading || !isFormValid}
-                className="custom-btn py-2.5 px-7 text-xs font-bold shadow-elevation-2"
+                className="custom-btn h-[36px] text-[10px] tracking-[0.08em] px-6 font-bold rounded-xl"
               >
-                <span>{loading ? 'Registering...' : 'Confirm Enrollment'}</span>
+                <span>{loading ? 'Submitting...' : 'Confirm Registration'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>

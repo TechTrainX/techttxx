@@ -1,8 +1,8 @@
 /**
  * TechTrainX - Enterprise Data Models
- * Company: TechTrainX (A Unit of xnava enterprises)
+ * Company: TechTrainX (A unit of Xnava Enterprises.)
  * Domain: techtrainx.online | Parent: xnava.in
- * Mail: ttx@xnava.in | admission@xnava.in | info@xnava.in
+ * Mail: info@xnava.in | admission@xnava.in | info@xnava.in
  */
 
 export type CourseCategory = 
@@ -84,6 +84,7 @@ export interface BatchSchedule {
   instructorName: string;
   instructorExp: string;
   status: 'Filling Fast' | 'Almost Full' | 'Seats Available';
+  notes?: string;
 }
 
 export interface CertificateData {
@@ -92,12 +93,15 @@ export interface CertificateData {
   courseName: string;
   programType: string;
   issueDate: string;
+  completionDate?: string;
   expiryDate?: string;
   grade: string;
   verificationCode: string;
   isVerified: boolean;
   issuedBy: string;
   skillsCertified: string[];
+  projectTitle?: string;
+  notes?: string;
 }
 
 export interface PlacementRecord {
@@ -168,31 +172,24 @@ export interface PinoutItem {
   description: string;
 }
 
-// export interface HardwareProject {
-//   id: string;
-//   slug: string;
-//   title: string;
-//   category: HardwareProjectCategory;
-//   microcontroller: 'Arduino Uno R3/R4' | 'ESP32 IoT' | 'NodeMCU ESP8266' | 'Raspberry Pi Pico' | 'Multi-Controller';
-//   level: 'Beginner' | 'Intermediate' | 'Advanced';
-//   tagline: string;
-//   shortDescription: string;
-//   fullDescription: string;
-//   imageUrl: string;
-//   circuitDiagramUrl?: string;
-//   circuitSummary?: string;
-//   embeddedConcepts?: string[];
-//   pinoutTable?: PinoutItem[];
-//   badge?: string;
-//   targetBranch: string[];
-//   hardwareComponents: string[];
-//   deliverablesIncluded: string[];
-//   features: string[];
-//   assistanceOverview: string;
-//   pricingNote: string;
-// }
+export interface RoadmapSkillGroup {
+  title: string;
+  tags: string[];
+}
 
-// types.ts (add this interface)
+export interface FrontierTechRoadmapTrack {
+  id: string;
+  title: string;
+  badge: string;
+  iconName: 'bot' | 'sparkles' | 'brain' | 'binary' | 'cpu' | string;
+  punchline: string;
+  coreKeywords: string[];
+  skills: RoadmapSkillGroup[];
+  capstone: string;
+  estimatedDuration?: string;
+  isPopular?: boolean;
+}
+
 export interface HardwareProject {
   id: string;
   slug: string;

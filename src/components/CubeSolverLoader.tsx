@@ -12,7 +12,7 @@ const LOADING_STAGES = [
   { text: 'Booting TechTrainX Neural Core...', icon: Cpu, progress: 24 },
   { text: 'Aligning 3D Rubik Placement Matrix...', icon: Zap, progress: 52 },
   { text: 'Synthesizing 5-Hour Live Coding Modules...', icon: Code2, progress: 78 },
-  { text: 'Mounting of a  Certified Digital Registrar...', icon: ShieldCheck, progress: 95 },
+  { text: 'Mounting Academic Digital Registrar...', icon: ShieldCheck, progress: 95 },
   { text: 'Foundry Ready. Launching Experience...', icon: Sparkles, progress: 100 }
 ];
 
@@ -25,18 +25,7 @@ export const CubeSolverLoader: React.FC<CubeSolverLoaderProps> = ({
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    // Dynamic Animated Favicon during loading
-    const originalFavicon = document.querySelector("link[rel*='icon']") as HTMLLinkElement | null;
-    const icons = ['🧩', '🧊', '⚡', '🚀', '💎'];
-    let iconIdx = 0;
-
-    const faviconInterval = setInterval(() => {
-      iconIdx = (iconIdx + 1) % icons.length;
-      if (originalFavicon) {
-        originalFavicon.href = `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${icons[iconIdx]}</text></svg>`;
-      }
-    }, 300);
-
+    // Keep steady, high-quality brand favicon intact without flickering
     const startTime = Date.now();
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -64,10 +53,6 @@ export const CubeSolverLoader: React.FC<CubeSolverLoaderProps> = ({
 
     return () => {
       clearInterval(interval);
-      clearInterval(faviconInterval);
-      if (originalFavicon) {
-        originalFavicon.href = '/favicon.svg';
-      }
     };
   }, [minDurationMs, onLoadingComplete]);
 
@@ -107,7 +92,7 @@ export const CubeSolverLoader: React.FC<CubeSolverLoaderProps> = ({
               transition={{ duration: 0.5 }}
               className="flex items-center justify-center"
             >
-              <TechTrainXLogo size="md" showTagline={false} />
+              <TechTrainXLogo size="md" showTagline={false} theme="dark" />
             </motion.div>
 
             {/* 3D CUBE SOLVER ANIMATION CONTAINER */}
