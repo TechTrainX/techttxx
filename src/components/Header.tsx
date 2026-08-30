@@ -183,11 +183,11 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => scrollToSection('tier1-roadmap')}
             className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#0066cc] hover:text-[#004080] transition-colors cursor-pointer flex items-center gap-1.5"
           >
-            <span className="relative flex w-1.5 h-1.5">
+            {/* <span className="relative flex w-1.5 h-1.5">
               <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0066cc] opacity-60" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#0066cc]" />
-            </span>
-            <span>AI & Tech Roadmap</span>
+            </span> */}
+            {/* <span>AI & Tech Roadmap</span> */}
           </button>
 
           {NAV_ITEMS.map((item) => (
@@ -217,6 +217,10 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={onOpenConsultation}
               className="custom-btn-outline h-[38px] text-[10px] tracking-[0.08em] px-3.5 rounded-lg border-blue-300 text-[#0066cc] hover:bg-blue-50 cursor-pointer"
             >
+                <span className="relative flex w-1.5 h-1.5">
+              <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0066cc] opacity-60" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#0066cc]" />
+            </span>
               <span>1:1 Diagnostic</span>
             </button>
           )}
